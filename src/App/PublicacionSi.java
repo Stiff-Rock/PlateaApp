@@ -7,7 +7,11 @@ import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-public class Publicacion extends JFrame {
+public class PublicacionSi extends JFrame {
+	private JTextField txtDescripcion;
+	private JTextField txtDescripcion_1;
+	private JTextField txtEstadofechacategorialocalizacion;
+	private JTextField txtTituloPublicacion;
 
 
 	public static void main(String[] args) {
@@ -15,7 +19,7 @@ public class Publicacion extends JFrame {
 		window.setVisible(true);
 	}
 
-	public Publicacion() {
+	public PublicacionSi() {
 		setBounds(100, 100, 1280, 720);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
@@ -25,6 +29,35 @@ public class Publicacion extends JFrame {
 		panel.setBounds(313, 59, 664, 547);
 		getContentPane().add(panel);
 		panel.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(62, 357, 532, 149);
+		panel.add(scrollPane);
+		
+		txtDescripcion = new JTextField();
+		scrollPane.setViewportView(txtDescripcion);
+		txtDescripcion.setColumns(10);
+		
+		txtDescripcion_1 = new JTextField();
+		txtDescripcion_1.setText("Descripcion");
+		scrollPane.setColumnHeaderView(txtDescripcion_1);
+		txtDescripcion_1.setColumns(10);
+		
+		txtEstadofechacategorialocalizacion = new JTextField();
+		txtEstadofechacategorialocalizacion.setText("Estado-Fecha-Categoria-Localizacion");
+		txtEstadofechacategorialocalizacion.setBounds(62, 298, 532, 28);
+		panel.add(txtEstadofechacategorialocalizacion);
+		txtEstadofechacategorialocalizacion.setColumns(10);
+		
+		txtTituloPublicacion = new JTextField();
+		txtTituloPublicacion.setText("Titulo publicacion");
+		txtTituloPublicacion.setBounds(0, 0, 664, 19);
+		panel.add(txtTituloPublicacion);
+		txtTituloPublicacion.setColumns(10);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(62, 55, 532, 218);
+		panel.add(panel_2);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(162, 196, 201));
