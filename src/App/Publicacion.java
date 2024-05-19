@@ -26,7 +26,7 @@ public class Publicacion extends JFrame {
 		panel.setLayout(null);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(162, 196, 201));
+		panel_1.setBackground(new Color(207, 226, 243));
 		panel_1.setBounds(0, 0, 185, 683);
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
