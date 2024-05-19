@@ -42,11 +42,6 @@ public class Administrador extends JFrame {
 	private JButton btnNewButton_8;
 	private JComboBox comboBox_2;
 
-	public static void main(String[] args) {
-		PlateaLanzadera window = new PlateaLanzadera();
-		window.setVisible(true);
-	}
-
 	public Administrador() {
 
 		ImageIcon logo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()
@@ -77,7 +72,6 @@ public class Administrador extends JFrame {
 
 		getContentPane().setForeground(new Color(162, 196, 201));
 		setBounds(100, 100, 1024, 760);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 
 		JPanel panel_1 = new JPanel();
@@ -371,6 +365,8 @@ public class Administrador extends JFrame {
 		btnNewButton_7.setIcon(cruz);
 		btnNewButton_7.setBounds(559, 14, 109, 29);
 		panel_3.add(btnNewButton_7);
+		
+		setVisible(true);
 
 	}
 }

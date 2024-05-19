@@ -43,11 +43,6 @@ public class Home extends JFrame {
 	private JTable table;
 	private JLabel lblNewLabel_3;
 
-	public static void main(String[] args) {
-		PlateaLanzadera window = new PlateaLanzadera();
-		window.setVisible(true);
-	}
-
 	public Home() {
 
 		ImageIcon logo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()
@@ -72,7 +67,6 @@ public class Home extends JFrame {
 
 		getContentPane().setForeground(new Color(162, 196, 201));
 		setBounds(100, 100, 1024, 760);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 
 		JPanel panel_1 = new JPanel();
@@ -330,5 +324,6 @@ public class Home extends JFrame {
 		btnNewButton_5.setBounds(821, 671, 131, 35);
 		getContentPane().add(btnNewButton_5);
 
+		setVisible(true);
 	}
 }

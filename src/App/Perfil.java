@@ -22,7 +22,7 @@ public class Perfil extends JFrame {
 	private JTextField textField_1;
 
 	public Perfil() {
-		
+
 		ImageIcon logo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()
 				.getScaledInstance(170, 65, Image.SCALE_SMOOTH));
 		ImageIcon casa = new ImageIcon(new ImageIcon(this.getClass().getResource("/casa.png")).getImage()
@@ -42,10 +42,9 @@ public class Perfil extends JFrame {
 				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
 		ImageIcon info = new ImageIcon(new ImageIcon(this.getClass().getResource("/informacion.png")).getImage()
 				.getScaledInstance(30, 30, Image.SCALE_SMOOTH));
-		
+
 		getContentPane().setLocation(-260, -138);
 		setBounds(100, 100, 1024, 760);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		ImageIcon resizedLogo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()
 				.getScaledInstance(153, 83, Image.SCALE_SMOOTH));
@@ -61,13 +60,12 @@ public class Perfil extends JFrame {
 		panel.add(panel_4);
 		panel_4.setBackground(new Color(255, 255, 255));
 		panel_4.setLayout(null);
-		
-				
-				// JLabel para mostrar la imagen
-				lblImage = new JLabel("");
-				lblImage.setBackground(new Color(192, 192, 192));
-				lblImage.setBounds(0, 0, 100, 100);
-				panel_4.add(lblImage);
+
+		// JLabel para mostrar la imagen
+		lblImage = new JLabel("");
+		lblImage.setBackground(new Color(192, 192, 192));
+		lblImage.setBounds(0, 0, 100, 100);
+		panel_4.add(lblImage);
 
 		// Botón para subir archivos
 		JButton btnUpload = new JButton("Subir Imagen");
@@ -109,91 +107,91 @@ public class Perfil extends JFrame {
 		txtNombre.setBounds(28, 46, 432, 29);
 		panel_2.add(txtNombre);
 		txtNombre.setColumns(10);
-		
+
 		textField = new JTextField();
 		textField.setEditable(false);
 		textField.setColumns(10);
 		textField.setBounds(28, 120, 432, 29);
 		panel_2.add(textField);
-		
+
 		JLabel lblCdigoPostal = new JLabel("Código Postal");
 		lblCdigoPostal.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblCdigoPostal.setBounds(28, 100, 160, 19);
 		panel_2.add(lblCdigoPostal);
-		
+
 		textField_1 = new JTextField();
 		textField_1.setEditable(false);
 		textField_1.setColumns(10);
 		textField_1.setBounds(28, 196, 432, 29);
 		panel_2.add(textField_1);
-		
+
 		JLabel lblNewLabel_1_1 = new JLabel("Localidad");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_1_1.setBounds(28, 175, 160, 19);
 		panel_2.add(lblNewLabel_1_1);
-		
-				JPanel panel_3 = new JPanel();
-				panel_3.setBackground(new Color(208, 224, 227));
-				panel_3.setBounds(0, 0, 664, 67);
-				panel.add(panel_3);
-				panel_3.setLayout(null);
-		
+
+		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(new Color(208, 224, 227));
+		panel_3.setBounds(0, 0, 664, 67);
+		panel.add(panel_3);
+		panel_3.setLayout(null);
+
 		JButton btnNewButton_6 = new JButton("Publicar");
 		btnNewButton_6.setIcon(mas);
 		btnNewButton_6.setBounds(794, 640, 133, 33);
 		getContentPane().add(btnNewButton_6);
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
 		panel_1.setBackground(new Color(162, 196, 201));
 		panel_1.setBounds(0, 0, 202, 721);
 		getContentPane().add(panel_1);
-		
+
 		JButton btnNewButton = new JButton("Home");
 		btnNewButton.setIcon(casa);
 		btnNewButton.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnNewButton.setBounds(35, 156, 135, 40);
 		panel_1.add(btnNewButton);
-		
+
 		JButton btnNewButton_1 = new JButton("Mi perfil");
 		btnNewButton_1.setIcon(usuario);
 		btnNewButton_1.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnNewButton_1.setBounds(35, 229, 135, 40);
 		panel_1.add(btnNewButton_1);
-		
+
 		JButton btnNewButton_2 = new JButton("Publicaciones");
 		btnNewButton_2.setIcon(libro);
 		btnNewButton_2.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnNewButton_2.setBounds(35, 304, 135, 40);
 		panel_1.add(btnNewButton_2);
-		
+
 		JButton btnNewButton_3 = new JButton("Favoritos");
 		btnNewButton_3.setIcon(estrella);
 		btnNewButton_3.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnNewButton_3.setBounds(35, 380, 135, 40);
 		panel_1.add(btnNewButton_3);
-		
+
 		JButton btnNewButton_4 = new JButton("Votados");
 		btnNewButton_4.setIcon(pulgar);
 		btnNewButton_4.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnNewButton_4.setBounds(35, 459, 135, 40);
 		panel_1.add(btnNewButton_4);
-		
+
 		JLabel lblNewLabel_5 = new JLabel("");
 		lblNewLabel_5.setIcon(logo);
 		lblNewLabel_5.setBounds(10, 40, 192, 82);
 		panel_1.add(lblNewLabel_5);
-		
+
 		JLabel lblNewLabel_3_1 = new JLabel("");
 		lblNewLabel_3_1.setIcon(info);
 		lblNewLabel_3_1.setBounds(156, 670, 46, 40);
 		panel_1.add(lblNewLabel_3_1);
-		
+
 		setVisible(true);
 	}
 }

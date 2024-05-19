@@ -44,7 +44,6 @@ public class Publicacion extends JFrame {
 		
 		getContentPane().setLocation(-260, -138);
 		setBounds(100, 100, 1024, 760);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		ImageIcon resizedLogo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()
 				.getScaledInstance(153, 83, Image.SCALE_SMOOTH));

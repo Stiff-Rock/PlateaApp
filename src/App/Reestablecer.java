@@ -27,7 +27,6 @@ public class Reestablecer extends JFrame {
 	public Reestablecer() {
 		getContentPane().setLocation(-2, 0);
 		setBounds(100, 100, 1024, 760);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 
 		JPanel bottomPanel = new JPanel();

@@ -56,7 +56,7 @@ public class PlateaLanzadera extends JFrame {
 		JButton btnHome = new JButton("Home");
 		btnHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//JFrame window = new ();
+				JFrame window = new Home();
 			}
 		});
 		btnHome.setFont(new Font("Tahoma", Font.PLAIN, 25));
@@ -66,7 +66,7 @@ public class PlateaLanzadera extends JFrame {
 		JButton btnAdmin = new JButton("Admin");
 		btnAdmin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//JFrame window = new ();
+				JFrame window = new Administrador();
 			}
 		});
 		btnAdmin.setFont(new Font("Tahoma", Font.PLAIN, 25));
@@ -77,7 +77,7 @@ public class PlateaLanzadera extends JFrame {
 		JButton btnFavoritos = new JButton("Favoritos");
 		btnFavoritos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//JFrame window = new ();
+				JFrame window = new MisFavoritos();
 			}
 		});
 		btnFavoritos.setFont(new Font("Tahoma", Font.PLAIN, 25));
@@ -87,7 +87,7 @@ public class PlateaLanzadera extends JFrame {
 		JButton btnVotados = new JButton("Votados");
 		btnVotados.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//JFrame window = new ();
+				JFrame window = new Votados();
 			}
 		});
 		btnVotados.setFont(new Font("Tahoma", Font.PLAIN, 25));
@@ -97,7 +97,7 @@ public class PlateaLanzadera extends JFrame {
 		JButton btnMispublicaciones = new JButton("MisPublicaciones");
 		btnMispublicaciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//JFrame window = new ();
+				JFrame window = new MisPublicaciones();
 			}
 		});
 		btnMispublicaciones.setFont(new Font("Tahoma", Font.PLAIN, 25));

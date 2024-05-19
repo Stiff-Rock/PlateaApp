@@ -36,11 +36,6 @@ public class MisPublicaciones extends JFrame {
 	private JComboBox comboBox_2;
 	private JLabel lblNewLabel_1;
 
-	public static void main(String[] args) {
-		PlateaLanzadera window = new PlateaLanzadera();
-		window.setVisible(true);
-	}
-
 	public MisPublicaciones() {
 
 		ImageIcon logo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()
@@ -65,7 +60,6 @@ public class MisPublicaciones extends JFrame {
 
 		getContentPane().setForeground(new Color(162, 196, 201));
 		setBounds(100, 100, 1024, 760);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 
 		JPanel panel_1 = new JPanel();
@@ -322,6 +316,8 @@ public class MisPublicaciones extends JFrame {
 		});
 		btnNewButton_5.setBounds(821, 671, 131, 35);
 		getContentPane().add(btnNewButton_5);
+		
+		setVisible(true);
 
 	}
 }
