@@ -126,10 +126,7 @@ public class Registrar extends JFrame {
 		registerPanel.add(checkAdmin);
 
 		JComboBox cmbPregunta = new JComboBox();
-		cmbPregunta.setModel(new DefaultComboBoxModel(new String[] { "Elige una pregunta de seguridad:",
-				"¿Cuál es el nombre de tu primera mascota? ", "¿Cuál es el nombre de tu escuela primaria? ",
-				"¿En qué ciudad naciste? ", "¿Cuál es el nombre de tu mejor amigo de la infancia? ",
-				"¿Cuál es el segundo nombre de tu padre? ¿", "Cuál fue tu primer trabajo?" }));
+		cmbPregunta.setModel(new DefaultComboBoxModel(new String[] {"Elige una pregunta de seguridad:", "¿Cuál es el nombre de tu primera mascota? ", "¿Cuál es el nombre de tu escuela primaria? ", "¿En qué ciudad naciste? ", "¿Cuál es el nombre de tu mejor amigo de la infancia? ", "¿Cuál es el segundo nombre de tu padre? ", "¿Cuál fue tu primer trabajo?"}));
 		cmbPregunta.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		cmbPregunta.setBounds(34, 246, 418, 28);
 		registerPanel.add(cmbPregunta);
