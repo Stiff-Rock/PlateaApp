@@ -10,6 +10,8 @@ import java.awt.Image;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class Publicacion extends JFrame {
 	private JTextField txtDescripcion;
@@ -18,6 +20,28 @@ public class Publicacion extends JFrame {
 	private JTextField txtTituloPublicacion;
 
 	public Publicacion() {
+		
+		ImageIcon logo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()
+				.getScaledInstance(170, 65, Image.SCALE_SMOOTH));
+		ImageIcon casa = new ImageIcon(new ImageIcon(this.getClass().getResource("/casa.png")).getImage()
+				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+		ImageIcon usuario = new ImageIcon(new ImageIcon(this.getClass().getResource("/usuario.png")).getImage()
+				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+		ImageIcon libro = new ImageIcon(new ImageIcon(this.getClass().getResource("/libro-abierto.png")).getImage()
+				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+		ImageIcon estrella = new ImageIcon(new ImageIcon(this.getClass().getResource("/estrella.png")).getImage()
+				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+		ImageIcon pulgar = new ImageIcon(
+				new ImageIcon(this.getClass().getResource("/pulgar-hacia-arriba-simbolo-de-la-mano.png")).getImage()
+						.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+		ImageIcon lupa = new ImageIcon(new ImageIcon(this.getClass().getResource("/lupa.png")).getImage()
+				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+		ImageIcon mas = new ImageIcon(new ImageIcon(this.getClass().getResource("/mas.png")).getImage()
+				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+		ImageIcon info = new ImageIcon(new ImageIcon(this.getClass().getResource("/informacion.png")).getImage()
+				.getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+		
+		
 		getContentPane().setLocation(-260, -138);
 		setBounds(100, 100, 1024, 760);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,53 +76,69 @@ public class Publicacion extends JFrame {
 		
 		txtTituloPublicacion = new JTextField();
 		txtTituloPublicacion.setText("Titulo publicacion");
-		txtTituloPublicacion.setBounds(0, 0, 664, 19);
+		txtTituloPublicacion.setBounds(0, 0, 664, 28);
 		panel.add(txtTituloPublicacion);
 		txtTituloPublicacion.setColumns(10);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(62, 55, 532, 218);
+		panel_2.setBounds(72, 58, 532, 218);
 		panel.add(panel_2);
 		
+		JButton btnNewButton_6 = new JButton("Publicar");
+		btnNewButton_6.setIcon(mas);
+		btnNewButton_6.setBounds(787, 646, 144, 35);
+		getContentPane().add(btnNewButton_6);	
+		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(162, 196, 201));
-		panel_1.setBounds(0, 0, 185, 744);
-		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
+		panel_1.setBackground(new Color(162, 196, 201));
+		panel_1.setBounds(0, 0, 202, 721);
+		getContentPane().add(panel_1);
 		
 		JButton btnNewButton = new JButton("Home");
-		btnNewButton.setBounds(42, 107, 100, 40);
+		btnNewButton.setIcon(casa);
+		btnNewButton.setHorizontalAlignment(SwingConstants.LEFT);
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton.setBounds(35, 156, 135, 40);
 		panel_1.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Mi perfil");
-		btnNewButton_1.setBounds(42, 173, 100, 40);
+		btnNewButton_1.setIcon(usuario);
+		btnNewButton_1.setHorizontalAlignment(SwingConstants.LEFT);
+		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton_1.setBounds(35, 229, 135, 40);
 		panel_1.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Publicaciones");
-		btnNewButton_2.setBounds(42, 237, 100, 40);
+		btnNewButton_2.setIcon(libro);
+		btnNewButton_2.setHorizontalAlignment(SwingConstants.LEFT);
+		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton_2.setBounds(35, 304, 135, 40);
 		panel_1.add(btnNewButton_2);
 		
 		JButton btnNewButton_3 = new JButton("Favoritos");
-		btnNewButton_3.setBounds(42, 308, 100, 40);
+		btnNewButton_3.setIcon(estrella);
+		btnNewButton_3.setHorizontalAlignment(SwingConstants.LEFT);
+		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton_3.setBounds(35, 380, 135, 40);
 		panel_1.add(btnNewButton_3);
 		
 		JButton btnNewButton_4 = new JButton("Votados");
-		btnNewButton_4.setBounds(42, 384, 100, 40);
+		btnNewButton_4.setIcon(pulgar);
+		btnNewButton_4.setHorizontalAlignment(SwingConstants.LEFT);
+		btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton_4.setBounds(35, 459, 135, 40);
 		panel_1.add(btnNewButton_4);
 		
-		JButton btnNewButton_5 = new JButton("Notificaciones");
-		btnNewButton_5.setBounds(42, 460, 100, 40);
-		panel_1.add(btnNewButton_5);
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(logo);
+		lblNewLabel.setBounds(10, 40, 192, 82);
+		panel_1.add(lblNewLabel);
 		
-		JLabel lblLogo = new JLabel("");
-		lblLogo.setBounds(10, 14, 153, 83);
-		panel_1.add(lblLogo);
-
-		lblLogo.setIcon(resizedLogo);
-		
-		JButton btnNewButton_6 = new JButton("Publicar");
-		btnNewButton_6.setBounds(846, 652, 85, 21);
-		getContentPane().add(btnNewButton_6);	
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setIcon(info);
+		lblNewLabel_3.setBounds(156, 670, 46, 40);
+		panel_1.add(lblNewLabel_3);
 		
 		setVisible(true);
 	}
