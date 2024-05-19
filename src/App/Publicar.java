@@ -1,29 +1,36 @@
 package App;
 
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.Image;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 
-public class Publicacion extends JFrame {
+public class Publicar extends JFrame {
 	private JTextField txtDescripcion;
 	private JTextField txtDescripcion_1;
 	private JTextField txtEstadofechacategorialocalizacion;
 	private JTextField txtTituloPublicacion;
-
+	private JTextField txtTitulo;
+	private JLabel lblImage;
 
 	public static void main(String[] args) {
-		PlateaLanzadera window = new PlateaLanzadera();
+		Publicar window = new Publicar();
 		window.setVisible(true);
 	}
 
-	public Publicacion() {
+	public Publicar() {
 		getContentPane().setLocation(-260, -138);
 		setBounds(100, 100, 1024, 760);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,7 +53,8 @@ public class Publicacion extends JFrame {
 		txtDescripcion.setColumns(10);
 		
 		txtDescripcion_1 = new JTextField();
-		txtDescripcion_1.setText("Descripcion");
+		txtDescripcion_1.setEditable(false);
+		txtDescripcion_1.setText("Descripcion del problema");
 		scrollPane.setColumnHeaderView(txtDescripcion_1);
 		txtDescripcion_1.setColumns(10);
 		
@@ -63,12 +71,50 @@ public class Publicacion extends JFrame {
 		txtTituloPublicacion.setColumns(10);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(62, 55, 532, 218);
+		panel_2.setBounds(62, 129, 532, 144);
 		panel.add(panel_2);
+		panel_2.setLayout(null);
+		
+		JButton btnUpload = new JButton("Subir Imagen");
+		btnUpload.setBounds(181, 61, 150, 25);
+		panel_2.add(btnUpload);
+		
+		lblImage = new JLabel("");
+		lblImage.setBounds(10, 45, 512, 89);
+		panel_2.add(lblImage);
+		
+		btnUpload.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				int result = fileChooser.showOpenDialog(null);
+				if (result == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = fileChooser.getSelectedFile();
+					ImageIcon icon = new ImageIcon(selectedFile.getAbsolutePath());
+					Image img = icon.getImage().getScaledInstance(lblImage.getWidth(), lblImage.getHeight(), Image.SCALE_SMOOTH);
+					lblImage.setIcon(new ImageIcon(img));
+				}
+			}
+		});
+		
+		JButton btnNewButton_6 = new JButton("Publicar");
+		btnNewButton_6.setBounds(513, 516, 85, 21);
+		panel.add(btnNewButton_6);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Categorias", "", "Derrumbamiento", "Bache ", "Arbol caido"}));
+		comboBox.setToolTipText("");
+		comboBox.setBounds(72, 516, 99, 21);
+		panel.add(comboBox);
+		
+		txtTitulo = new JTextField();
+		txtTitulo.setText("Titulo");
+		txtTitulo.setBounds(62, 71, 532, 28);
+		panel.add(txtTitulo);
+		txtTitulo.setColumns(10);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(162, 196, 201));
-		panel_1.setBounds(0, 0, 185, 744);
+		panel_1.setBounds(0, 0, 185, 723);
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -101,9 +147,5 @@ public class Publicacion extends JFrame {
 		panel_1.add(lblLogo);
 
 		lblLogo.setIcon(resizedLogo);
-		
-		JButton btnNewButton_6 = new JButton("Publicar");
-		btnNewButton_6.setBounds(846, 652, 85, 21);
-		getContentPane().add(btnNewButton_6);
 	}
 }
