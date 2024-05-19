@@ -28,6 +28,7 @@ public class Registrar extends JFrame {
 	private JTextField txtCP;
 	private JTextField txtRespuesta;
 	private JTextField textField;
+	private JTextField txtCodigoDeAdministrador;
 
 	public Registrar() {
 		getContentPane().setLocation(-260, -138);
@@ -69,7 +70,7 @@ public class Registrar extends JFrame {
 		txtNombre = new JTextField();
 		txtNombre.setText("Nombre");
 		txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		txtNombre.setBounds(34, 23, 192, 28);
+		txtNombre.setBounds(34, 18, 192, 28);
 		registerPanel.add(txtNombre);
 		txtNombre.setColumns(10);
 
@@ -77,53 +78,53 @@ public class Registrar extends JFrame {
 		txtApellido.setText("Apellido");
 		txtApellido.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtApellido.setColumns(10);
-		txtApellido.setBounds(260, 23, 192, 28);
+		txtApellido.setBounds(260, 18, 192, 28);
 		registerPanel.add(txtApellido);
 
 		txtNickname = new JTextField();
 		txtNickname.setText("Nickname");
 		txtNickname.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtNickname.setColumns(10);
-		txtNickname.setBounds(34, 69, 192, 28);
+		txtNickname.setBounds(34, 64, 192, 28);
 		registerPanel.add(txtNickname);
 
 		txtCP = new JTextField();
 		txtCP.setText("Códgo postal");
 		txtCP.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtCP.setColumns(10);
-		txtCP.setBounds(260, 69, 192, 28);
+		txtCP.setBounds(260, 64, 192, 28);
 		registerPanel.add(txtCP);
 
 		txtContraseña1 = new JTextField();
 		txtContraseña1.setText("Contraseña");
 		txtContraseña1.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtContraseña1.setColumns(10);
-		txtContraseña1.setBounds(34, 154, 418, 28);
+		txtContraseña1.setBounds(34, 156, 418, 28);
 		registerPanel.add(txtContraseña1);
 
 		txtContraseña2 = new JTextField();
 		txtContraseña2.setText("Respuesta");
 		txtContraseña2.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtContraseña2.setColumns(10);
-		txtContraseña2.setBounds(34, 292, 418, 28);
+		txtContraseña2.setBounds(34, 294, 418, 28);
 		registerPanel.add(txtContraseña2);
 
 		txtRespuesta = new JTextField();
 		txtRespuesta.setText("Repetir contraseña");
 		txtRespuesta.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtRespuesta.setColumns(10);
-		txtRespuesta.setBounds(34, 200, 418, 28);
+		txtRespuesta.setBounds(34, 202, 418, 28);
 		registerPanel.add(txtRespuesta);
 
 		Checkbox checkAdmin = new Checkbox("¿Eres admin?");
 		checkAdmin.setFont(new Font("Dialog", Font.PLAIN, 14));
-		checkAdmin.setBounds(34, 115, 107, 22);
+		checkAdmin.setBounds(34, 113, 107, 22);
 		registerPanel.add(checkAdmin);
 
 		JComboBox cmbPregunta = new JComboBox();
 		cmbPregunta.setModel(new DefaultComboBoxModel(new String[] {"Elige una pregunta de seguridad:", "¿Cuál es el nombre de tu primera mascota? ", "¿Cuál es el nombre de tu escuela primaria? ", "¿En qué ciudad naciste? ", "¿Cuál es el nombre de tu mejor amigo de la infancia? ", "¿Cuál es el segundo nombre de tu padre? ", "¿Cuál fue tu primer trabajo?"}));
 		cmbPregunta.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		cmbPregunta.setBounds(34, 246, 418, 28);
+		cmbPregunta.setBounds(34, 248, 418, 28);
 		registerPanel.add(cmbPregunta);
 
 		JButton btnRegister = new JButton("Crear Cuenta");
@@ -143,7 +144,7 @@ public class Registrar extends JFrame {
 		JPanel captchaPanel = new JPanel();
 		captchaPanel.setBackground(new Color(255, 255, 255));
 		captchaPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		captchaPanel.setBounds(276, 330, 176, 99);
+		captchaPanel.setBounds(276, 340, 176, 99);
 		captchaPanel.setBackground(new Color(162, 196, 201));
 		registerPanel.add(captchaPanel);
 
@@ -160,6 +161,13 @@ public class Registrar extends JFrame {
 		textField = new JTextField();
 		captchaPanel.add(textField);
 		textField.setColumns(10);
+		
+		txtCodigoDeAdministrador = new JTextField();
+		txtCodigoDeAdministrador.setText("Código de Admin");
+		txtCodigoDeAdministrador.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		txtCodigoDeAdministrador.setColumns(10);
+		txtCodigoDeAdministrador.setBounds(260, 110, 192, 28);
+		registerPanel.add(txtCodigoDeAdministrador);
 		
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setBounds(343, 18, 321, 113);
