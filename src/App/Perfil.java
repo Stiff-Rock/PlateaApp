@@ -20,11 +20,6 @@ public class Perfil extends JFrame {
 	private JTextField textField_3;
 	private JLabel lblImage;
 
-	public static void main(String[] args) {
-		Perfil window = new Perfil();
-		window.setVisible(true);
-	}
-
 	public Perfil() {
 		getContentPane().setLocation(-260, -138);
 		setBounds(100, 100, 1024, 760);
@@ -171,5 +166,7 @@ public class Perfil extends JFrame {
 		JButton btnNewButton_6 = new JButton("Publicar");
 		btnNewButton_6.setBounds(842, 652, 85, 21);
 		getContentPane().add(btnNewButton_6);
+		
+		setVisible(true);
 	}
 }

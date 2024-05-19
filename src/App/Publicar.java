@@ -25,11 +25,6 @@ public class Publicar extends JFrame {
 	private JTextField txtTitulo;
 	private JLabel lblImage;
 
-	public static void main(String[] args) {
-		Publicar window = new Publicar();
-		window.setVisible(true);
-	}
-
 	public Publicar() {
 		getContentPane().setLocation(-260, -138);
 		setBounds(100, 100, 1024, 760);
@@ -147,5 +142,7 @@ public class Publicar extends JFrame {
 		panel_1.add(lblLogo);
 
 		lblLogo.setIcon(resizedLogo);
+		
+		setVisible(true);
 	}
 }

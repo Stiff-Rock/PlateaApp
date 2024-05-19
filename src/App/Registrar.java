@@ -29,11 +29,6 @@ public class Registrar extends JFrame {
 	private JTextField txtRespuesta;
 	private JTextField textField;
 
-	public static void main(String[] args) {
-		Registrar window = new Registrar();
-		window.setVisible(true);
-	}
-
 	public Registrar() {
 		getContentPane().setLocation(-260, -138);
 		setBounds(100, 100, 1024, 760);
@@ -171,5 +166,7 @@ public class Registrar extends JFrame {
 		getContentPane().add(lblLogo);
 
 		lblLogo.setIcon(resizedLogo);
+		
+		setVisible(true);
 	}
 }

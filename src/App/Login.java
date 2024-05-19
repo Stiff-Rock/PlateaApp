@@ -23,11 +23,6 @@ public class Login extends JFrame {
 	private JTextField txtNickname;
 	private JTextField txtContraseña1;
 
-	public static void main(String[] args) {
-		Login window = new Login();
-		window.setVisible(true);
-	}
-
 	public Login() {
 		getContentPane().setLocation(-2, 0);
 		setBounds(100, 100, 1024, 760);
@@ -97,5 +92,7 @@ public class Login extends JFrame {
 		ImageIcon resizedLogo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()
 				.getScaledInstance(321, 113, Image.SCALE_SMOOTH));
 		lblLogo.setIcon(resizedLogo);
+		
+		setVisible(true);
 	}
 }

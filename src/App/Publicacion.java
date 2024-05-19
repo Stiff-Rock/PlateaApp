@@ -17,12 +17,6 @@ public class Publicacion extends JFrame {
 	private JTextField txtEstadofechacategorialocalizacion;
 	private JTextField txtTituloPublicacion;
 
-
-	public static void main(String[] args) {
-		PlateaLanzadera window = new PlateaLanzadera();
-		window.setVisible(true);
-	}
-
 	public Publicacion() {
 		getContentPane().setLocation(-260, -138);
 		setBounds(100, 100, 1024, 760);
@@ -104,6 +98,8 @@ public class Publicacion extends JFrame {
 		
 		JButton btnNewButton_6 = new JButton("Publicar");
 		btnNewButton_6.setBounds(846, 652, 85, 21);
-		getContentPane().add(btnNewButton_6);
+		getContentPane().add(btnNewButton_6);	
+		
+		setVisible(true);
 	}
 }
