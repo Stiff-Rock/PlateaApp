@@ -135,7 +135,7 @@ public class Registrar extends JFrame {
 		registerPanel.add(cmbPregunta);
 
 		JButton btnRegister = new JButton("Crear Cuenta");
-		btnRegister.setBounds(34, 424, 107, 23);
+		btnRegister.setBounds(34, 424, 124, 23);
 		registerPanel.add(btnRegister);
 
 		Checkbox checkPolitica = new Checkbox("He leído y acepto la política de privacidad.");
