@@ -78,7 +78,7 @@ public class Home extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		panel.setForeground(new Color(162, 196, 201));
-		panel.setBackground(new Color(207, 207, 243));
+		panel.setBackground(new Color(207, 226, 243));
 		panel.setBounds(257, 65, 695, 595);
 		getContentPane().add(panel);
 		panel.setLayout(null);

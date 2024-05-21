@@ -46,7 +46,7 @@ public class Registrar extends JFrame {
 
 		JLabel lblBottom = new JLabel("¿Ya tienes cuenta? ");
 		lblBottom.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblBottom.setBounds(77, 28, 153, 14);
+		lblBottom.setBounds(72, 28, 158, 14);
 		bottomPanel.add(lblBottom);
 
 		JLabel lblBottom_1 = new JLabel("|");
@@ -56,7 +56,7 @@ public class Registrar extends JFrame {
 
 		JLabel lblLink = new JLabel("Iniciar Sesión");
 		lblLink.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblLink.setBounds(267, 28, 105, 14);
+		lblLink.setBounds(267, 28, 137, 14);
 		bottomPanel.add(lblLink);
 
 		JPanel registerPanel = new JPanel();
@@ -137,7 +137,7 @@ public class Registrar extends JFrame {
 
 		Checkbox checkMayor = new Checkbox("Soy mayor de 14 años");
 		checkMayor.setFont(new Font("Dialog", Font.PLAIN, 10));
-		checkMayor.setBounds(34, 368, 124, 22);
+		checkMayor.setBounds(34, 368, 146, 22);
 		registerPanel.add(checkMayor);
 
 		JPanel captchaPanel = new JPanel();
@@ -149,15 +149,19 @@ public class Registrar extends JFrame {
 
 		ImageIcon resizedCaptcha = new ImageIcon(new ImageIcon(this.getClass().getResource("/textoCaptcha.png")).getImage()
 				.getScaledInstance(141, 41, Image.SCALE_SMOOTH));
+		captchaPanel.setLayout(null);
 		
 		JLabel lblCaptchaTitle = new JLabel("Completa el sigueinte Captcha:");
+		lblCaptchaTitle.setBounds(10, 6, 156, 13);
 		captchaPanel.add(lblCaptchaTitle);
 		
 		JLabel lblCaptcha = new JLabel("");
+		lblCaptcha.setBounds(17, 24, 141, 41);
 		captchaPanel.add(lblCaptcha);
 		lblCaptcha.setIcon(resizedCaptcha);
 		
 		textField = new JTextField();
+		textField.setBounds(40, 70, 96, 19);
 		captchaPanel.add(textField);
 		textField.setColumns(10);
 		

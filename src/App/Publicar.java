@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.border.MatteBorder;
 
 public class Publicar extends JFrame {
 	private JTextField txtDescripcion;
@@ -26,6 +27,8 @@ public class Publicar extends JFrame {
 	private JTextField txtTituloPublicacion;
 	private JTextField txtTitulo;
 	private JLabel lblImage;
+	private JTextField textField;
+	private JTextField textField_1;
 
 	public Publicar() {
 		
@@ -56,8 +59,9 @@ public class Publicar extends JFrame {
 				.getScaledInstance(153, 83, Image.SCALE_SMOOTH));
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(207, 207, 243));
-		panel.setBounds(267, 42, 664, 578);
+		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		panel.setBackground(new Color(207, 226, 243));
+		panel.setBounds(267, 34, 664, 586);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -76,8 +80,8 @@ public class Publicar extends JFrame {
 		txtDescripcion_1.setColumns(10);
 		
 		txtEstadofechacategorialocalizacion = new JTextField();
-		txtEstadofechacategorialocalizacion.setText("Estado-Fecha-Categoria-Localizacion");
-		txtEstadofechacategorialocalizacion.setBounds(62, 298, 532, 28);
+		txtEstadofechacategorialocalizacion.setText("DD/MM/AAAA");
+		txtEstadofechacategorialocalizacion.setBounds(127, 244, 141, 28);
 		panel.add(txtEstadofechacategorialocalizacion);
 		txtEstadofechacategorialocalizacion.setColumns(10);
 		
@@ -88,17 +92,13 @@ public class Publicar extends JFrame {
 		txtTituloPublicacion.setColumns(10);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(62, 129, 532, 144);
+		panel_2.setBounds(62, 76, 532, 144);
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 		
 		JButton btnUpload = new JButton("Subir Imagen");
-		btnUpload.setBounds(181, 61, 150, 25);
+		btnUpload.setBounds(184, 42, 150, 25);
 		panel_2.add(btnUpload);
-		
-		lblImage = new JLabel("");
-		lblImage.setBounds(10, 45, 512, 89);
-		panel_2.add(lblImage);
 		
 		btnUpload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -126,9 +126,36 @@ public class Publicar extends JFrame {
 		
 		txtTitulo = new JTextField();
 		txtTitulo.setText("Titulo");
-		txtTitulo.setBounds(62, 71, 532, 28);
+		txtTitulo.setBounds(62, 38, 532, 28);
 		panel.add(txtTitulo);
 		txtTitulo.setColumns(10);
+		
+		lblImage = new JLabel("");
+		lblImage.setBackground(new Color(128, 128, 128));
+		lblImage.setBounds(72, 76, 512, 117);
+		panel.add(lblImage);
+		
+		textField = new JTextField();
+		textField.setBounds(62, 319, 532, 28);
+		panel.add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("Fecha");
+		lblNewLabel_1.setBounds(95, 251, 45, 13);
+		panel.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Localizacion");
+		lblNewLabel_2.setBounds(62, 302, 67, 13);
+		panel.add(lblNewLabel_2);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(395, 244, 141, 28);
+		panel.add(textField_1);
+		
+		JLabel lblNewLabel_4 = new JLabel("Codigo Postal");
+		lblNewLabel_4.setBounds(325, 251, 75, 13);
+		panel.add(lblNewLabel_4);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
