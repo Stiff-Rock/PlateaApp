@@ -334,16 +334,6 @@ public class Administrador extends JFrame {
 		btnNewButton_8.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnNewButton_8.setBounds(35, 531, 135, 40);
 		panel_1.add(btnNewButton_8);
-
-		JButton btnNewButton_5 = new JButton("Publicar");
-		btnNewButton_5.setIcon(mas);
-		btnNewButton_5.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnNewButton_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_5.setBounds(821, 671, 131, 35);
-		getContentPane().add(btnNewButton_5);
 		
 		panel_3 = new JPanel();
 		panel_3.setBorder(new LineBorder(new Color(0, 0, 0), 2));

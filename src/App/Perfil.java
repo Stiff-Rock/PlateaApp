@@ -77,6 +77,7 @@ public class Perfil extends JFrame {
 		panel.add(panel_4);
 		panel_4.setBackground(new Color(255, 255, 255));
 		panel_4.setLayout(null);
+<<<<<<< Updated upstream
 		
 				
 				// JLabel para mostrar la imagen
@@ -84,6 +85,8 @@ public class Perfil extends JFrame {
 				lblImage.setBackground(new Color(192, 192, 192));
 				lblImage.setBounds(0, 0, 100, 100);
 				panel_4.add(lblImage);
+=======
+>>>>>>> Stashed changes
 
 		// Botón para subir archivos
 		JButton btnUpload = new JButton("Subir Imagen");
@@ -141,11 +144,25 @@ public class Perfil extends JFrame {
 		textField_2.setBounds(28, 163, 432, 19);
 		panel_2.add(textField_2);
 
+<<<<<<< Updated upstream
 		textField_3 = new JTextField();
 		textField_3.setEditable(false);
 		textField_3.setColumns(10);
 		textField_3.setBounds(28, 220, 432, 19);
 		panel_2.add(textField_3);
+=======
+		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(new Color(208, 224, 227));
+		panel_3.setBounds(0, 0, 664, 67);
+		panel.add(panel_3);
+		panel_3.setLayout(null);
+		
+				// JLabel para mostrar la imagen
+				lblImage = new JLabel("");
+				lblImage.setBounds(210, -59, 100, 100);
+				panel_3.add(lblImage);
+				lblImage.setBackground(new Color(192, 192, 192));
+>>>>>>> Stashed changes
 
 		JLabel lblNewLabel_2 = new JLabel("CP");
 		lblNewLabel_2.setBounds(28, 150, 45, 13);

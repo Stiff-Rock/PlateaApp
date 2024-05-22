@@ -46,7 +46,11 @@ public class Registrar extends JFrame {
 
 		JLabel lblBottom = new JLabel("¿Ya tienes cuenta? ");
 		lblBottom.setFont(new Font("Tahoma", Font.PLAIN, 18));
+<<<<<<< Updated upstream
 		lblBottom.setBounds(72, 28, 158, 14);
+=======
+		lblBottom.setBounds(73, 28, 157, 14);
+>>>>>>> Stashed changes
 		bottomPanel.add(lblBottom);
 
 		JLabel lblBottom_1 = new JLabel("|");
@@ -56,7 +60,11 @@ public class Registrar extends JFrame {
 
 		JLabel lblLink = new JLabel("Iniciar Sesión");
 		lblLink.setFont(new Font("Tahoma", Font.PLAIN, 18));
+<<<<<<< Updated upstream
 		lblLink.setBounds(267, 28, 137, 14);
+=======
+		lblLink.setBounds(267, 28, 122, 14);
+>>>>>>> Stashed changes
 		bottomPanel.add(lblLink);
 
 		JPanel registerPanel = new JPanel();

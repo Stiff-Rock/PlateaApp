@@ -119,7 +119,7 @@ public class Publicar extends JFrame {
 		panel.add(btnNewButton_6);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Categorias", "", "Derrumbamiento", "Bache ", "Arbol caido"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Categorias", "Derrumbamiento", "Bache ", "Arbol caido"}));
 		comboBox.setToolTipText("");
 		comboBox.setBounds(62, 517, 112, 28);
 		panel.add(comboBox);
