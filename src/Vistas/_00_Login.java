@@ -51,7 +51,7 @@ public class _00_Login extends JFrame implements Vista{
 	public void actualizar() {
 		String resultado = modelo.getResultado();
 		if (resultado.equals("Correcto")) {
-			controlador.cambiarVentana(0, 1);
+			controlador.cambiarVentana(0, 3);
 		} else if (resultado.equals("Incorrecto")) {
 			lblWarning.setText("Usuario o contraseña incorrectos");
 		} else if (resultado.equals("Cerrar")) {
