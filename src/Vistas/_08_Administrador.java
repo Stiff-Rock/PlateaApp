@@ -45,6 +45,7 @@ public class _08_Administrador extends JFrame implements Vista {
 
 	private Controlador controlador;
 	private Modelo modelo;
+	private JTextField textField_1;
 
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
@@ -277,7 +278,7 @@ public class _08_Administrador extends JFrame implements Vista {
 				{ "Problema de suministro de agua potable", "2024-08-28", "Huelva", "Pendiente",
 						"Un problema en la planta de tratamiento ha afectado el suministro de agua potable, se están tomando medidas para solucionar el problema" },
 				{ null, null, null, null, null }, },
-				new String[] { "Titulo", "Fecha", "Localizacion", "Estado", "Descripcion" }));
+				new String[] { "Codigo", "Fecha", "Direccion", "Estado", "Descripcion" }));
 
 		scrollPane.setViewportView(table);
 
@@ -379,7 +380,7 @@ public class _08_Administrador extends JFrame implements Vista {
 		panel_3 = new JPanel();
 		panel_3.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		panel_3.setBackground(new Color(162, 196, 201));
-		panel_3.setBounds(257, 589, 695, 53);
+		panel_3.setBounds(257, 589, 695, 48);
 		getContentPane().add(panel_3);
 		panel_3.setLayout(null);
 
@@ -389,12 +390,25 @@ public class _08_Administrador extends JFrame implements Vista {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_6.setBounds(405, 14, 109, 29);
+		btnNewButton_6.setBounds(426, 11, 109, 29);
 		panel_3.add(btnNewButton_6);
 
 		btnNewButton_7 = new JButton("Denegar");
 		btnNewButton_7.setIcon(cruz);
-		btnNewButton_7.setBounds(559, 14, 109, 29);
+		btnNewButton_7.setBounds(559, 11, 109, 29);
 		panel_3.add(btnNewButton_7);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(10, 11, 159, 28);
+		panel_3.add(textField_1);
+		textField_1.setColumns(10);
+		
+		JButton btnNewButton_6_1 = new JButton("Modificar\r\n");
+		btnNewButton_6_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_6_1.setBounds(179, 10, 109, 29);
+		panel_3.add(btnNewButton_6_1);
 	}
 }
