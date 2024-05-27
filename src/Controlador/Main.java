@@ -14,22 +14,13 @@ import Vistas._08_Administrador;
 import Vistas._09_Publicacion;
 import Vistas._10_Publicar;
 
-//Clase principal que inicia la aplicación.
-
-// @autor: Yago Pernas
+//@Autor: Yago Pernas
 public class Main {
-	/**
-	 * @param inicializador del modelo, el controlador y las 11 vistas
-	 */
 	public static void main(String[] args) {
-
 		Modelo modelo = new Modelo();
-
 		Controlador controlador = new Controlador();
-
 		Vista[] vistas = new Vista[11];
 
-		// Se inicializan las 11 vistas
 		vistas[0] = new _00_Login();
 		vistas[1] = new _01_Registrar();
 		vistas[2] = new _02_Reestablecer();
@@ -42,19 +33,16 @@ public class Main {
 		vistas[9] = new _09_Publicacion();
 		vistas[10] = new _10_Publicar();
 
-		// Se establecen las vistas en el modelo y en el controlador
 		modelo.setVistas(vistas);
 		controlador.setVista(vistas);
 		controlador.setModelo(modelo);
-
-		// Se establece el modelo y el controlador en cada vista
 		for (Vista vista : vistas) {
 			vista.setModelo(modelo);
 			vista.setControlador(controlador);
 		}
+
 		((_01_Registrar) vistas[1]).setCaptcha(modelo.generateCaptcha());
 
-		// Se muestra la vista de inicio de sesión al iniciar la aplicación
 		controlador.cambiarVentana(0, 0);
 	}
 }

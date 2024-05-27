@@ -24,6 +24,7 @@ public class _09_Publicacion extends JFrame implements Vista{
 	private JTextField txtDescripcion;
 	private JTextField txtDescripcion_1;
 	private JTextField txtEstadofechacategorialocalizacion;
+	private JTextField txtTitulo;
 	private JLabel lblImage;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -31,15 +32,11 @@ public class _09_Publicacion extends JFrame implements Vista{
 	
 	private Controlador controlador;
 	private Modelo modelo;
-    /**
-     * @param metodo set para modelo
-     */
+	
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
 	}
-    /**
-     * @param metodo set para controlasor
-     */
+
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
@@ -105,6 +102,13 @@ public class _09_Publicacion extends JFrame implements Vista{
 		panel_2.setBounds(62, 76, 532, 144);
 		panel.add(panel_2);
 		panel_2.setLayout(null);
+		
+		txtTitulo = new JTextField();
+		txtTitulo.setEditable(false);
+		txtTitulo.setText("Titulo");
+		txtTitulo.setBounds(62, 38, 532, 28);
+		panel.add(txtTitulo);
+		txtTitulo.setColumns(10);
 		
 		lblImage = new JLabel("");
 		lblImage.setBackground(new Color(128, 128, 128));

@@ -21,10 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
-/**
- * @Autor: Anton Luo
- */
-
+//@Autor: Anton Luo
 public class _07_Votados extends JFrame implements Vista{
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
@@ -41,19 +38,16 @@ public class _07_Votados extends JFrame implements Vista{
 	
 	private Controlador controlador;
 	private Modelo modelo;
-    /**
-     * @param metodo set
-     */
+	private JButton btnNewButton_6;
+	
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
 	}
-    /**
-     * @param metodo set para el modelo
-     */
+
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
-	//inicializacion del cosntructor
+	
 	public _07_Votados() {
 
 		ImageIcon logo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()
@@ -75,6 +69,8 @@ public class _07_Votados extends JFrame implements Vista{
 				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
 		ImageIcon info = new ImageIcon(new ImageIcon(this.getClass().getResource("/informacion.png")).getImage()
 				.getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+		ImageIcon quitar = new ImageIcon(new ImageIcon(this.getClass().getResource("/Quitar.png")).getImage()
+				.getScaledInstance(17, 17, Image.SCALE_SMOOTH));
 
 		getContentPane().setForeground(new Color(162, 196, 201));
 		setBounds(100, 100, 1024, 760);
@@ -352,5 +348,15 @@ public class _07_Votados extends JFrame implements Vista{
 		btnNewButton_5.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnNewButton_5.setBounds(821, 671, 131, 35);
 		getContentPane().add(btnNewButton_5);
+		
+		btnNewButton_6 = new JButton("Quitar\r\n");
+		btnNewButton_6.setIcon(quitar);
+		btnNewButton_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_6.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnNewButton_6.setBounds(669, 671, 131, 35);
+		getContentPane().add(btnNewButton_6);
 	}
 }

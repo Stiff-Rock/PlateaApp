@@ -28,20 +28,16 @@ public class _04_MiPerfil extends JFrame implements Vista{
 	
 	private Controlador controlador;
 	private Modelo modelo;
+	private JTextField textField;
 	
-    /**
-     * @param metodo set para el modelo
-     */
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
 	}
-    /**
-     * @param metodo set para controlador
-     */
+
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
-	//inicializado el constructor
+	
 	public _04_MiPerfil() {
 		getContentPane().setLocation(-260, -138);
 		setBounds(100, 100, 1024, 760);
@@ -165,6 +161,7 @@ public class _04_MiPerfil extends JFrame implements Vista{
 		panel_2.add(lblNewLabel);
 
 		txtNombre = new JTextField();
+		txtNombre.setEditable(false);
 		txtNombre.setBounds(28, 46, 432, 19);
 		panel_2.add(txtNombre);
 		txtNombre.setColumns(10);
@@ -212,9 +209,14 @@ public class _04_MiPerfil extends JFrame implements Vista{
 		lblNewLabel_5.setBounds(28, 293, 240, 13);
 		panel_2.add(lblNewLabel_5);
 		
-		JButton btnNewButton_6 = new JButton("Guardar cambios");
-		btnNewButton_6.setBounds(185, 230, 121, 21);
-		panel_2.add(btnNewButton_6);
+		JLabel lblNewLabel_6 = new JLabel("New label");
+		lblNewLabel_6.setBounds(28, 222, 45, 13);
+		panel_2.add(lblNewLabel_6);
+		
+		textField = new JTextField();
+		textField.setBounds(28, 242, 432, 19);
+		panel_2.add(textField);
+		textField.setColumns(10);
 		
 				JPanel panel_3 = new JPanel();
 				panel_3.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));

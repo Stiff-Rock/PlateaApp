@@ -23,9 +23,6 @@ import javax.swing.table.DefaultTableModel;
 import Controlador.Controlador;
 import Modelo.Modelo;
 
-/**
- * Vista principal de la aplicacion
- */
 public class _03_Home extends JFrame implements Vista{
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
@@ -44,19 +41,14 @@ public class _03_Home extends JFrame implements Vista{
 	private Controlador controlador;
 	private Modelo modelo;
 	
-	   /**
-     * @param metodo set de modelo
-     */
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
 	}
-	   /**
-     * @param metodo set del controlador 
-     */
+
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
-	//inicializacion del constructor inicial
+	
 	public _03_Home() {
 
 		ImageIcon logo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()
