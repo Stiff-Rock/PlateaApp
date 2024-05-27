@@ -42,6 +42,7 @@ public class _02_Reestablecer extends JFrame implements Vista {
 
 	public _02_Reestablecer() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Restablecer contraseña");
 		setResizable(false);
 		setBounds(100, 100, 1024, 760);
 		mainPanel = new JPanel();

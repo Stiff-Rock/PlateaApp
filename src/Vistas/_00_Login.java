@@ -62,6 +62,7 @@ public class _00_Login extends JFrame implements Vista {
 	public _00_Login() {
 		// Panel principal que contendrá todos los componentes
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Inicio de sesión");
 		setResizable(false);
 		setBounds(100, 100, 1024, 760);
 		mainPanel = new JPanel();

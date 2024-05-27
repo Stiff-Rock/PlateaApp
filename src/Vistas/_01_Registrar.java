@@ -110,6 +110,7 @@ public class _01_Registrar extends JFrame implements Vista {
 	public _01_Registrar() {
 		// Panel principal que contendrá todos los componentes
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Registro");
 		setBounds(100, 100, 1024, 760);
 		mainPanel = new JPanel();
 		setContentPane(mainPanel);
