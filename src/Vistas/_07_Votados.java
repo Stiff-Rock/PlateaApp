@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
+import Modelo.Usuario;
 
 //@Autor: Anton Luo
 public class _07_Votados extends JFrame implements Vista {
@@ -31,6 +32,7 @@ public class _07_Votados extends JFrame implements Vista {
 	private JComboBox comboBoxProximidad;
 	private JLabel lblTitle;
 
+	private Usuario user;
 	private Controlador controlador;
 	private Modelo modelo;
 	private NavPanel nav;
@@ -43,6 +45,10 @@ public class _07_Votados extends JFrame implements Vista {
 		this.controlador = controlador;
 	}
 
+	public void setUsuario(Usuario user) {
+		this.user = user;
+	}
+
 	public void configurarNav() {
 		nav.setControlador(controlador);
 		nav.setIndiceActual(indice);
@@ -53,7 +59,7 @@ public class _07_Votados extends JFrame implements Vista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setTitle("Mis votados");
-		setBounds(100, 100, 1024, 760);
+		setBounds(480, 150, 1024, 760);
 		mainPanel = new JPanel();
 		setContentPane(mainPanel);
 		mainPanel.setLayout(null);

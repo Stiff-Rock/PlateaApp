@@ -3,17 +3,21 @@ package Modelo;
 import java.util.Random;
 
 import Vistas.Vista;
-import Vistas._00_Login;
 import Vistas._01_Registrar;
 
 public class Modelo {
+	private Usuario user;
 	private Vista[] vistas;
 	private String resultado;
 	private int fallos;
-	private ConexionOracle datos = new ConexionOracle();
+	private ConexionOracle conexion = new ConexionOracle();
 
 	public void setVistas(Vista[] vistas) {
 		this.vistas = vistas;
+	}
+
+	public void setUsuario(Usuario user) {
+		this.user = user;
 	}
 
 	public String getResultado() {
@@ -41,10 +45,10 @@ public class Modelo {
 		return String.valueOf(captcha);
 	}
 
-	public void singIn(String[] datosRegistro) {
+	public String singIn(String[] datosRegistro) {
 		resultado = "";
 
-		if (!datos.comprobarDisponibilidadNick(datosRegistro[0])) {
+		if (!conexion.comprobarDisponibilidadNick(datosRegistro[0])) {
 			resultado = "Nickname";
 		}
 
@@ -64,31 +68,51 @@ public class Modelo {
 			resultado = "Captcha";
 		}
 
-		for (String string : datosRegistro) {
-			if (string.equals(null) || string.equals("")) {
+		for (int i = 0; i < datosRegistro.length; i++) {
+			if ((datosRegistro[i].equals(null) || datosRegistro[i].equals("")) && (i != 7 && i != 8)) {
 				resultado = "Faltan";
 			}
 		}
 
-		if (datosRegistro[7].equals("0")) {
+		if (datosRegistro[7].equals("0") || datosRegistro[7].equals("-1")) {
 			resultado = "Pregunta";
 		}
 
 		if (datosRegistro[8].equals("") || datosRegistro[8].equals(null)) {
 			resultado = "Respuesta";
 		}
-		
+
 		if (resultado.equals("")) {
 			resultado = "Correcto";
-			datos.crearUsuario(datosRegistro);
-		}
 
-		((_01_Registrar) vistas[1]).actualizar();
+			// Generar codigo pregunta a partir del índice de comboBox
+			for (int i = datosRegistro[7].length(); i < 3; i++) {
+				datosRegistro[7] += "0" + datosRegistro[7];
+			}
+			datosRegistro[7] = "PRE" + datosRegistro[7];
+
+			// Cambiar para más genérico
+			user.setNickname(datosRegistro[0]);
+			user.setApellido(datosRegistro[1]);
+			user.setNombre(datosRegistro[2]);
+			user.setCp(datosRegistro[3]);
+
+			// Hashear contraseña
+			user.setPwd(datosRegistro[4]);
+
+			user.setEsAdmin(datosRegistro[6]);
+			user.setCodPregunta(datosRegistro[7]);
+			user.setRespuesta(datosRegistro[8]);
+
+			conexion.crearUsuario(datosRegistro);
+		}
+		return resultado;
 	}
 
-	public void login(String usr, String pwd) {
+	// TODO Crear variable/clase usuario
+	public String login(String usr, String pwd) {
 		resultado = "";
-		String userData[] = datos.verificarUsuario(usr, pwd);
+		String userData[] = conexion.verificarUsuario(usr, pwd);
 		if ((userData[0] != null && userData[1] != null) && (userData[0].equals(usr) && userData[1].equals(pwd))) {
 			resultado = "Correcto";
 			fallos = 0;
@@ -100,7 +124,16 @@ public class Modelo {
 				resultado = "Incorrecto";
 			}
 		}
-		((_00_Login) vistas[0]).actualizar();
+		return resultado;
 	}
 
+	public Object[] obtenerPreguntasSeguridad() {
+		return conexion.obtenerPreguntasSeguridad();
+	}
+
+	public String cargarPreguntaUsuario() {
+		// TODO Crear variable/clase usuario
+		String nickname = "";
+		return conexion.obtenerPreguntaUsuario(nickname);
+	}
 }

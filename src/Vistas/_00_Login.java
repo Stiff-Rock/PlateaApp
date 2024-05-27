@@ -21,6 +21,7 @@ import javax.swing.border.LineBorder;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
+import Modelo.Usuario;
 
 //@Autor Yago Pernas
 public class _00_Login extends JFrame implements Vista {
@@ -29,6 +30,7 @@ public class _00_Login extends JFrame implements Vista {
 	private JPasswordField txtPwd;
 	private JLabel lblWarning;
 
+	private Usuario user;
 	private Controlador controlador;
 	private Modelo modelo;
 
@@ -40,6 +42,10 @@ public class _00_Login extends JFrame implements Vista {
 		this.controlador = controlador;
 	}
 
+	public void setUsuario(Usuario user) {
+		this.user = user;
+	}
+
 	public String getUsr() {
 		return txtUsr.getText();
 	}
@@ -48,15 +54,8 @@ public class _00_Login extends JFrame implements Vista {
 		return String.valueOf(txtPwd.getPassword());
 	}
 
-	public void actualizar() {
-		String resultado = modelo.getResultado();
-		if (resultado.equals("Correcto")) {
-			controlador.cambiarVentana(0, 3);
-		} else if (resultado.equals("Incorrecto")) {
-			lblWarning.setText("Usuario o contraseña incorrectos");
-		} else if (resultado.equals("Cerrar")) {
-			System.exit(0);
-		}
+	public void mostrarWarning() {
+		lblWarning.setText("Usuario o contraseña incorrectos");
 	}
 
 	public _00_Login() {
@@ -64,7 +63,7 @@ public class _00_Login extends JFrame implements Vista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Inicio de sesión");
 		setResizable(false);
-		setBounds(100, 100, 1024, 760);
+		setBounds(480, 150, 1024, 760);
 		mainPanel = new JPanel();
 		setContentPane(mainPanel);
 		mainPanel.setLayout(null);

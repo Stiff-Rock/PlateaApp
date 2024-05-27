@@ -3,11 +3,9 @@ package Vistas;
 //@Autor: Anton Luo
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,6 +15,7 @@ import javax.swing.border.MatteBorder;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
+import Modelo.Usuario;
 
 public class _04_MiPerfil extends JFrame implements Vista {
 	private int indice = 4;
@@ -26,6 +25,7 @@ public class _04_MiPerfil extends JFrame implements Vista {
 	private JTextField txtCp;
 	private JTextField txtTipo;
 
+	private Usuario user;
 	private Controlador controlador;
 	private Modelo modelo;
 	private NavPanel nav;
@@ -38,6 +38,10 @@ public class _04_MiPerfil extends JFrame implements Vista {
 		this.controlador = controlador;
 	}
 
+	public void setUsuario(Usuario user) {
+		this.user = user;
+	}
+
 	public void configurarNav() {
 		nav.setControlador(controlador);
 		nav.setIndiceActual(indice);
@@ -48,7 +52,7 @@ public class _04_MiPerfil extends JFrame implements Vista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setTitle("Mi perfil");
-		setBounds(100, 100, 1024, 760);
+		setBounds(480, 150, 1024, 760);
 		mainPanel = new JPanel();
 		setContentPane(mainPanel);
 		mainPanel.setLayout(null);

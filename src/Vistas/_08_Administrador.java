@@ -54,7 +54,7 @@ public class _08_Administrador extends JFrame implements Vista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setTitle("Gestionar");
-		setBounds(100, 100, 1024, 760);
+		setBounds(480, 150, 1024, 760);
 		mainPanel = new JPanel();
 		setContentPane(mainPanel);
 		mainPanel.setLayout(null);

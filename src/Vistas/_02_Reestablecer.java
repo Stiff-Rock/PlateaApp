@@ -21,6 +21,7 @@ import javax.swing.border.LineBorder;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
+import Modelo.Usuario;
 
 //@Autor Yago Pernas
 public class _02_Reestablecer extends JFrame implements Vista {
@@ -28,7 +29,10 @@ public class _02_Reestablecer extends JFrame implements Vista {
 	private JTextField txtPwd1;
 	private JTextField txtPwd2;
 	private JTextField textField;
+	private JTextField txtPregunta;
+	private JLabel lblWarning;
 
+	private Usuario user;
 	private Controlador controlador;
 	private Modelo modelo;
 
@@ -40,11 +44,19 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		this.controlador = controlador;
 	}
 
+	public void setUsuario(Usuario user) {
+		this.user = user;
+	}
+
+	public void cargarPregunta(String pregunta) {
+		txtPregunta.setText(pregunta);
+	}
+
 	public _02_Reestablecer() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Restablecer contraseña");
 		setResizable(false);
-		setBounds(100, 100, 1024, 760);
+		setBounds(480, 150, 1024, 760);
 		mainPanel = new JPanel();
 		setContentPane(mainPanel);
 		mainPanel.setLayout(null);
@@ -88,17 +100,15 @@ public class _02_Reestablecer extends JFrame implements Vista {
 
 		txtPwd1 = new JTextField();
 		txtPwd1.setToolTipText("");
-		txtPwd1.setText("Nueva contraseña");
 		txtPwd1.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtPwd1.setColumns(10);
-		txtPwd1.setBounds(36, 97, 418, 28);
+		txtPwd1.setBounds(35, 98, 418, 28);
 		registerPanel.add(txtPwd1);
 
 		txtPwd2 = new JTextField();
-		txtPwd2.setText("Repetir nueva contraseña");
 		txtPwd2.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtPwd2.setColumns(10);
-		txtPwd2.setBounds(36, 154, 418, 28);
+		txtPwd2.setBounds(35, 164, 418, 28);
 		registerPanel.add(txtPwd2);
 
 		JButton btnLogin = new JButton("Acceder");
@@ -107,28 +117,19 @@ public class _02_Reestablecer extends JFrame implements Vista {
 				controlador.cambiarVentana(2, 0);
 			}
 		});
-		btnLogin.setBounds(34, 325, 124, 23);
+		btnLogin.setBounds(35, 343, 124, 23);
 		registerPanel.add(btnLogin);
 
 		JLabel lblTitle = new JLabel("Reestablecer contraseña");
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		lblTitle.setBounds(70, 29, 348, 39);
+		lblTitle.setBounds(70, 19, 348, 39);
 		registerPanel.add(lblTitle);
-
-		JComboBox cmbPregunta = new JComboBox();
-		cmbPregunta.setModel(new DefaultComboBoxModel(new String[] { "Elige una pregunta de seguridad:",
-				"¿Cuál es el nombre de tu primera mascota? ", "¿Cuál es el nombre de tu escuela primaria? ",
-				"¿En qué ciudad naciste? ", "¿Cuál es el nombre de tu mejor amigo de la infancia? ",
-				"¿Cuál es el segundo nombre de tu padre? ", "¿Cuál fue tu primer trabajo?" }));
-		cmbPregunta.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		cmbPregunta.setBounds(36, 211, 418, 28);
-		registerPanel.add(cmbPregunta);
 
 		textField = new JTextField();
 		textField.setText("Respuesta");
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		textField.setColumns(10);
-		textField.setBounds(36, 268, 418, 28);
+		textField.setBounds(35, 268, 418, 28);
 		registerPanel.add(textField);
 
 		JButton btnAtras = new JButton("Atrás");
@@ -137,8 +138,28 @@ public class _02_Reestablecer extends JFrame implements Vista {
 				controlador.cambiarVentana(2, 0);
 			}
 		});
-		btnAtras.setBounds(330, 325, 124, 23);
+		btnAtras.setBounds(329, 343, 124, 23);
 		registerPanel.add(btnAtras);
+
+		JLabel lblNewPwd1 = new JLabel("Nueva contraseña:");
+		lblNewPwd1.setBounds(35, 77, 124, 14);
+		registerPanel.add(lblNewPwd1);
+
+		JLabel lblNewPwd2 = new JLabel("Repetir nueva contraseña:");
+		lblNewPwd2.setBounds(35, 143, 160, 14);
+		registerPanel.add(lblNewPwd2);
+
+		txtPregunta = new JTextField();
+		txtPregunta.setEditable(false);
+		txtPregunta.setBounds(35, 224, 418, 28);
+		registerPanel.add(txtPregunta);
+		txtPregunta.setColumns(10);
+
+		lblWarning = new JLabel("");
+		lblWarning.setForeground(Color.RED);
+		lblWarning.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblWarning.setBounds(35, 310, 222, 22);
+		registerPanel.add(lblWarning);
 
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setBounds(343, 40, 321, 113);

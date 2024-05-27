@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
+import Modelo.Usuario;
 
 public class _03_Home extends JFrame implements Vista {
 	private int indice = 3;
@@ -29,6 +30,7 @@ public class _03_Home extends JFrame implements Vista {
 	private JTable table;
 	private JTextField txtBuscador;
 
+	private Usuario user;
 	private Controlador controlador;
 	private Modelo modelo;
 	private NavPanel nav;
@@ -41,17 +43,21 @@ public class _03_Home extends JFrame implements Vista {
 		this.controlador = controlador;
 	}
 
+	public void setUsuario(Usuario user) {
+		this.user = user;
+	}
+
 	public void configurarNav() {
 		nav.setControlador(controlador);
 		nav.setIndiceActual(indice);
 	}
-	
+
 	public _03_Home() {
 		// Panel principal que contendrá todos los componentes
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setTitle("Inicio");
-		setBounds(100, 100, 1024, 760);
+		setBounds(480, 150, 1024, 760);
 		mainPanel = new JPanel();
 		setContentPane(mainPanel);
 		mainPanel.setLayout(null);

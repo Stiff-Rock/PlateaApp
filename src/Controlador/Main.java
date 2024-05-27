@@ -1,6 +1,7 @@
 package Controlador;
 
 import Modelo.Modelo;
+import Modelo.Usuario;
 import Vistas.NavPanel;
 import Vistas.Vista;
 import Vistas._00_Login;
@@ -21,6 +22,7 @@ public class Main {
 		Modelo modelo = new Modelo();
 		Controlador controlador = new Controlador();
 		NavPanel nav = new NavPanel();
+		Usuario user = new Usuario();
 		Vista[] vistas = new Vista[11];
 
 		vistas[0] = new _00_Login();
@@ -41,6 +43,7 @@ public class Main {
 		for (Vista vista : vistas) {
 			vista.setModelo(modelo);
 			vista.setControlador(controlador);
+			vista.setUsuario(user);
 		}
 
 		// Establece el índice del nav de cada vista
@@ -55,6 +58,9 @@ public class Main {
 
 		// Genera el captcha para esta sesión
 		((_01_Registrar) vistas[1]).setCaptcha(modelo.generateCaptcha());
+		
+		// Carga las preguntas de seguridad
+		controlador.cargarPreguntasRegistrar();
 
 		controlador.cambiarVentana(0, 0);
 	}

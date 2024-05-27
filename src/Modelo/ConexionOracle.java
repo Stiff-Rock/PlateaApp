@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ConexionOracle {
 	private String login = "SYSTEM";
@@ -27,6 +28,50 @@ public class ConexionOracle {
 			System.out.println("Error general de Conexion");
 			e.printStackTrace();
 		}
+	}
+
+	public void cargarUsuario() {
+		// TODO
+	}
+
+	public String[] obtenerPreguntasSeguridad() {
+		ArrayList<String> preguntasList = new ArrayList<>();
+		preguntasList.add("Elige una pregunta de seguridad");
+		String query = "SELECT CUESTION FROM platea.pregunta";
+
+		try (PreparedStatement statement = conexion.prepareStatement(query);
+				ResultSet resultSet = statement.executeQuery()) {
+
+			while (resultSet.next()) {
+				String cuestion = resultSet.getString("CUESTION");
+				preguntasList.add(cuestion);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		String[] preguntasObject = preguntasList.toArray(new String[preguntasList.size()]);
+		return preguntasObject;
+	}
+
+	public String obtenerPreguntaUsuario(String nombreUsuario) {
+		String pregunta = "";
+		String query = "SELECT pregunta.CUESTION " + "FROM USUARIO "
+				+ "INNER JOIN PREGUNTA ON USUARIO.PREGUNTA_CODIGO = PREGUNTA.CODIGO " + "WHERE USUARIO.NICK = ?";
+
+		try (PreparedStatement statement = conexion.prepareStatement(query)) {
+			statement.setString(1, nombreUsuario);
+
+			try (ResultSet resultSet = statement.executeQuery()) {
+				if (resultSet.next()) {
+					pregunta = resultSet.getString("CUESTION");
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return pregunta;
 	}
 
 	public String[] verificarUsuario(String usuario, String contraseña) {
@@ -80,8 +125,7 @@ public class ConexionOracle {
 			statement.setString(4, datosRegistro[3]);
 			statement.setString(5, datosRegistro[4]);
 			statement.setString(6, datosRegistro[6]);
-			String codPregunta = "PRE00" + datosRegistro[7];
-			statement.setString(7, codPregunta);
+			statement.setString(7, datosRegistro[7]);
 			statement.setString(8, datosRegistro[8]);
 
 			int rowsInserted = statement.executeUpdate();

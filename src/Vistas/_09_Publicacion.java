@@ -14,6 +14,8 @@ import javax.swing.border.LineBorder;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
+import Modelo.Usuario;
+
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
@@ -31,14 +33,15 @@ public class _09_Publicacion extends JFrame implements Vista {
 	private JLabel lblImage;
 	private JTextField txtDirecicion;
 	private JTextField txtCp;
-
-	private Controlador controlador;
-	private Modelo modelo;
 	private JPanel filtrosPanel;
 	private JLabel lblLupa;
 	private JLabel lblTitle;
 	private JLabel lblDescripcion;
 	private JTextField txtCategoria;
+
+	private Usuario user;
+	private Controlador controlador;
+	private Modelo modelo;
 	private NavPanel nav;
 
 	public void setModelo(Modelo modelo) {
@@ -47,6 +50,10 @@ public class _09_Publicacion extends JFrame implements Vista {
 
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
+	}
+
+	public void setUsuario(Usuario user) {
+		this.user = user;
 	}
 
 	public void configurarNav() {
@@ -59,7 +66,7 @@ public class _09_Publicacion extends JFrame implements Vista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setTitle("Publicación");
-		setBounds(100, 100, 1024, 760);
+		setBounds(480, 150, 1024, 760);
 		mainPanel = new JPanel();
 		setContentPane(mainPanel);
 		mainPanel.setLayout(null);
