@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -13,17 +17,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.MatteBorder;
+import javax.swing.border.LineBorder;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 //@Autor Yago Pernas
 public class _02_Reestablecer extends JFrame implements Vista {
+	private JPanel mainPanel;
 	private JTextField txtPwd1;
 	private JTextField txtPwd2;
 	private JTextField textField;
@@ -40,15 +41,19 @@ public class _02_Reestablecer extends JFrame implements Vista {
 	}
 
 	public _02_Reestablecer() {
-		getContentPane().setLocation(-2, 0);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		setBounds(100, 100, 1024, 760);
-		getContentPane().setLayout(null);
+		mainPanel = new JPanel();
+		setContentPane(mainPanel);
+		mainPanel.setLayout(null);
+		mainPanel.setForeground(new Color(162, 196, 201));
 
 		JPanel bottomPanel = new JPanel();
-		bottomPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		bottomPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		bottomPanel.setBounds(259, 610, 488, 70);
 		bottomPanel.setBackground(new Color(208, 224, 227));
-		getContentPane().add(bottomPanel);
+		mainPanel.add(bottomPanel);
 		bottomPanel.setLayout(null);
 
 		JLabel lblBottom = new JLabel("¿No tienes cuenta?");
@@ -74,10 +79,10 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		bottomPanel.add(lblLink);
 
 		JPanel registerPanel = new JPanel();
-		registerPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		registerPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		registerPanel.setBounds(259, 193, 488, 377);
 		registerPanel.setBackground(new Color(207, 226, 243));
-		getContentPane().add(registerPanel);
+		mainPanel.add(registerPanel);
 		registerPanel.setLayout(null);
 
 		txtPwd1 = new JTextField();
@@ -136,9 +141,9 @@ public class _02_Reestablecer extends JFrame implements Vista {
 
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setBounds(343, 40, 321, 113);
-		getContentPane().add(lblLogo);
+		mainPanel.add(lblLogo);
 
-		ImageIcon resizedLogo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()
+		ImageIcon resizedLogo = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/logo.png")).getImage()
 				.getScaledInstance(321, 113, Image.SCALE_SMOOTH));
 		lblLogo.setIcon(resizedLogo);
 	}

@@ -1,6 +1,7 @@
 package Controlador;
 
 import Modelo.Modelo;
+import Vistas.NavPanel;
 import Vistas.Vista;
 import Vistas._00_Login;
 import Vistas._01_Registrar;
@@ -19,6 +20,7 @@ public class Main {
 	public static void main(String[] args) {
 		Modelo modelo = new Modelo();
 		Controlador controlador = new Controlador();
+		NavPanel nav = new NavPanel();
 		Vista[] vistas = new Vista[11];
 
 		vistas[0] = new _00_Login();
@@ -41,6 +43,17 @@ public class Main {
 			vista.setControlador(controlador);
 		}
 
+		// Establece el índice del nav de cada vista
+		((_03_Home) vistas[3]).configurarNav();
+		((_04_MiPerfil) vistas[4]).configurarNav();
+		((_05_MisPublicaciones) vistas[5]).configurarNav();
+		((_06_MisFavoritos) vistas[6]).configurarNav();
+		((_07_Votados) vistas[7]).configurarNav();
+		((_08_Administrador) vistas[8]).configurarNav();
+		((_09_Publicacion) vistas[9]).configurarNav();
+		((_10_Publicar) vistas[10]).configurarNav();
+
+		// Genera el captcha para esta sesión
 		((_01_Registrar) vistas[1]).setCaptcha(modelo.generateCaptcha());
 
 		controlador.cambiarVentana(0, 0);

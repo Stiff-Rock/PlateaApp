@@ -16,21 +16,22 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.border.MatteBorder;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
-import javax.swing.SwingConstants;
 
 //@Autor Yago Pernas
-public class _00_Login extends JFrame implements Vista{
+public class _00_Login extends JFrame implements Vista {
+	private JPanel mainPanel;
 	private JTextField txtUsr;
-	
-	private Controlador controlador;
-	private Modelo modelo;
 	private JPasswordField txtPwd;
 	private JLabel lblWarning;
-	
+
+	private Controlador controlador;
+	private Modelo modelo;
+
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
 	}
@@ -38,8 +39,7 @@ public class _00_Login extends JFrame implements Vista{
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
-	
-	
+
 	public String getUsr() {
 		return txtUsr.getText();
 	}
@@ -47,7 +47,7 @@ public class _00_Login extends JFrame implements Vista{
 	public String getPwd() {
 		return String.valueOf(txtPwd.getPassword());
 	}
-	
+
 	public void actualizar() {
 		String resultado = modelo.getResultado();
 		if (resultado.equals("Correcto")) {
@@ -58,17 +58,22 @@ public class _00_Login extends JFrame implements Vista{
 			System.exit(0);
 		}
 	}
-	
+
 	public _00_Login() {
-		getContentPane().setLocation(-2, 0);
+		// Panel principal que contendrá todos los componentes
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		setBounds(100, 100, 1024, 760);
-		getContentPane().setLayout(null);
+		mainPanel = new JPanel();
+		setContentPane(mainPanel);
+		mainPanel.setLayout(null);
+		mainPanel.setForeground(new Color(162, 196, 201));
 
 		JPanel bottomPanel = new JPanel();
-		bottomPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		bottomPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		bottomPanel.setBounds(259, 588, 488, 70);
 		bottomPanel.setBackground(new Color(208, 224, 227));
-		getContentPane().add(bottomPanel);
+		mainPanel.add(bottomPanel);
 		bottomPanel.setLayout(null);
 
 		JLabel lblBottom = new JLabel("¿No tienes cuenta?");
@@ -90,14 +95,14 @@ public class _00_Login extends JFrame implements Vista{
 			}
 		});
 		lblLink.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblLink.setBounds(267, 28, 105, 14);
+		lblLink.setBounds(257, 28, 105, 14);
 		bottomPanel.add(lblLink);
 
 		JPanel registerPanel = new JPanel();
-		registerPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		registerPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		registerPanel.setBounds(259, 239, 488, 286);
 		registerPanel.setBackground(new Color(207, 226, 243));
-		getContentPane().add(registerPanel);
+		mainPanel.add(registerPanel);
 		registerPanel.setLayout(null);
 
 		txtUsr = new JTextField();
@@ -114,13 +119,14 @@ public class _00_Login extends JFrame implements Vista{
 		});
 		btnLogin.setBounds(36, 243, 124, 23);
 		registerPanel.add(btnLogin);
-		
+
 		JLabel lblTitle = new JLabel("Iniciar sesión");
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 32));
 		lblTitle.setBounds(151, 20, 185, 39);
 		registerPanel.add(lblTitle);
-		
+
 		JLabel lblForgotPWD = new JLabel("Olvidé mi contraseña");
+		lblForgotPWD.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblForgotPWD.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		lblForgotPWD.setForeground(new Color(0, 0, 255));
 		lblForgotPWD.addMouseListener(new MouseAdapter() {
@@ -128,34 +134,34 @@ public class _00_Login extends JFrame implements Vista{
 				controlador.cambiarVentana(0, 2);
 			}
 		});
-		lblForgotPWD.setBounds(330, 247, 124, 14);
+		lblForgotPWD.setBounds(301, 247, 153, 14);
 		registerPanel.add(lblForgotPWD);
-		
+
 		txtPwd = new JPasswordField();
 		txtPwd.setToolTipText("");
 		txtPwd.setBounds(36, 183, 418, 28);
 		registerPanel.add(txtPwd);
-		
+
 		JLabel lblUsr = new JLabel("Nickname:");
 		lblUsr.setBounds(37, 79, 79, 14);
 		registerPanel.add(lblUsr);
-		
+
 		JLabel lblpwd = new JLabel("Contraseña:");
 		lblpwd.setBounds(37, 161, 79, 14);
 		registerPanel.add(lblpwd);
-		
+
 		lblWarning = new JLabel("");
 		lblWarning.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblWarning.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWarning.setForeground(new Color(255, 0, 0));
 		lblWarning.setBounds(128, 219, 231, 14);
 		registerPanel.add(lblWarning);
-		
+
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setBounds(343, 63, 321, 113);
-		getContentPane().add(lblLogo);
-		
-		ImageIcon resizedLogo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()
+		mainPanel.add(lblLogo);
+
+		ImageIcon resizedLogo = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/logo.png")).getImage()
 				.getScaledInstance(321, 113, Image.SCALE_SMOOTH));
 		lblLogo.setIcon(resizedLogo);
 	}

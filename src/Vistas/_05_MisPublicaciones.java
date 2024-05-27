@@ -15,30 +15,26 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
+
 //@Autor: Anton Luo
-public class _05_MisPublicaciones extends JFrame implements Vista{
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
-	private JButton btnNewButton_2;
-	private JButton btnNewButton_3;
-	private JButton btnNewButton_4;
-	private JPanel panel_2;
-	private JLabel lblNewLabel;
-	private JLabel lblNewLabel_2;
+public class _05_MisPublicaciones extends JFrame implements Vista {
+	private int indice = 5;
+	private JPanel mainPanel;
+	private JPanel filtrosPanel;
+	private JLabel lblFiltrosTxt;
 	private JTable table;
-	private JLabel lblNewLabel_3;
-	private JComboBox comboBox_2;
-	private JLabel lblNewLabel_1;
-	
+	private JComboBox comboBoxProximidad;
+	private JLabel lblTitle;
+
 	private Controlador controlador;
 	private Modelo modelo;
-	
+	private NavPanel nav;
+
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
 	}
@@ -46,82 +42,85 @@ public class _05_MisPublicaciones extends JFrame implements Vista{
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
-	
-	public _05_MisPublicaciones() {
 
-		ImageIcon logo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()
-				.getScaledInstance(170, 65, Image.SCALE_SMOOTH));
-		ImageIcon casa = new ImageIcon(new ImageIcon(this.getClass().getResource("/casa.png")).getImage()
+	public void configurarNav() {
+		nav.setControlador(controlador);
+		nav.setIndiceActual(indice);
+	}
+
+	public _05_MisPublicaciones() {
+		// Panel principal que contendrá todos los componentes
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		setTitle("Mis publicaciones");
+		setBounds(100, 100, 1024, 760);
+		mainPanel = new JPanel();
+		setContentPane(mainPanel);
+		mainPanel.setLayout(null);
+		mainPanel.setForeground(new Color(162, 196, 201));
+
+		// Agregar el panel de navegación
+		nav = new NavPanel();
+		mainPanel.add(nav);
+
+		ImageIcon mas = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/mas.png")).getImage()
 				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
-		ImageIcon usuario = new ImageIcon(new ImageIcon(this.getClass().getResource("/usuario.png")).getImage()
-				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
-		ImageIcon libro = new ImageIcon(new ImageIcon(this.getClass().getResource("/libro-abierto.png")).getImage()
-				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
-		ImageIcon estrella = new ImageIcon(new ImageIcon(this.getClass().getResource("/estrella.png")).getImage()
-				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
-		ImageIcon pulgar = new ImageIcon(
-				new ImageIcon(this.getClass().getResource("/pulgar-hacia-arriba-simbolo-de-la-mano.png")).getImage()
-						.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
-		ImageIcon lupa = new ImageIcon(new ImageIcon(this.getClass().getResource("/lupa.png")).getImage()
-				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
-		ImageIcon mas = new ImageIcon(new ImageIcon(this.getClass().getResource("/mas.png")).getImage()
-				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
-		ImageIcon info = new ImageIcon(new ImageIcon(this.getClass().getResource("/informacion.png")).getImage()
-				.getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+		ImageIcon borrar = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/Quitar.png")).getImage()
+				.getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 
 		getContentPane().setForeground(new Color(162, 196, 201));
 		setBounds(100, 100, 1024, 760);
 		getContentPane().setLayout(null);
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(162, 196, 201));
-		panel_1.setBounds(0, 0, 202, 721);
-		getContentPane().add(panel_1);
-		panel_1.setLayout(null);
+		JPanel contentPanel = new JPanel();
+		contentPanel.setBackground(new Color(240, 240, 240));
+		contentPanel.setBounds(212, 11, 786, 695);
+		mainPanel.add(contentPanel);
+		contentPanel.setLayout(null);
 
-		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		panel.setForeground(new Color(162, 196, 201));
-		panel.setBackground(new Color(207, 207, 243));
-		panel.setBounds(257, 65, 695, 595);
-		getContentPane().add(panel);
-		panel.setLayout(null);
+		JPanel tablePanel = new JPanel();
+		tablePanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		tablePanel.setForeground(new Color(162, 196, 201));
+		tablePanel.setBackground(new Color(207, 226, 243));
+		tablePanel.setBounds(45, 50, 695, 595);
+		contentPanel.add(tablePanel);
+		tablePanel.setLayout(null);
 
-		panel_2 = new JPanel();
-		panel_2.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		panel_2.setBounds(0, 0, 695, 49);
-		panel.add(panel_2);
-		panel_2.setBackground(new Color(162, 196, 201));
-		panel_2.setForeground(new Color(255, 255, 255));
-		panel_2.setLayout(null);
+		filtrosPanel = new JPanel();
+		filtrosPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		filtrosPanel.setBounds(0, 0, 695, 49);
+		tablePanel.add(filtrosPanel);
+		filtrosPanel.setBackground(new Color(162, 196, 201));
+		filtrosPanel.setForeground(new Color(255, 255, 255));
+		filtrosPanel.setLayout(null);
 
-		lblNewLabel_2 = new JLabel("Filtros:");
-		lblNewLabel_2.setBounds(319, 17, 46, 14);
-		panel_2.add(lblNewLabel_2);
+		lblFiltrosTxt = new JLabel("Filtros:");
+		lblFiltrosTxt.setBounds(308, 17, 46, 14);
+		filtrosPanel.add(lblFiltrosTxt);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Fecha" }));
-		comboBox.setBounds(355, 13, 101, 22);
-		panel_2.add(comboBox);
+		JComboBox comboBoxFecha = new JComboBox();
+		comboBoxFecha.setModel(new DefaultComboBoxModel(new String[] { "Fecha" }));
+		comboBoxFecha.setBounds(355, 13, 101, 22);
+		filtrosPanel.add(comboBoxFecha);
 
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] { "Estado", "Pendiente", "Resuelto" }));
-		comboBox_1.setBounds(466, 13, 101, 22);
-		panel_2.add(comboBox_1);
-		
-		comboBox_2 = new JComboBox();
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Proximidad"}));
-		comboBox_2.setBounds(577, 13, 101, 22);
-		panel_2.add(comboBox_2);
-		
-		lblNewLabel_1 = new JLabel("Mis publicaciones");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_1.setBounds(10, 13, 273, 25);
-		panel_2.add(lblNewLabel_1);
+		JComboBox comboBoxEstado = new JComboBox();
+		comboBoxEstado.setModel(new DefaultComboBoxModel(new String[] { "Estado", "Pendiente", "Resuelto" }));
+		comboBoxEstado.setBounds(466, 13, 101, 22);
+		filtrosPanel.add(comboBoxEstado);
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 60, 675, 525);
-		panel.add(scrollPane);
+		comboBoxProximidad = new JComboBox();
+		comboBoxProximidad.setModel(new DefaultComboBoxModel(new String[] { "Proximidad" }));
+		comboBoxProximidad.setBounds(577, 13, 101, 22);
+		filtrosPanel.add(comboBoxProximidad);
+
+		lblTitle = new JLabel("Mis publicaciones");
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTitle.setBounds(10, 12, 273, 25);
+		filtrosPanel.add(lblTitle);
+
+		JScrollPane tablaPane = new JScrollPane();
+		tablaPane.setBounds(10, 60, 675, 525);
+		tablePanel.add(tablaPane);
 
 		table = new JTable();
 		table.setForeground(new Color(0, 0, 0));
@@ -261,92 +260,27 @@ public class _05_MisPublicaciones extends JFrame implements Vista{
 				{ null, null, null, null, null }, },
 				new String[] { "Titulo", "Fecha", "Localizacion", "Estado", "Descripcion" }));
 
-		scrollPane.setViewportView(table);
+		tablaPane.setViewportView(table);
 
-		btnNewButton = new JButton("Home");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controlador.cambiarVentana(5, 3);
-			}
-		});
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNewButton.setHorizontalAlignment(SwingConstants.LEFT);
-		btnNewButton.setIcon(casa);
-		btnNewButton.setBounds(35, 156, 135, 40);
-		panel_1.add(btnNewButton);
-
-		btnNewButton_1 = new JButton("Mi perfil");
-		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNewButton_1.setHorizontalAlignment(SwingConstants.LEFT);
-		btnNewButton_1.setIcon(usuario);
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controlador.cambiarVentana(5, 4);
-			}
-		});
-
-		btnNewButton_1.setBounds(35, 229, 135, 40);
-		panel_1.add(btnNewButton_1);
-
-		btnNewButton_2 = new JButton("Publicaciones");
-		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNewButton_2.setHorizontalAlignment(SwingConstants.LEFT);
-		btnNewButton_2.setIcon(libro);
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controlador.cambiarVentana(5, 5);
-			}
-		});
-
-		btnNewButton_2.setBounds(35, 304, 135, 40);
-		panel_1.add(btnNewButton_2);
-
-		btnNewButton_3 = new JButton("Favoritos");
-		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNewButton_3.setHorizontalAlignment(SwingConstants.LEFT);
-		btnNewButton_3.setIcon(estrella);
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controlador.cambiarVentana(5, 6);
-			}
-		});
-
-		btnNewButton_3.setBounds(35, 380, 135, 40);
-		panel_1.add(btnNewButton_3);
-
-		btnNewButton_4 = new JButton("Votados");
-		btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNewButton_4.setHorizontalAlignment(SwingConstants.LEFT);
-		btnNewButton_4.setIcon(pulgar);
-		btnNewButton_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controlador.cambiarVentana(5, 7);
-			}
-		});
-
-		btnNewButton_4.setBounds(35, 459, 135, 40);
-		panel_1.add(btnNewButton_4);
-
-		lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(logo);
-		lblNewLabel.setBounds(10, 40, 192, 82);
-		panel_1.add(lblNewLabel);
-		
-		lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setIcon(info);
-		lblNewLabel_3.setBounds(156, 670, 46, 40);
-		panel_1.add(lblNewLabel_3);
-		lblNewLabel_3.setIcon(info);
-
-		JButton btnNewButton_5 = new JButton("Publicar");
-		btnNewButton_5.setIcon(mas);
-		btnNewButton_5.addActionListener(new ActionListener() {
+		JButton btnPublicar = new JButton("Publicar");
+		btnPublicar.setIcon(mas);
+		btnPublicar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controlador.cambiarVentana(5, 10);
 			}
 		});
-		btnNewButton_5.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnNewButton_5.setBounds(821, 671, 131, 35);
-		getContentPane().add(btnNewButton_5);
+		btnPublicar.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnPublicar.setBounds(609, 660, 131, 35);
+		contentPanel.add(btnPublicar);
+
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnBorrar.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnBorrar.setBounds(450, 660, 131, 35);
+		btnBorrar.setIcon(borrar);
+		contentPanel.add(btnBorrar);
 	}
 }

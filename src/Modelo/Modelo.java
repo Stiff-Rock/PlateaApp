@@ -2,7 +2,6 @@ package Modelo;
 
 import java.util.Random;
 
-import Controlador.Controlador;
 import Vistas.Vista;
 import Vistas._00_Login;
 import Vistas._01_Registrar;
