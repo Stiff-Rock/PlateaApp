@@ -1,3 +1,4 @@
+
 package Vistas;
 
 import java.awt.Color;
@@ -22,141 +23,164 @@ import Controlador.Controlador;
 import Modelo.Modelo;
 import javax.swing.SwingConstants;
 
-//@Autor Yago Pernas
-public class _00_Login extends JFrame implements Vista{
-	private JTextField txtUsr;
-	
-	private Controlador controlador;
-	private Modelo modelo;
-	private JPasswordField txtPwd;
-	private JLabel lblWarning;
-	
-	public void setModelo(Modelo modelo) {
-		this.modelo = modelo;
-	}
+/**
+ *Login de la palicacion platea
+ * 
+ * @autor Yago Pernas
+ */
+public class _00_Login extends JFrame implements Vista {
+    private JTextField txtUsr;
+    private Controlador controlador;
+    private Modelo modelo;
+    private JPasswordField txtPwd;
+    private JLabel lblWarning;
 
-	public void setControlador(Controlador controlador) {
-		this.controlador = controlador;
-	}
-	
-	
-	public String getUsr() {
-		return txtUsr.getText();
-	}
+    /**
+     * @param metodo set del modelo en login 
+     */
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
+    }
 
-	public String getPwd() {
-		return String.valueOf(txtPwd.getPassword());
-	}
-	
-	public void actualizar() {
-		String resultado = modelo.getResultado();
-		if (resultado.equals("Correcto")) {
-			controlador.cambiarVentana(0, 3);
-		} else if (resultado.equals("Incorrecto")) {
-			lblWarning.setText("Usuario o contraseña incorrectos");
-		} else if (resultado.equals("Cerrar")) {
-			System.exit(0);
-		}
-	}
-	
-	public _00_Login() {
-		getContentPane().setLocation(-2, 0);
-		setBounds(100, 100, 1024, 760);
-		getContentPane().setLayout(null);
+    /**
+     * @param metodo set de controlador
+     */
+    public void setControlador(Controlador controlador) {
+        this.controlador = controlador;
+    }
 
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		bottomPanel.setBounds(259, 588, 488, 70);
-		bottomPanel.setBackground(new Color(208, 224, 227));
-		getContentPane().add(bottomPanel);
-		bottomPanel.setLayout(null);
+    /**
+     * @return el nombre del usuario
+     */
+    public String getUsr() {
+        return txtUsr.getText();
+    }
 
-		JLabel lblBottom = new JLabel("¿No tienes cuenta?");
-		lblBottom.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblBottom.setBounds(77, 28, 153, 14);
-		bottomPanel.add(lblBottom);
+    /**
+     * @return la contraseña
+     */
+    public String getPwd() {
+        return String.valueOf(txtPwd.getPassword());
+    }
 
-		JLabel lblBottom_1 = new JLabel("|");
-		lblBottom_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblBottom_1.setBounds(240, 28, 7, 14);
-		bottomPanel.add(lblBottom_1);
+    /**
+     * Actualiza la vista basado en el resultado del modelo
+     * Si el login es corecto cambia la vista
+     * si el login falla da error, y si falla 3 veces se cierra
+     */
+    public void actualizar() {
+        String resultado = modelo.getResultado();
+        if (resultado.equals("Correcto")) {
+            controlador.cambiarVentana(0, 3);
+        } else if (resultado.equals("Incorrecto")) {
+            lblWarning.setText("Usuario o contraseña incorrectos");
+        } else if (resultado.equals("Cerrar")) {
+            System.exit(0);
+        }
+    }
 
-		JLabel lblLink = new JLabel("Crear cuenta");
-		lblLink.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		lblLink.setForeground(new Color(0, 0, 255));
-		lblLink.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				controlador.cambiarVentana(0, 1);
-			}
-		});
-		lblLink.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblLink.setBounds(267, 28, 105, 14);
-		bottomPanel.add(lblLink);
+    /**
+     * Constructor incial 
+     * Inicializa los componentes 
+     */
+    public _00_Login() {
+        getContentPane().setLocation(-2, 0);
+        setBounds(100, 100, 1024, 760);
+        getContentPane().setLayout(null);
 
-		JPanel registerPanel = new JPanel();
-		registerPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		registerPanel.setBounds(259, 239, 488, 286);
-		registerPanel.setBackground(new Color(207, 226, 243));
-		getContentPane().add(registerPanel);
-		registerPanel.setLayout(null);
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+        bottomPanel.setBounds(259, 588, 488, 70);
+        bottomPanel.setBackground(new Color(208, 224, 227));
+        getContentPane().add(bottomPanel);
+        bottomPanel.setLayout(null);
 
-		txtUsr = new JTextField();
-		txtUsr.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		txtUsr.setColumns(10);
-		txtUsr.setBounds(36, 101, 418, 28);
-		registerPanel.add(txtUsr);
+        JLabel lblBottom = new JLabel("¿No tienes cuenta?");
+        lblBottom.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        lblBottom.setBounds(77, 28, 153, 14);
+        bottomPanel.add(lblBottom);
 
-		JButton btnLogin = new JButton("Acceder");
-		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controlador.login();
-			}
-		});
-		btnLogin.setBounds(36, 243, 124, 23);
-		registerPanel.add(btnLogin);
-		
-		JLabel lblTitle = new JLabel("Iniciar sesión");
-		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		lblTitle.setBounds(151, 20, 185, 39);
-		registerPanel.add(lblTitle);
-		
-		JLabel lblForgotPWD = new JLabel("Olvidé mi contraseña");
-		lblForgotPWD.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		lblForgotPWD.setForeground(new Color(0, 0, 255));
-		lblForgotPWD.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				controlador.cambiarVentana(0, 2);
-			}
-		});
-		lblForgotPWD.setBounds(330, 247, 124, 14);
-		registerPanel.add(lblForgotPWD);
-		
-		txtPwd = new JPasswordField();
-		txtPwd.setToolTipText("");
-		txtPwd.setBounds(36, 183, 418, 28);
-		registerPanel.add(txtPwd);
-		
-		JLabel lblUsr = new JLabel("Nickname:");
-		lblUsr.setBounds(37, 79, 79, 14);
-		registerPanel.add(lblUsr);
-		
-		JLabel lblpwd = new JLabel("Contraseña:");
-		lblpwd.setBounds(37, 161, 79, 14);
-		registerPanel.add(lblpwd);
-		
-		lblWarning = new JLabel("");
-		lblWarning.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblWarning.setHorizontalAlignment(SwingConstants.CENTER);
-		lblWarning.setForeground(new Color(255, 0, 0));
-		lblWarning.setBounds(128, 219, 231, 14);
-		registerPanel.add(lblWarning);
-		
-		JLabel lblLogo = new JLabel("");
-		lblLogo.setBounds(343, 63, 321, 113);
-		getContentPane().add(lblLogo);
-		
-		ImageIcon resizedLogo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()
-				.getScaledInstance(321, 113, Image.SCALE_SMOOTH));
-		lblLogo.setIcon(resizedLogo);
-	}
+        JLabel lblBottom_1 = new JLabel("|");
+        lblBottom_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        lblBottom_1.setBounds(240, 28, 7, 14);
+        bottomPanel.add(lblBottom_1);
+
+        JLabel lblLink = new JLabel("Crear cuenta");
+        lblLink.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        lblLink.setForeground(new Color(0, 0, 255));
+        lblLink.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                controlador.cambiarVentana(0, 1);
+            }
+        });
+        lblLink.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        lblLink.setBounds(267, 28, 105, 14);
+        bottomPanel.add(lblLink);
+
+        JPanel registerPanel = new JPanel();
+        registerPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+        registerPanel.setBounds(259, 239, 488, 286);
+        registerPanel.setBackground(new Color(207, 226, 243));
+        getContentPane().add(registerPanel);
+        registerPanel.setLayout(null);
+
+        txtUsr = new JTextField();
+        txtUsr.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        txtUsr.setColumns(10);
+        txtUsr.setBounds(36, 101, 418, 28);
+        registerPanel.add(txtUsr);
+
+        JButton btnLogin = new JButton("Acceder");
+        btnLogin.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                controlador.login();
+            }
+        });
+        btnLogin.setBounds(36, 243, 124, 23);
+        registerPanel.add(btnLogin);
+
+        JLabel lblTitle = new JLabel("Iniciar sesión");
+        lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 32));
+        lblTitle.setBounds(151, 20, 185, 39);
+        registerPanel.add(lblTitle);
+
+        JLabel lblForgotPWD = new JLabel("Olvidé mi contraseña");
+        lblForgotPWD.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        lblForgotPWD.setForeground(new Color(0, 0, 255));
+        lblForgotPWD.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                controlador.cambiarVentana(0, 2);
+            }
+        });
+        lblForgotPWD.setBounds(330, 247, 124, 14);
+        registerPanel.add(lblForgotPWD);
+
+        txtPwd = new JPasswordField();
+        txtPwd.setToolTipText("");
+        txtPwd.setBounds(36, 183, 418, 28);
+        registerPanel.add(txtPwd);
+
+        JLabel lblUsr = new JLabel("Nickname:");
+        lblUsr.setBounds(37, 79, 79, 14);
+        registerPanel.add(lblUsr);
+
+        JLabel lblpwd = new JLabel("Contraseña:");
+        lblpwd.setBounds(37, 161, 79, 14);
+        registerPanel.add(lblpwd);
+
+        lblWarning = new JLabel("");
+        lblWarning.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblWarning.setHorizontalAlignment(SwingConstants.CENTER);
+        lblWarning.setForeground(new Color(255, 0, 0));
+        lblWarning.setBounds(128, 219, 231, 14);
+        registerPanel.add(lblWarning);
+
+        JLabel lblLogo = new JLabel("");
+        lblLogo.setBounds(343, 63, 321, 113);
+        getContentPane().add(lblLogo);
+
+        ImageIcon resizedLogo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()
+                .getScaledInstance(321, 113, Image.SCALE_SMOOTH));
+        lblLogo.setIcon(resizedLogo);
+    }
 }

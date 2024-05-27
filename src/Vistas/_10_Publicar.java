@@ -29,18 +29,21 @@ public class _10_Publicar extends JFrame implements Vista{
 	private JTextField txtDescripcion;
 	private JTextField txtDescripcion_1;
 	private JTextField txtEstadofechacategorialocalizacion;
-	private JTextField txtTitulo;
 	private JLabel lblImage;
 	private JTextField textField;
 	private JTextField textField_1;
 	
 	private Controlador controlador;
 	private Modelo modelo;
-	
+    /**
+     * @param metodo set para el modelo
+     */
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
 	}
-
+    /**
+     * @param metodo set para el controlador
+     */
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
@@ -132,12 +135,6 @@ public class _10_Publicar extends JFrame implements Vista{
 		comboBox.setToolTipText("");
 		comboBox.setBounds(62, 517, 112, 28);
 		panel.add(comboBox);
-		
-		txtTitulo = new JTextField();
-		txtTitulo.setText("Titulo");
-		txtTitulo.setBounds(62, 28, 532, 28);
-		panel.add(txtTitulo);
-		txtTitulo.setColumns(10);
 		
 		lblImage = new JLabel("");
 		lblImage.setBackground(new Color(128, 128, 128));

@@ -22,7 +22,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-//@Autor Yago Pernas
+/**
+ * Restaurar la contraseña
+ * 
+ * @autor Yago Pernas
+ */
 public class _02_Reestablecer extends JFrame implements Vista {
 	private JTextField txtPwd1;
 	private JTextField txtPwd2;
@@ -31,14 +35,21 @@ public class _02_Reestablecer extends JFrame implements Vista {
 	private Controlador controlador;
 	private Modelo modelo;
 
+	/**
+	 * @param metodo set de modeolo
+	 */
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
 	}
 
+	/**
+	 * @param metodo set del controlador
+	 */
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
 
+	// se inicializa el constructor
 	public _02_Reestablecer() {
 		getContentPane().setLocation(-2, 0);
 		setBounds(100, 100, 1024, 760);
@@ -134,10 +145,10 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		btnAtras.setBounds(330, 325, 124, 23);
 		registerPanel.add(btnAtras);
 
+		//logo implementado
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setBounds(343, 40, 321, 113);
 		getContentPane().add(lblLogo);
-
 		ImageIcon resizedLogo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()
 				.getScaledInstance(321, 113, Image.SCALE_SMOOTH));
 		lblLogo.setIcon(resizedLogo);

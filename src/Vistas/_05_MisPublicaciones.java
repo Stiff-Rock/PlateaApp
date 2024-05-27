@@ -39,14 +39,19 @@ public class _05_MisPublicaciones extends JFrame implements Vista{
 	private Controlador controlador;
 	private Modelo modelo;
 	
+    /**
+     * @param metodo set para el modelo
+     */
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
 	}
-
+    /**
+     * @param metodo set para el controlador
+     */
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
-	
+	//inicializacion del constrcutor
 	public _05_MisPublicaciones() {
 
 		ImageIcon logo = new ImageIcon(new ImageIcon(this.getClass().getResource("/logo.png")).getImage()

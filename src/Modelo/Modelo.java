@@ -11,16 +11,27 @@ public class Modelo {
 	private Vista[] vistas;
 	private String resultado;
 	private int fallos;
+	//conexion con oracle
 	private ConexionOracle datos = new ConexionOracle();
-
+    /**
+     * Establece las vistas disponibles para el modelo.
+     * @param vistas las vistas disponibles
+     */
 	public void setVistas(Vista[] vistas) {
 		this.vistas = vistas;
 	}
-
+    /**
+     * Obtiene el resultado de la operación realizada.
+     * @return el resultado de la operación
+     */
 	public String getResultado() {
 		return resultado;
 	}
 
+    /**
+     * Genera un captcha aleatorio.
+     * @return el captcha generado
+     */
 	public String generateCaptcha() {
 		String letras = "abcdefghijklmnopqrstuvwxyz";
 		String numeros = "1234567890";
@@ -41,7 +52,10 @@ public class Modelo {
 		}
 		return String.valueOf(captcha);
 	}
-
+    /**
+     * Maneja el proceso de registro de un nuevo usuario.
+     * @param datosRegistro los datos del nuevo usuario
+     */
 	public void singIn(String[] datosRegistro) {
 		resultado = "";
 
@@ -86,7 +100,10 @@ public class Modelo {
 
 		((_01_Registrar) vistas[1]).actualizar();
 	}
-
+    /**
+     * Maneja el proceso de registro de un nuevo usuario.
+     * @param datosRegistro los datos del nuevo usuario
+     */
 	public void login(String usr, String pwd) {
 		resultado = "";
 		String userData[] = datos.verificarUsuario(usr, pwd);

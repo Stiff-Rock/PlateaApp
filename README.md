@@ -39,6 +39,3 @@
 - **Votar Publicaciones:** Tanto administradores como usuarios pueden votar positivamente las publicaciones.
 - **Marcar Publicaciones como Favoritas:** Tanto administradores como usuarios pueden marcar las publicaciones como favoritas para acceder fácilmente a ellas.
 - **Realizar Publicaciones en la Plataforma:** Ambos pueden publicar incidencias en la aplicación.
-
-## Información extra
-- **Link del Trello:** https://trello.com/invite/b/jGgAVBdh/ATTI745ce3b0b0b00cac2617b306273fb67aF3E4BAA4/tarea-final (para entornos de desarrollo)
