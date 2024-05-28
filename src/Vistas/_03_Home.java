@@ -28,26 +28,12 @@ public class _03_Home extends Menus {
 	private int indice = 3;
 	private JTable table;
 	private JTextField txtBuscador;
+	private Controlador controlador;
 
 	public _03_Home() {
-		// Añade el título correspondiente
 		setTitle("Inicio");
-
-		// Agregar el panel de navegación
-		nav.setIndiceActual(indice);
-		nav = new NavPanel();
-		mainPanel.add(nav);
-
-		getContentPane().setForeground(new Color(162, 196, 201));
-		setBounds(100, 100, 1024, 760);
-		getContentPane().setLayout(null);
-
-		JPanel contentPanel = new JPanel();
-		contentPanel.setBackground(new Color(240, 240, 240));
-		contentPanel.setBounds(212, 11, 786, 695);
-		mainPanel.add(contentPanel);
-		contentPanel.setLayout(null);
-
+		setContentPane(mainPanel);
+		
 		ImageIcon lupa = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/lupa.png")).getImage()
 				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
 		ImageIcon mas = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/mas.png")).getImage()

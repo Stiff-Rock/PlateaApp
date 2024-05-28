@@ -17,62 +17,24 @@ import Controlador.Controlador;
 import Modelo.Modelo;
 import Modelo.Usuario;
 
-public class _04_MiPerfil extends JFrame implements Vista {
+public class _04_MiPerfil extends Menus {
 	private int indice = 4;
-	private JPanel mainPanel;
+
 	private JTextField txtNombre;
 	private JTextField txtApellido;
 	private JTextField txtCp;
 	private JTextField txtTipo;
 
-	private Usuario user;
-	private Controlador controlador;
-	private Modelo modelo;
-	private NavPanel nav;
-
-	public void setModelo(Modelo modelo) {
-		this.modelo = modelo;
-	}
-
-	public void setControlador(Controlador controlador) {
-		this.controlador = controlador;
-	}
-
-	public void setUsuario(Usuario user) {
-		this.user = user;
-	}
-
-	public void configurarNav() {
-		nav.setControlador(controlador);
-		nav.setIndiceActual(indice);
-		nav.setUsuario(user);
-	}
-
 	public _04_MiPerfil() {
-		// Panel principal que contendrá todos los componentes
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
 		setTitle("Mi perfil");
-		setBounds(480, 150, 1024, 760);
-		mainPanel = new JPanel();
 		setContentPane(mainPanel);
-		mainPanel.setLayout(null);
-		mainPanel.setForeground(new Color(162, 196, 201));
-
-		// Agregar el panel de navegación
-		nav = new NavPanel();
-		mainPanel.add(nav);
-
-		getContentPane().setForeground(new Color(162, 196, 201));
-		setBounds(100, 100, 1024, 760);
-		getContentPane().setLayout(null);
-
+		
 		JPanel perfilPanel = new JPanel();
 		perfilPanel.setLayout(null);
 		perfilPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		perfilPanel.setBackground(new Color(240, 240, 240));
-		perfilPanel.setBounds(202, 0, 806, 721);
-		mainPanel.add(perfilPanel);
+		perfilPanel.setBounds(0, 0, 786, 695);
+		contentPanel.add(perfilPanel);
 
 		JPanel fotoPanel = new JPanel();
 		fotoPanel.setLayout(null);

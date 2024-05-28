@@ -23,67 +23,22 @@ import Modelo.Modelo;
 import Modelo.Usuario;
 
 //@Autor: Anton Luo
-public class _05_MisPublicaciones extends JFrame implements Vista {
+public class _05_MisPublicaciones extends Menus {
 	private int indice = 5;
-	private JPanel mainPanel;
 	private JPanel filtrosPanel;
 	private JLabel lblFiltrosTxt;
 	private JTable table;
 	private JComboBox comboBoxProximidad;
 	private JLabel lblTitle;
 
-	private Usuario user;
-	private Controlador controlador;
-	private Modelo modelo;
-	private NavPanel nav;
-
-	public void setModelo(Modelo modelo) {
-		this.modelo = modelo;
-	}
-
-	public void setControlador(Controlador controlador) {
-		this.controlador = controlador;
-	}
-
-	public void setUsuario(Usuario user) {
-		this.user = user;
-	}
-
-	public void configurarNav() {
-		nav.setControlador(controlador);
-		nav.setIndiceActual(indice);
-		nav.setUsuario(user);
-	}
-
 	public _05_MisPublicaciones() {
-		// Panel principal que contendrá todos los componentes
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
 		setTitle("Mis publicaciones");
-		setBounds(480, 150, 1024, 760);
-		mainPanel = new JPanel();
 		setContentPane(mainPanel);
-		mainPanel.setLayout(null);
-		mainPanel.setForeground(new Color(162, 196, 201));
-
-		// Agregar el panel de navegación
-		nav = new NavPanel();
-		mainPanel.add(nav);
-
+		
 		ImageIcon mas = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/mas.png")).getImage()
 				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
 		ImageIcon borrar = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/Quitar.png")).getImage()
 				.getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-
-		getContentPane().setForeground(new Color(162, 196, 201));
-		setBounds(100, 100, 1024, 760);
-		getContentPane().setLayout(null);
-
-		JPanel contentPanel = new JPanel();
-		contentPanel.setBackground(new Color(240, 240, 240));
-		contentPanel.setBounds(212, 11, 786, 695);
-		mainPanel.add(contentPanel);
-		contentPanel.setLayout(null);
 
 		JPanel tablePanel = new JPanel();
 		tablePanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
