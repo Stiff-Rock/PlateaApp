@@ -45,6 +45,7 @@ public class _04_MiPerfil extends JFrame implements Vista {
 	public void configurarNav() {
 		nav.setControlador(controlador);
 		nav.setIndiceActual(indice);
+		nav.setUsuario(user);
 	}
 
 	public _04_MiPerfil() {

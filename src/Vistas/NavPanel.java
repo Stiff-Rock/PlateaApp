@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import Controlador.Controlador;
+import Modelo.Usuario;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -24,6 +25,7 @@ public class NavPanel extends JPanel {
 	private JButton btnVotados;
 	private JButton btnGestionar;
 
+	private Usuario user;
 	private Controlador controlador;
 
 	public void setControlador(Controlador controlador) {
@@ -33,7 +35,16 @@ public class NavPanel extends JPanel {
 	public void setIndiceActual(int indice) {
 		indiceActual = indice;
 	}
-	
+
+	public void setUsuario(Usuario user) {
+		this.user = user;
+	       if (user.getEsAdmin().equals("S")) {
+	            btnGestionar.setVisible(true);
+	        } else {
+	            btnGestionar.setVisible(false);
+	        }
+	}
+
 	public NavPanel() {
 		setLayout(null);
 		setBackground(new Color(162, 196, 201));

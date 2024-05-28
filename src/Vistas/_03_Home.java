@@ -24,46 +24,17 @@ import Controlador.Controlador;
 import Modelo.Modelo;
 import Modelo.Usuario;
 
-public class _03_Home extends JFrame implements Vista {
+public class _03_Home extends Menus {
 	private int indice = 3;
-	private JPanel mainPanel;
 	private JTable table;
 	private JTextField txtBuscador;
 
-	private Usuario user;
-	private Controlador controlador;
-	private Modelo modelo;
-	private NavPanel nav;
-
-	public void setModelo(Modelo modelo) {
-		this.modelo = modelo;
-	}
-
-	public void setControlador(Controlador controlador) {
-		this.controlador = controlador;
-	}
-
-	public void setUsuario(Usuario user) {
-		this.user = user;
-	}
-
-	public void configurarNav() {
-		nav.setControlador(controlador);
-		nav.setIndiceActual(indice);
-	}
-
 	public _03_Home() {
-		// Panel principal que contendrá todos los componentes
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
+		// Añade el título correspondiente
 		setTitle("Inicio");
-		setBounds(480, 150, 1024, 760);
-		mainPanel = new JPanel();
-		setContentPane(mainPanel);
-		mainPanel.setLayout(null);
-		mainPanel.setForeground(new Color(162, 196, 201));
 
 		// Agregar el panel de navegación
+		nav.setIndiceActual(indice);
 		nav = new NavPanel();
 		mainPanel.add(nav);
 

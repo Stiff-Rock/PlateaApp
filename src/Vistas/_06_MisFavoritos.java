@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
+import Modelo.Usuario;
 
 //@Autor: Anton Luo
 public class _06_MisFavoritos extends JFrame implements Vista {
@@ -31,6 +32,7 @@ public class _06_MisFavoritos extends JFrame implements Vista {
 	private JComboBox comboBoxProximidad;
 	private JLabel lblTitle;
 
+	private Usuario user;
 	private Controlador controlador;
 	private Modelo modelo;
 	private NavPanel nav;
@@ -43,9 +45,14 @@ public class _06_MisFavoritos extends JFrame implements Vista {
 		this.controlador = controlador;
 	}
 
+	public void setUsuario(Usuario user) {
+		this.user = user;
+	}
+
 	public void configurarNav() {
 		nav.setControlador(controlador);
 		nav.setIndiceActual(indice);
+		nav.setUsuario(user);
 	}
 
 	public _06_MisFavoritos() {

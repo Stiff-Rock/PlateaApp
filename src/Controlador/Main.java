@@ -38,8 +38,12 @@ public class Main {
 		vistas[10] = new _10_Publicar();
 
 		modelo.setVistas(vistas);
+		modelo.setUsuario(user);
+		
 		controlador.setVista(vistas);
 		controlador.setModelo(modelo);
+		controlador.setUsuario(user);
+		
 		for (Vista vista : vistas) {
 			vista.setModelo(modelo);
 			vista.setControlador(controlador);

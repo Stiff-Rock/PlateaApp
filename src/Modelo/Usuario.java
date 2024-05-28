@@ -51,7 +51,7 @@ public class Usuario {
 		this.pwd = pwd;
 	}
 
-	public String isEsAdmin() {
+	public String getEsAdmin() {
 		return esAdmin;
 	}
 
@@ -74,4 +74,20 @@ public class Usuario {
 	public void setRespuesta(String respuesta) {
 		this.respuesta = respuesta;
 	}
+
+	public void cargarDatos(String[] cargarUsuario) {
+		this.nickname = cargarUsuario[0];
+		this.apellido = cargarUsuario[1];
+		this.nombre = cargarUsuario[2];
+		this.cp = cargarUsuario[3];
+		this.pwd = cargarUsuario[4];
+		this.esAdmin = cargarUsuario[5];
+		// this.foto = cargarUsuario[6];
+		this.codPregunta = cargarUsuario[7];
+		this.respuesta = cargarUsuario[8];
+
+		System.out.println(nickname + " " + apellido + " " + nombre + " " + cp + " " + pwd + " " + esAdmin + " "
+				+ codPregunta + " " + respuesta);
+	}
+
 }

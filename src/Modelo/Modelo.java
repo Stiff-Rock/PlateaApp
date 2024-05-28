@@ -91,29 +91,16 @@ public class Modelo {
 			}
 			datosRegistro[7] = "PRE" + datosRegistro[7];
 
-			// Cambiar para más genérico
-			user.setNickname(datosRegistro[0]);
-			user.setApellido(datosRegistro[1]);
-			user.setNombre(datosRegistro[2]);
-			user.setCp(datosRegistro[3]);
-
-			// Hashear contraseña
-			user.setPwd(datosRegistro[4]);
-
-			user.setEsAdmin(datosRegistro[6]);
-			user.setCodPregunta(datosRegistro[7]);
-			user.setRespuesta(datosRegistro[8]);
-
 			conexion.crearUsuario(datosRegistro);
 		}
 		return resultado;
 	}
 
-	// TODO Crear variable/clase usuario
 	public String login(String usr, String pwd) {
 		resultado = "";
 		String userData[] = conexion.verificarUsuario(usr, pwd);
 		if ((userData[0] != null && userData[1] != null) && (userData[0].equals(usr) && userData[1].equals(pwd))) {
+			user.cargarDatos(conexion.cargarUsuario(usr));
 			resultado = "Correcto";
 			fallos = 0;
 		} else {
@@ -132,8 +119,6 @@ public class Modelo {
 	}
 
 	public String cargarPreguntaUsuario() {
-		// TODO Crear variable/clase usuario
-		String nickname = "";
-		return conexion.obtenerPreguntaUsuario(nickname);
+		return conexion.obtenerPreguntaUsuario(user.getNickname());
 	}
 }

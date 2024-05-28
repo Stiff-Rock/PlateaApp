@@ -29,12 +29,12 @@ public class _02_Reestablecer extends JFrame implements Vista {
 	private JTextField txtPwd1;
 	private JTextField txtPwd2;
 	private JTextField textField;
-	private JTextField txtPregunta;
 	private JLabel lblWarning;
 
 	private Usuario user;
 	private Controlador controlador;
 	private Modelo modelo;
+	private JComboBox comboBoxPreguntas;
 
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
@@ -48,8 +48,12 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		this.user = user;
 	}
 
-	public void cargarPregunta(String pregunta) {
-		txtPregunta.setText(pregunta);
+	public void mostrarWarning(String mensaje) {
+		lblWarning.setText(mensaje);
+	}
+
+	public void cargarPreguntas(DefaultComboBoxModel preguntas) {
+		comboBoxPreguntas.setModel(preguntas);
 	}
 
 	public _02_Reestablecer() {
@@ -126,10 +130,9 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		registerPanel.add(lblTitle);
 
 		textField = new JTextField();
-		textField.setText("Respuesta");
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		textField.setColumns(10);
-		textField.setBounds(35, 268, 418, 28);
+		textField.setBounds(35, 274, 418, 28);
 		registerPanel.add(textField);
 
 		JButton btnAtras = new JButton("Atrás");
@@ -149,17 +152,19 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		lblNewPwd2.setBounds(35, 143, 160, 14);
 		registerPanel.add(lblNewPwd2);
 
-		txtPregunta = new JTextField();
-		txtPregunta.setEditable(false);
-		txtPregunta.setBounds(35, 224, 418, 28);
-		registerPanel.add(txtPregunta);
-		txtPregunta.setColumns(10);
-
 		lblWarning = new JLabel("");
 		lblWarning.setForeground(Color.RED);
 		lblWarning.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblWarning.setBounds(35, 310, 222, 22);
 		registerPanel.add(lblWarning);
+		
+		comboBoxPreguntas = new JComboBox();
+		comboBoxPreguntas.setBounds(35, 224, 418, 28);
+		registerPanel.add(comboBoxPreguntas);
+		
+		JLabel lblRespuesta = new JLabel("Respuesta:");
+		lblRespuesta.setBounds(35, 256, 81, 14);
+		registerPanel.add(lblRespuesta);
 
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setBounds(343, 40, 321, 113);

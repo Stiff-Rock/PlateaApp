@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
+import Modelo.Usuario;
 
 //@Autor:Anton Luo
 public class _08_Administrador extends JFrame implements Vista {
@@ -32,6 +33,7 @@ public class _08_Administrador extends JFrame implements Vista {
 	private JTextField textCambio;
 	private JTextField textField;
 
+	private Usuario user;
 	private Controlador controlador;
 	private Modelo modelo;
 	private NavPanel nav;
@@ -44,9 +46,14 @@ public class _08_Administrador extends JFrame implements Vista {
 		this.controlador = controlador;
 	}
 
+	public void setUsuario(Usuario user) {
+		this.user = user;
+	}
+
 	public void configurarNav() {
 		nav.setControlador(controlador);
 		nav.setIndiceActual(indice);
+		nav.setUsuario(user);
 	}
 
 	public _08_Administrador() {

@@ -58,6 +58,7 @@ public class _10_Publicar extends JFrame implements Vista {
 	public void configurarNav() {
 		nav.setControlador(controlador);
 		nav.setIndiceActual(indice);
+		nav.setUsuario(user);
 	}
 
 	public _10_Publicar() {

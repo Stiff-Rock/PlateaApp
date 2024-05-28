@@ -30,50 +30,6 @@ public class ConexionOracle {
 		}
 	}
 
-	public void cargarUsuario() {
-		// TODO
-	}
-
-	public String[] obtenerPreguntasSeguridad() {
-		ArrayList<String> preguntasList = new ArrayList<>();
-		preguntasList.add("Elige una pregunta de seguridad");
-		String query = "SELECT CUESTION FROM platea.pregunta";
-
-		try (PreparedStatement statement = conexion.prepareStatement(query);
-				ResultSet resultSet = statement.executeQuery()) {
-
-			while (resultSet.next()) {
-				String cuestion = resultSet.getString("CUESTION");
-				preguntasList.add(cuestion);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		String[] preguntasObject = preguntasList.toArray(new String[preguntasList.size()]);
-		return preguntasObject;
-	}
-
-	public String obtenerPreguntaUsuario(String nombreUsuario) {
-		String pregunta = "";
-		String query = "SELECT pregunta.CUESTION " + "FROM USUARIO "
-				+ "INNER JOIN PREGUNTA ON USUARIO.PREGUNTA_CODIGO = PREGUNTA.CODIGO " + "WHERE USUARIO.NICK = ?";
-
-		try (PreparedStatement statement = conexion.prepareStatement(query)) {
-			statement.setString(1, nombreUsuario);
-
-			try (ResultSet resultSet = statement.executeQuery()) {
-				if (resultSet.next()) {
-					pregunta = resultSet.getString("CUESTION");
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return pregunta;
-	}
-
 	public String[] verificarUsuario(String usuario, String contraseña) {
 		String[] usuarioEncontrado = new String[2];
 
@@ -116,6 +72,26 @@ public class ConexionOracle {
 		return isNickAvailable;
 	}
 
+	public String[] obtenerPreguntasSeguridad() {
+		ArrayList<String> preguntasList = new ArrayList<>();
+		preguntasList.add("Elige una pregunta de seguridad");
+		String query = "SELECT CUESTION FROM platea.pregunta";
+
+		try (PreparedStatement statement = conexion.prepareStatement(query);
+				ResultSet resultSet = statement.executeQuery()) {
+
+			while (resultSet.next()) {
+				String cuestion = resultSet.getString("CUESTION");
+				preguntasList.add(cuestion);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		String[] preguntasObject = preguntasList.toArray(new String[preguntasList.size()]);
+		return preguntasObject;
+	}
+
 	public void crearUsuario(String[] datosRegistro) {
 		String query = "INSERT INTO platea.usuario (NICK, APELLIDO, NOMBRE, CP, PWD, ADMIN, PREGUNTA_CODIGO, RESPUESTA) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		try (PreparedStatement statement = conexion.prepareStatement(query)) {
@@ -135,6 +111,54 @@ public class ConexionOracle {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+    public String[] cargarUsuario(String nick) {
+        String[] datos = new String[9];
+        
+        String sql = "SELECT NICK, APELLIDO, NOMBRE, CP, PWD, ADMIN, FOTO, PREGUNTA_CODIGO, RESPUESTA FROM platea.usuario WHERE NICK = ?";
+        
+        try (PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+            pstmt.setString(1, nick);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    datos[0] = rs.getString("NICK");
+                    datos[1] = rs.getString("APELLIDO");
+                    datos[2] = rs.getString("NOMBRE");
+                    datos[3] = rs.getString("CP");
+                    datos[4] = rs.getString("PWD");
+                    datos[5] = rs.getString("ADMIN");
+                    datos[6] = rs.getBytes("FOTO") != null ? new String(rs.getBytes("FOTO")) : "";
+                    datos[7] = rs.getString("PREGUNTA_CODIGO");
+                    datos[8] = rs.getString("RESPUESTA");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return datos;
+    }
+
+	public String obtenerPreguntaUsuario(String nombreUsuario) {
+		String pregunta = "";
+		String query = "SELECT pregunta.CUESTION " + "FROM USUARIO "
+				+ "INNER JOIN PREGUNTA ON USUARIO.PREGUNTA_CODIGO = PREGUNTA.CODIGO " + "WHERE USUARIO.NICK = ?";
+
+		try (PreparedStatement statement = conexion.prepareStatement(query)) {
+			statement.setString(1, nombreUsuario);
+
+			try (ResultSet resultSet = statement.executeQuery()) {
+				if (resultSet.next()) {
+					pregunta = resultSet.getString("CUESTION");
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return pregunta;
 	}
 
 	public void terminar() {

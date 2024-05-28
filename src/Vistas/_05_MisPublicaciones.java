@@ -52,6 +52,7 @@ public class _05_MisPublicaciones extends JFrame implements Vista {
 	public void configurarNav() {
 		nav.setControlador(controlador);
 		nav.setIndiceActual(indice);
+		nav.setUsuario(user);
 	}
 
 	public _05_MisPublicaciones() {

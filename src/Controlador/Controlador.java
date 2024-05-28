@@ -9,6 +9,14 @@ import Vistas.Vista;
 import Vistas._00_Login;
 import Vistas._01_Registrar;
 import Vistas._02_Reestablecer;
+import Vistas._03_Home;
+import Vistas._04_MiPerfil;
+import Vistas._05_MisPublicaciones;
+import Vistas._06_MisFavoritos;
+import Vistas._07_Votados;
+import Vistas._08_Administrador;
+import Vistas._09_Publicacion;
+import Vistas._10_Publicar;
 
 public class Controlador {
 	private Usuario user;
@@ -35,11 +43,7 @@ public class Controlador {
 	public void cargarPreguntasRegistrar() {
 		DefaultComboBoxModel preguntas = new DefaultComboBoxModel(modelo.obtenerPreguntasSeguridad());
 		((_01_Registrar) vistas[1]).cargarPreguntas(preguntas);
-	}
-
-	public void cargarPreguntaUsuario() {
-		modelo.cargarPreguntaUsuario();
-		((_02_Reestablecer) vistas[2]).cargarPregunta(null);
+		((_02_Reestablecer) vistas[2]).cargarPreguntas(preguntas);
 	}
 
 	public void login() {
@@ -49,6 +53,7 @@ public class Controlador {
 
 		switch (resultado) {
 		case "Correcto":
+			setUserNav();
 			cambiarVentana(0, 3);
 			break;
 		case "Incorrecto":
@@ -58,6 +63,17 @@ public class Controlador {
 			System.exit(0);
 			break;
 		}
+	}
+
+	private void setUserNav() {
+		((_03_Home) vistas[3]).setUserNav();
+		((_04_MiPerfil) vistas[4]).setUserNav();
+		((_05_MisPublicaciones) vistas[5]).setUserNav();
+		((_06_MisFavoritos) vistas[6]).setUserNav();
+		((_07_Votados) vistas[7]).setUserNav();
+		((_08_Administrador) vistas[8]).setUserNav();
+		((_09_Publicacion) vistas[9]).setUserNav();
+		((_10_Publicar) vistas[10]).setUserNav();
 	}
 
 	public void singIn() {
