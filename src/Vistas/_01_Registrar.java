@@ -25,7 +25,6 @@ import javax.swing.border.MatteBorder;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
-import Modelo.Usuario;
 
 //@Autor Yago Pernas
 public class _01_Registrar extends JFrame implements Vista {
@@ -46,20 +45,10 @@ public class _01_Registrar extends JFrame implements Vista {
 	private JTextField txtCaptcha;
 
 	private String[] datosRegistro = new String[12];
-	private Usuario user;
-	private Modelo modelo;
 	private Controlador controlador;
-
-	public void setModelo(Modelo modelo) {
-		this.modelo = modelo;
-	}
 
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
-	}
-
-	public void setUsuario(Usuario user) {
-		this.user = user;
 	}
 
 	public void setCaptcha(String captcha) {
@@ -97,9 +86,11 @@ public class _01_Registrar extends JFrame implements Vista {
 	}
 
 	public _01_Registrar() {
-		// Panel principal que contendrá todos los componentes
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Registro");
+
+		// Panel principal que contendrá todos los componentes
 		setBounds(480, 150, 1024, 760);
 		mainPanel = new JPanel();
 		setContentPane(mainPanel);

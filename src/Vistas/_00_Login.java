@@ -21,7 +21,6 @@ import javax.swing.border.LineBorder;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
-import Modelo.Usuario;
 
 //@Autor Yago Pernas
 public class _00_Login extends JFrame implements Vista {
@@ -30,20 +29,10 @@ public class _00_Login extends JFrame implements Vista {
 	private JPasswordField txtPwd;
 	private JLabel lblWarning;
 
-	private Usuario user;
 	private Controlador controlador;
-	private Modelo modelo;
-
-	public void setModelo(Modelo modelo) {
-		this.modelo = modelo;
-	}
 
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
-	}
-
-	public void setUsuario(Usuario user) {
-		this.user = user;
 	}
 
 	public String getUsr() {
@@ -59,9 +48,10 @@ public class _00_Login extends JFrame implements Vista {
 	}
 
 	public _00_Login() {
-		// Panel principal que contendrá todos los componentes
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Inicio de sesión");
+
+		// Panel principal que contendrá todos los componentes
 		setResizable(false);
 		setBounds(480, 150, 1024, 760);
 		mainPanel = new JPanel();

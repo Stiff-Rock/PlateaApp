@@ -11,6 +11,17 @@ public class Usuario {
 	private String codPregunta;
 	private String respuesta;
 
+	public Usuario() {
+		this.nickname = "";
+		this.apellido = "";
+		this.nombre = "";
+		this.cp = "";
+		this.pwd = "";
+		this.esAdmin = "";
+		this.codPregunta = "";
+		this.respuesta = "";
+	}
+
 	public String getNickname() {
 		return nickname;
 	}
@@ -86,8 +97,13 @@ public class Usuario {
 		this.codPregunta = cargarUsuario[7];
 		this.respuesta = cargarUsuario[8];
 
+		System.out.println("Datos de usuario cargados: ");
+		mostrarUser();
+	}
+
+	public void mostrarUser() {
 		System.out.println(nickname + " " + apellido + " " + nombre + " " + cp + " " + pwd + " " + esAdmin + " "
 				+ codPregunta + " " + respuesta);
 	}
-
+	
 }

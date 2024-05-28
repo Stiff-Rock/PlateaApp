@@ -10,7 +10,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,13 +17,8 @@ import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import Controlador.Controlador;
-import Modelo.Modelo;
-import Modelo.Usuario;
-
 //@Autor: Anton Luo
 public class _05_MisPublicaciones extends Menus {
-	private int indice = 5;
 	private JPanel filtrosPanel;
 	private JLabel lblFiltrosTxt;
 	private JTable table;

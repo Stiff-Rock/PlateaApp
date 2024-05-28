@@ -1,33 +1,18 @@
 package Vistas;
 
 import java.awt.Color;
-import java.awt.Image;
+import java.awt.Font;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 //@Autor: Hugo Osma
 
-import Controlador.Controlador;
-import Modelo.Modelo;
-import Modelo.Usuario;
-
-import javax.swing.JComboBox;
-import javax.swing.SwingConstants;
-import javax.swing.JTextArea;
-import java.awt.Font;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JToggleButton;
-
-public class _09_Publicacion extends JFrame implements Vista {
-	private int indice = 9;
-	private JPanel mainPanel;
+public class _09_Publicacion extends Menus {
 	private JTextField txtFecha;
 	private JTextField txtTitulo;
 	private JLabel lblImage;
@@ -39,54 +24,10 @@ public class _09_Publicacion extends JFrame implements Vista {
 	private JLabel lblDescripcion;
 	private JTextField txtCategoria;
 
-	private Usuario user;
-	private Controlador controlador;
-	private Modelo modelo;
-	private NavPanel nav;
-
-	public void setModelo(Modelo modelo) {
-		this.modelo = modelo;
-	}
-
-	public void setControlador(Controlador controlador) {
-		this.controlador = controlador;
-	}
-
-	public void setUsuario(Usuario user) {
-		this.user = user;
-	}
-
-	public void configurarNav() {
-		nav.setControlador(controlador);
-		nav.setIndiceActual(indice);
-		nav.setUsuario(user);
-	}
-
 	public _09_Publicacion() {
-		// Panel principal que contendrá todos los componentes
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
 		setTitle("Publicación");
-		setBounds(480, 150, 1024, 760);
-		mainPanel = new JPanel();
 		setContentPane(mainPanel);
-		mainPanel.setLayout(null);
-		mainPanel.setForeground(new Color(162, 196, 201));
-
-		// Agregar el panel de navegación
-		nav = new NavPanel();
-		mainPanel.add(nav);
-
-		getContentPane().setForeground(new Color(162, 196, 201));
-		setBounds(100, 100, 1024, 760);
-		getContentPane().setLayout(null);
-
-		JPanel contentPanel = new JPanel();
-		contentPanel.setBackground(new Color(240, 240, 240));
-		contentPanel.setBounds(212, 11, 786, 695);
-		mainPanel.add(contentPanel);
-		contentPanel.setLayout(null);
-
+		
 		JPanel publicarPanel = new JPanel();
 		publicarPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		publicarPanel.setBackground(new Color(207, 226, 243));

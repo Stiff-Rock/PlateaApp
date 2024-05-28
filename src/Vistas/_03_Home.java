@@ -11,7 +11,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -21,14 +20,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import Controlador.Controlador;
-import Modelo.Modelo;
 import Modelo.Usuario;
 
 public class _03_Home extends Menus {
-	private int indice = 3;
 	private JTable table;
 	private JTextField txtBuscador;
-	private Controlador controlador;
 
 	public _03_Home() {
 		setTitle("Inicio");

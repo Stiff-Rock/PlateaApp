@@ -6,22 +6,14 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
 
 import Controlador.Controlador;
-import Modelo.Modelo;
 import Modelo.Usuario;
 
 public class Menus extends JFrame implements Vista {
@@ -36,27 +28,25 @@ public class Menus extends JFrame implements Vista {
 
 	protected Usuario user;
 	protected Controlador controlador;
-	protected Modelo modelo;
 	protected JPanel contentPanel;
-
 	// Esta variable muestra en que ventana se encuentra la aplicación para
 	// reflejarlo en los botones.
-	private int indiceActual = -1;
-
-	public void setModelo(Modelo modelo) {
-		this.modelo = modelo;
-	}
+	private int indiceActual = 0;
 
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
 
-	public void setIndiceActual(int indice) {
+	public void setUsuario(Usuario user) {
+		this.user = user;
+	}
+
+	public final void setIndiceActual(int indice) {
 		this.indiceActual = indice;
 	}
 
-	public void setUsuario(Usuario user) {
-		this.user = user;
+	public final int getIndiceActual() {
+		return indiceActual;
 	}
 
 	public void cargarUsuario() {
@@ -71,7 +61,7 @@ public class Menus extends JFrame implements Vista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setBounds(480, 150, 1024, 760);
-		
+
 		// Panel principal que contendrá todos los componentes
 		mainPanel = new JPanel();
 		setContentPane(mainPanel);

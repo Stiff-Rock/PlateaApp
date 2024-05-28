@@ -5,18 +5,11 @@ import javax.swing.JFrame;
 
 import Modelo.Modelo;
 import Modelo.Usuario;
+import Vistas.Menus;
 import Vistas.Vista;
 import Vistas._00_Login;
 import Vistas._01_Registrar;
 import Vistas._02_Reestablecer;
-import Vistas._03_Home;
-import Vistas._04_MiPerfil;
-import Vistas._05_MisPublicaciones;
-import Vistas._06_MisFavoritos;
-import Vistas._07_Votados;
-import Vistas._08_Administrador;
-import Vistas._09_Publicacion;
-import Vistas._10_Publicar;
 
 public class Controlador {
 	private Usuario user;
@@ -38,6 +31,9 @@ public class Controlador {
 	public void cambiarVentana(int desde, int hasta) {
 		((JFrame) vistas[desde]).setVisible(false);
 		((JFrame) vistas[hasta]).setVisible(true);
+		if (vistas[hasta] instanceof Menus) {
+			((Menus) vistas[hasta]).setIndiceActual(hasta);
+		}
 	}
 
 	public void cargarPreguntasRegistrar() {
@@ -50,10 +46,12 @@ public class Controlador {
 		String usr = ((_00_Login) vistas[0]).getUsr();
 		String pwd = ((_00_Login) vistas[0]).getPwd();
 		String resultado = modelo.login(usr, pwd);
-
+		user.mostrarUser();
 		switch (resultado) {
 		case "Correcto":
-			setUserNav();
+			for (int i = 3; i < vistas.length; i++) {
+				((Menus) vistas[i]).cargarUsuario();
+			}
 			cambiarVentana(0, 3);
 			break;
 		case "Incorrecto":
@@ -63,17 +61,6 @@ public class Controlador {
 			System.exit(0);
 			break;
 		}
-	}
-
-	private void setUserNav() {
-		((_03_Home) vistas[3]).setUserNav();
-		((_04_MiPerfil) vistas[4]).setUserNav();
-		((_05_MisPublicaciones) vistas[5]).setUserNav();
-		((_06_MisFavoritos) vistas[6]).setUserNav();
-		((_07_Votados) vistas[7]).setUserNav();
-		((_08_Administrador) vistas[8]).setUserNav();
-		((_09_Publicacion) vistas[9]).setUserNav();
-		((_10_Publicar) vistas[10]).setUserNav();
 	}
 
 	public void singIn() {

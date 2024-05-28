@@ -21,7 +21,6 @@ import javax.swing.border.LineBorder;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
-import Modelo.Usuario;
 
 //@Autor Yago Pernas
 public class _02_Reestablecer extends JFrame implements Vista {
@@ -31,21 +30,11 @@ public class _02_Reestablecer extends JFrame implements Vista {
 	private JTextField textField;
 	private JLabel lblWarning;
 
-	private Usuario user;
 	private Controlador controlador;
-	private Modelo modelo;
 	private JComboBox comboBoxPreguntas;
-
-	public void setModelo(Modelo modelo) {
-		this.modelo = modelo;
-	}
 
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
-	}
-
-	public void setUsuario(Usuario user) {
-		this.user = user;
 	}
 
 	public void mostrarWarning(String mensaje) {
@@ -59,6 +48,7 @@ public class _02_Reestablecer extends JFrame implements Vista {
 	public _02_Reestablecer() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Restablecer contraseña");
+
 		setResizable(false);
 		setBounds(480, 150, 1024, 760);
 		mainPanel = new JPanel();
@@ -157,11 +147,11 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		lblWarning.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblWarning.setBounds(35, 310, 222, 22);
 		registerPanel.add(lblWarning);
-		
+
 		comboBoxPreguntas = new JComboBox();
 		comboBoxPreguntas.setBounds(35, 224, 418, 28);
 		registerPanel.add(comboBoxPreguntas);
-		
+
 		JLabel lblRespuesta = new JLabel("Respuesta:");
 		lblRespuesta.setBounds(35, 256, 81, 14);
 		registerPanel.add(lblRespuesta);

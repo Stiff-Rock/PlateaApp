@@ -3,7 +3,6 @@ package Controlador;
 import Modelo.Modelo;
 import Modelo.Usuario;
 import Vistas.Menus;
-import Vistas.NavPanel;
 import Vistas.Vista;
 import Vistas._00_Login;
 import Vistas._01_Registrar;
@@ -22,15 +21,10 @@ public class Main {
 	public static void main(String[] args) {
 		Modelo modelo = new Modelo();
 		Controlador controlador = new Controlador();
-		NavPanel nav = new NavPanel();
 		Usuario user = new Usuario();
-		Menus menu = new Menus();
+		user.mostrarUser();
 		Vista[] vistas = new Vista[11];
 
-		menu.setModelo(modelo);
-		menu.setControlador(controlador);
-		menu.setUsuario(user);
-		
 		vistas[0] = new _00_Login();
 		vistas[1] = new _01_Registrar();
 		vistas[2] = new _02_Reestablecer();
@@ -43,16 +37,26 @@ public class Main {
 		vistas[9] = new _09_Publicacion();
 		vistas[10] = new _10_Publicar();
 
+		// Asignacion del controlador a todas las vistas
+		for (Vista vista : vistas) {
+			vista.setControlador(controlador);
+		}
+
+		// Asignacion del usuario a todos los menus
+		for (int i = 3; i < vistas.length; i++) {
+			((Menus) vistas[i]).setUsuario(user);
+		}
+
 		modelo.setVistas(vistas);
 		modelo.setUsuario(user);
-		
+
 		controlador.setVista(vistas);
 		controlador.setModelo(modelo);
 		controlador.setUsuario(user);
-		
+
 		// Genera el captcha para esta sesión
 		((_01_Registrar) vistas[1]).setCaptcha(modelo.generateCaptcha());
-		
+
 		// Carga las preguntas de seguridad
 		controlador.cargarPreguntasRegistrar();
 
