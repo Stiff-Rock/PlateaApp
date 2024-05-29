@@ -222,7 +222,7 @@ public class _07_Votados extends Menus {
 		btnPublicar.setIcon(mas);
 		btnPublicar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controlador.cambiarVentana(5, 10);
+				controlador.cambiarVentana(7, 10);
 			}
 		});
 		btnPublicar.setFont(new Font("Tahoma", Font.PLAIN, 15));

@@ -1,8 +1,9 @@
 package Controlador;
 
+import java.awt.Color;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import Modelo.Modelo;
@@ -11,10 +12,11 @@ import Vistas.Menus;
 import Vistas.Vista;
 import Vistas._00_Login;
 import Vistas._01_Registrar;
-import Vistas._02_Reestablecer;
+import Vistas._04_MiPerfil;
 
 public class Controlador {
 	private Modelo modelo;
+	private Usuario user;
 	private Vista[] vistas;
 
 	public void setVista(Vista[] vistas) {
@@ -23,6 +25,10 @@ public class Controlador {
 
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
+	}
+
+	public void setUsuario(Usuario user) {
+		this.user = user;
 	}
 
 	public String getCaptcha() {
@@ -46,7 +52,6 @@ public class Controlador {
 		((JFrame) vistas[hasta]).setVisible(true);
 		System.out.println("Movido a: " + hasta);
 
-		// TODO revisar si esto se puede cambiar
 		if (vistas[hasta] instanceof Menus) {
 			((Menus) vistas[hasta]).setIndiceActual(hasta);
 		}
@@ -56,6 +61,7 @@ public class Controlador {
 		String usr = ((_00_Login) vistas[0]).getUsr();
 		String pwd = ((_00_Login) vistas[0]).getPwd();
 		String resultado = modelo.login(usr, pwd);
+
 		switch (resultado) {
 		case "Correcto":
 			cambiarVentana(0, 3);
@@ -126,6 +132,60 @@ public class Controlador {
 			System.out.println("Error en el registro 2");
 			((_01_Registrar) vistas[1]).mostrarWarning2(mensaje);
 		}
+	}
+
+	public void setDatosUsuario() {
+		((_04_MiPerfil) vistas[4]).setNombre(user.getNombre());
+		((_04_MiPerfil) vistas[4]).setApellido(user.getApellido());
+		((_04_MiPerfil) vistas[4]).setCp(user.getCp());
+		((_04_MiPerfil) vistas[4]).setNickname(user.getNickname());
+//		((_04_MiPerfil) vistas[4]).setImage(user.getFoto());
+
+		String tipo = "";
+		if (user.getEsAdmin().equals("S")) {
+			tipo = "Admin";
+		} else {
+			tipo = "Usuario";
+		}
+		((_04_MiPerfil) vistas[4]).setTipo(tipo);
+	}
+
+	public void actualizarDatosUsuario() {
+		String datos[] = new String[4];
+
+		datos[0] = ((_04_MiPerfil) vistas[4]).getNombre();
+		datos[1] = ((_04_MiPerfil) vistas[4]).getApellido();
+		datos[2] = ((_04_MiPerfil) vistas[4]).getCp();
+//		datos[3] = ((_04_MiPerfil) vistas[4]).getImage();
+		String resultado = modelo.actualizarDatosUsuario(datos);
+
+		Color color;
+		String mensaje = "";
+		if (resultado.equals("Correcto")) {
+			mensaje = "Los cambios se han aplicado";
+			color = new Color(0, 128, 0);
+			user.setNombre(datos[0]);
+			user.setApellido(datos[1]);
+			user.setCp(datos[2]);
+//			user.getFoto(datos[3]);
+			modelo.updateUsuario();
+			setDatosUsuario();
+		} else {
+			color = new Color(255, 0, 0);
+			if (resultado.equals("Nombre")) {
+				mensaje = "El nombre solo puede contener letras";
+			}
+
+			if (resultado.equals("Apellido")) {
+				mensaje = "El apellido solo puede contener letras";
+			}
+
+			if (resultado.equals("Cp")) {
+				mensaje = "El codigo postal solo puede contener números";
+			}
+		}
+
+		((_04_MiPerfil) vistas[4]).mostrarWarning(mensaje, color);
 	}
 
 }

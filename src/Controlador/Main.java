@@ -46,7 +46,8 @@ public class Main {
 
 		controlador.setVista(vistas);
 		controlador.setModelo(modelo);
-
+		controlador.setUsuario(user);
+		
 		controlador.cambiarVentana(0, 0);
 	}
 }

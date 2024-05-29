@@ -119,7 +119,7 @@ public class Modelo {
 				if (resultSet.next()) {
 					codigoAdmin = resultSet.getString("VALOR");
 				}
-			} 
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -263,6 +263,22 @@ public class Modelo {
 		return datos;
 	}
 
+	public void updateUsuario() {
+		String sql = "UPDATE platea.usuario SET nombre = ?, apellido = ?, cp = ? WHERE nick = ?";
+		try (PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+			pstmt.setString(1, user.getNombre());
+			pstmt.setString(2, user.getApellido());
+			pstmt.setInt(3, Integer.valueOf(user.getCp()));
+			pstmt.setString(4, user.getNickname());
+//			pstmt.setString(5, user.getFoto());
+			pstmt.executeUpdate();
+			System.out.println("Datos cambiados correctamente");
+		} catch (SQLException e) {
+			// Manejo de excepciones
+			e.printStackTrace();
+		}
+	}
+
 	public String obtenerPreguntaUsuario(String nombreUsuario) {
 		String pregunta = "";
 		String query = "SELECT pregunta.CUESTION " + "FROM USUARIO "
@@ -340,7 +356,7 @@ public class Modelo {
 		if (datosRegistro[10].equals("N")) {
 			resultado = "Mayor";
 		} else {
-			if (!datosRegistro[12].equals(comprobarConfiguracion("Codigo Admin")) 
+			if (!datosRegistro[12].equals(comprobarConfiguracion("Codigo Admin"))
 					&& !(datosRegistro[12].equals(null) || datosRegistro[12].equals(""))) {
 				resultado = "Admin";
 			}
@@ -362,13 +378,9 @@ public class Modelo {
 
 		if (resultado.equals("")) {
 			resultado = "Correcto";
-			
-			String intermedio = "";
-			// Generar codigo pregunta a partir del índice de comboBox
-			for (int i = datosRegistro[7].length(); i < 3; i++) {
-				intermedio += "0";
-			}
-			datosRegistro[7] = "PRE" + intermedio + datosRegistro[7];
+
+			datosRegistro[7] = generarCodigo("PRE", datosRegistro[7]);
+
 			crearUsuario(datosRegistro);
 		}
 		return resultado;
@@ -389,6 +401,47 @@ public class Modelo {
 				resultado = "Incorrecto";
 			}
 		}
+		return resultado;
+	}
+
+	public String generarCodigo(String prefijo, String indice) {
+		String codigo = "";
+
+		// Generar codigo pregunta a partir del índice dado por parámetro
+		for (int i = indice.length(); i < 3; i++) {
+			codigo += "0";
+		}
+		codigo = prefijo + codigo + indice;
+
+		return codigo;
+	}
+
+	public String actualizarDatosUsuario(String[] datos) {
+		String resultado = "";
+		String numeros = "1234567890";
+
+		for (int i = 0; i < numeros.length(); i++) {
+			if (datos[0].contains(String.valueOf(numeros.charAt(i)))) {
+				resultado = "Nombre";
+			}
+		}
+
+		for (int i = 0; i < numeros.length(); i++) {
+			if (datos[1].contains(String.valueOf(numeros.charAt(i)))) {
+				resultado = "Apellido";
+			}
+		}
+
+		for (int i = 0; i < datos[2].length(); i++) {
+			if (!numeros.contains(String.valueOf(datos[2].charAt(i)))) {
+				resultado = "Cp";
+			}
+		}
+
+		if (resultado == "") {
+			resultado = "Correcto";
+		}
+
 		return resultado;
 	}
 
