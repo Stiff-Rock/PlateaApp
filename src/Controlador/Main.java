@@ -2,7 +2,6 @@ package Controlador;
 
 import Modelo.Modelo;
 import Modelo.Usuario;
-import Vistas.Menus;
 import Vistas.Vista;
 import Vistas._00_Login;
 import Vistas._01_Registrar;
@@ -42,23 +41,11 @@ public class Main {
 			vista.setControlador(controlador);
 		}
 
-		// Asignacion del usuario a todos los menus
-		for (int i = 3; i < vistas.length; i++) {
-			((Menus) vistas[i]).setUsuario(user);
-		}
-
 		modelo.setVistas(vistas);
 		modelo.setUsuario(user);
 
 		controlador.setVista(vistas);
 		controlador.setModelo(modelo);
-		controlador.setUsuario(user);
-
-		// Genera el captcha para esta sesión
-		((_01_Registrar) vistas[1]).setCaptcha(modelo.generateCaptcha());
-
-		// Carga las preguntas de seguridad
-		controlador.cargarPreguntasRegistrar();
 
 		controlador.cambiarVentana(0, 0);
 	}

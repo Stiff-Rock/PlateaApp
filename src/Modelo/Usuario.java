@@ -1,5 +1,7 @@
 package Modelo;
 
+import javax.swing.ImageIcon;
+
 public class Usuario {
 	private String nickname;
 	private String apellido;
@@ -7,7 +9,7 @@ public class Usuario {
 	private String cp;
 	private String pwd;
 	private String esAdmin;
-	// private Image foto;
+	private ImageIcon foto;
 	private String codPregunta;
 	private String respuesta;
 
@@ -18,6 +20,7 @@ public class Usuario {
 		this.cp = "";
 		this.pwd = "";
 		this.esAdmin = "";
+		this.foto = null;
 		this.codPregunta = "";
 		this.respuesta = "";
 	}
@@ -70,6 +73,14 @@ public class Usuario {
 		this.esAdmin = esAdmin;
 	}
 
+	public ImageIcon getFoto() {
+		return foto;
+	}
+
+	public void setFoto(ImageIcon foto) {
+		this.foto = foto;
+	}
+
 	public String getCodPregunta() {
 		return codPregunta;
 	}
@@ -93,17 +104,16 @@ public class Usuario {
 		this.cp = cargarUsuario[3];
 		this.pwd = cargarUsuario[4];
 		this.esAdmin = cargarUsuario[5];
-		// this.foto = cargarUsuario[6];
+//		this.foto = cargarUsuario[6];
 		this.codPregunta = cargarUsuario[7];
 		this.respuesta = cargarUsuario[8];
 
 		System.out.println("Datos de usuario cargados: ");
-		mostrarUser();
 	}
 
 	public void mostrarUser() {
 		System.out.println(nickname + " " + apellido + " " + nombre + " " + cp + " " + pwd + " " + esAdmin + " "
 				+ codPregunta + " " + respuesta);
 	}
-	
+
 }

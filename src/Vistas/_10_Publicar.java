@@ -79,7 +79,7 @@ public class _10_Publicar extends Menus {
 		publicarPanel.add(lblNewLabel_1);
 
 		JLabel lblDireccion = new JLabel("Localizacion");
-		lblDireccion.setBounds(60, 354, 67, 13);
+		lblDireccion.setBounds(60, 354, 101, 13);
 		publicarPanel.add(lblDireccion);
 
 		txtCp = new JTextField();
