@@ -13,6 +13,7 @@ import Vistas.Vista;
 import Vistas._00_Login;
 import Vistas._01_Registrar;
 import Vistas._04_MiPerfil;
+import Vistas._10_Publicar;
 
 public class Controlador {
 	private Modelo modelo;
@@ -186,6 +187,43 @@ public class Controlador {
 		}
 
 		((_04_MiPerfil) vistas[4]).mostrarWarning(mensaje, color);
+	}
+
+	public void crearPublicacion() {
+		String[] datosPublicacion = new String[6];
+//		datosPublicacion[0] = ((_10_Publicar) vistas[10]).getFoto();
+		datosPublicacion[1] = ((_10_Publicar) vistas[10]).getFecha();
+		datosPublicacion[2] = ((_10_Publicar) vistas[10]).getCp();
+		datosPublicacion[3] = ((_10_Publicar) vistas[10]).getCategoria();
+		datosPublicacion[4] = ((_10_Publicar) vistas[10]).getDireccion();
+		datosPublicacion[5] = ((_10_Publicar) vistas[10]).getDescripcion();
+		
+		String resultado = modelo.comprobarInfoPublicacion(datosPublicacion);
+		String mensaje = "";
+		if (resultado.equals("Correcto")) {
+			// TODO que se cargue la publicación recien creada
+			cambiarVentana(10, 9);
+		} else {
+			switch (resultado) {
+			case "Fecha":
+				mensaje = "La fecha no es válida o no coincide con el formato";
+				break;
+			case "Cp":
+				mensaje = "El código postal solo puede tener números";
+				break;
+			case "Categoria":
+				mensaje = "No se ha seleccionado una categoría";
+				break;
+			case "Descripcion":
+				// TODO contador de caracteres
+				mensaje = "La descripción debe ser de al menos 120 caracteres";
+				break;
+			case "Faltan":
+				mensaje = "Todos los campos son obligatorios";
+				break;
+			}
+			((_10_Publicar) vistas[10]).mostrarWarning(mensaje);
+		}
 	}
 
 }

@@ -10,7 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
 
@@ -420,6 +423,8 @@ public class Modelo {
 		String resultado = "";
 		String numeros = "1234567890";
 
+		// TODO AÑADIR FOTO PERFIL??
+
 		for (int i = 0; i < numeros.length(); i++) {
 			if (datos[0].contains(String.valueOf(numeros.charAt(i)))) {
 				resultado = "Nombre";
@@ -445,7 +450,90 @@ public class Modelo {
 		return resultado;
 	}
 
-	public void terminar() {
+	private void crearPublicacion(String[] datosPublicacion) {
+		String sqlCount = "SELECT COUNT(*) FROM platea.denuncia";
+		String sqlInsert = "INSERT INTO platea.denuncia (CODIGO, IMAGEN, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO, DESCRIPCION) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+		try {
+			// Paso 1: Ejecutar la consulta para obtener la cantidad de denuncias
+			PreparedStatement countStmt = conexion.prepareStatement(sqlCount);
+			ResultSet resultSet = countStmt.executeQuery();
+			resultSet.next(); // Mover al primer resultado
+			String numeroDenuncias = String.valueOf(resultSet.getInt(1) + 1); // Sumar 1 para crear el nuevo código
+			countStmt.close();
+
+			// Paso 2: Generar el nuevo código
+			String codigoDenuncia = generarCodigo("DEN", numeroDenuncias);
+			String codigoCategoria = generarCodigo("CAT", datosPublicacion[3]);
+
+			// Convertir el String de fecha al formato "yyyy-MM-dd"
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Date fechaDate = null;
+			try {
+				fechaDate = dateFormat.parse(datosPublicacion[1]);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			// Paso 3: Ejecutar la inserción con el nuevo código
+			try (PreparedStatement pstmt = conexion.prepareStatement(sqlInsert)) {
+				pstmt.setString(1, codigoDenuncia);
+				pstmt.setBytes(2, null); // CAMBIAR URGENTE
+				pstmt.setString(3, datosPublicacion[4]);
+				pstmt.setInt(4, Integer.valueOf(datosPublicacion[2]));
+				pstmt.setString(5, "Nueva");
+				pstmt.setDate(6, new java.sql.Date(fechaDate.getTime())); // Convertir la fecha a java.sql.Date
+				pstmt.setString(7, user.getNickname());
+				pstmt.setString(8, codigoCategoria);
+				pstmt.setString(9, datosPublicacion[5]);
+
+				pstmt.executeUpdate();
+
+				System.out.println("Denuncia creada exitosamente.");
+			} catch (SQLException e) {
+				System.out.println("Error al crear la denuncia: " + e.getMessage());
+			}
+		} catch (SQLException e) {
+			System.out.println("Error al obtener la cantidad de denuncias: " + e.getMessage());
+		}
+	}
+
+	public String comprobarInfoPublicacion(String[] datosPublicacion) {
+		String resultado = "";
+
+		if (datosPublicacion[1] != null &&datosPublicacion[1].matches("\\d{2}/\\d{2}/\\d{4}")) {
+			resultado = "Fecha";
+		}
+
+		String numeros = "1234567890";
+		for (int i = 0; i < datosPublicacion[1].length(); i++) {
+			if (!numeros.contains(String.valueOf(datosPublicacion[1].charAt(i)))) {
+				resultado = "Cp";
+			}
+		}
+
+//		if (datosPublicacion[2].equals("0") || datosPublicacion[2].equals("-1")) {
+//			resultado = "Categoria";
+//		}
+
+		if (datosPublicacion[4].length() < 120) {
+			resultado = "Descripcion";
+		}
+
+//		for (int i = 0; i < datosPublicacion.length; i++) {
+//			if (datosPublicacion[i].equals(null) || datosPublicacion[i].equals("")) {
+//				resultado = "Faltan"; // Todos los campos son obligatorios
+//			}
+//		}
+
+		if (resultado.equals("")) {
+			resultado = "Correcto";
+			crearPublicacion(datosPublicacion);
+		}
+		return resultado;
+	}
+
+	private void terminar() {
 		try {
 			conexion.close();
 		} catch (SQLException e) {
