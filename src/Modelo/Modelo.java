@@ -33,9 +33,9 @@ public class Modelo {
 	public Modelo() {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			url = ;
-			login = ;
-			pwd = ;
+			url = "jdbc:oracle:thin:@localhost:1521:XE";
+			login = "SYSTEM";
+			pwd = "1234FAIL";
 			conexion = DriverManager.getConnection(url, login, pwd);
 			System.out.println("-> Conexion con ORACLE establecida");
 		} catch (ClassNotFoundException e) {
@@ -50,13 +50,13 @@ public class Modelo {
 		}
 	}
 
-	public String[] verificarUsuario(String usuario, String contraseña) {
+	public String[] verificarUsuario(String usuario, String contrasena) {
 		String[] usuarioEncontrado = new String[2];
 
 		String query = "SELECT NICK, PWD FROM platea.usuario WHERE NICK = ? AND PWD = ?";
 		try (PreparedStatement statement = conexion.prepareStatement(query)) {
 			statement.setString(1, usuario);
-			statement.setString(2, contraseña);
+			statement.setString(2, contrasena);
 			ResultSet resultSet = statement.executeQuery();
 
 			if (resultSet.next()) {
@@ -230,15 +230,15 @@ public class Modelo {
 
 	public String obtenerPreguntaUsuario(String nombreUsuario) {
 		String pregunta = "";
-		String query = "SELECT pregunta.CUESTION " + "FROM USUARIO "
-				+ "INNER JOIN PREGUNTA ON USUARIO.PREGUNTA_CODIGO = PREGUNTA.CODIGO " + "WHERE USUARIO.NICK = ?";
+		String query = "SELECT pregunta.Codigo FROM platea.USUARIO "
+				+ "INNER JOIN platea.PREGUNTA ON platea.USUARIO.PREGUNTA_CODIGO = PREGUNTA.CODIGO " + "WHERE USUARIO.NICK = ?";
 
 		try (PreparedStatement statement = conexion.prepareStatement(query)) {
 			statement.setString(1, nombreUsuario);
 
 			try (ResultSet resultSet = statement.executeQuery()) {
 				if (resultSet.next()) {
-					pregunta = resultSet.getString("CUESTION");
+					pregunta = resultSet.getString("Codigo");
 				}
 			}
 		} catch (SQLException e) {
@@ -247,7 +247,6 @@ public class Modelo {
 
 		return pregunta;
 	}
-
 	public String generateCaptcha() {
 		String letras = "abcdefghijklmnopqrstuvwxyz";
 		String numeros = "1234567890";
@@ -374,4 +373,36 @@ public class Modelo {
 	public DefaultTableModel getTabla(String condicion) {
 		return obtenerTabla(condicion);
 	}
+
+    public boolean verificarCambio(String nick, String pregunta, String respuesta, String nuevaPwd, String confirmPwd) {
+        String selectQuery = "SELECT 1 FROM platea.usuario WHERE NICK = ? AND PREGUNTA_CODIGO = ? AND RESPUESTA = ?";
+        String updateQuery = "UPDATE platea.usuario SET PWD = ? WHERE NICK = ?";
+
+        try (PreparedStatement selectStatement = conexion.prepareStatement(selectQuery)) {
+            selectStatement.setString(1, nick);
+            selectStatement.setString(2, pregunta);
+            selectStatement.setString(3, respuesta);
+            ResultSet resultSet = selectStatement.executeQuery();
+
+            if (resultSet.next()) {
+                if (nuevaPwd.equals(confirmPwd)) {
+                    try (PreparedStatement updateStatement = conexion.prepareStatement(updateQuery)) {
+                        updateStatement.setString(1, nuevaPwd);
+                        updateStatement.setString(2, nick);
+                        updateStatement.executeUpdate();
+                        return true;
+                    }
+                } else {
+                	System.out.println("FALLOS");
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return false;
+      
+    }
+
+
 }

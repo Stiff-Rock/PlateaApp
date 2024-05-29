@@ -23,17 +23,19 @@ import javax.swing.border.LineBorder;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
+import javax.swing.JPasswordField;
 
 //@Autor Yago Pernas
 public class _02_Reestablecer extends JFrame implements Vista {
 	private JPanel mainPanel;
-	private JTextField txtPwd1;
-	private JTextField txtPwd2;
-	private JTextField textField;
+	private JTextField txtRespuesta;
 	private JLabel lblWarning;
 
 	private Controlador controlador;
 	private JComboBox comboBoxPreguntas;
+	private JTextField txtNick;
+	private JPasswordField txtPwd1;
+	private JPasswordField txtPwd2;
 
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
@@ -46,7 +48,22 @@ public class _02_Reestablecer extends JFrame implements Vista {
 	public void cargarPreguntas(DefaultComboBoxModel preguntas) {
 		comboBoxPreguntas.setModel(preguntas);
 	}
+	public String getNick() {
+		return txtNick.getText();
+	}
 
+	public String getPwd() {
+		return String.valueOf(txtPwd1.getPassword());
+	}
+	public String getPwdVer() {
+		return String.valueOf(txtPwd2.getPassword());
+	}
+	
+	public String getRespuesta() {
+		return txtRespuesta.getText();
+	}
+	
+	
 	public _02_Reestablecer() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Restablecer contraseña");
@@ -60,7 +77,7 @@ public class _02_Reestablecer extends JFrame implements Vista {
 
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		bottomPanel.setBounds(259, 610, 488, 70);
+		bottomPanel.setBounds(259, 625, 488, 70);
 		bottomPanel.setBackground(new Color(208, 224, 227));
 		mainPanel.add(bottomPanel);
 		bottomPanel.setLayout(null);
@@ -89,43 +106,30 @@ public class _02_Reestablecer extends JFrame implements Vista {
 
 		JPanel registerPanel = new JPanel();
 		registerPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		registerPanel.setBounds(259, 193, 488, 377);
+		registerPanel.setBounds(259, 193, 488, 408);
 		registerPanel.setBackground(new Color(207, 226, 243));
 		mainPanel.add(registerPanel);
 		registerPanel.setLayout(null);
 
-		txtPwd1 = new JTextField();
-		txtPwd1.setToolTipText("");
-		txtPwd1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		txtPwd1.setColumns(10);
-		txtPwd1.setBounds(35, 98, 418, 28);
-		registerPanel.add(txtPwd1);
-
-		txtPwd2 = new JTextField();
-		txtPwd2.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		txtPwd2.setColumns(10);
-		txtPwd2.setBounds(35, 164, 418, 28);
-		registerPanel.add(txtPwd2);
-
 		JButton btnLogin = new JButton("Acceder");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controlador.cambiarVentana(2, 0);
+				controlador.verificar();
 			}
 		});
-		btnLogin.setBounds(35, 343, 124, 23);
+		btnLogin.setBounds(35, 347, 124, 23);
 		registerPanel.add(btnLogin);
 
 		JLabel lblTitle = new JLabel("Reestablecer contraseña");
-		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		lblTitle.setBounds(70, 19, 348, 39);
+		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblTitle.setBounds(35, 9, 348, 39);
 		registerPanel.add(lblTitle);
 
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		textField.setColumns(10);
-		textField.setBounds(35, 274, 418, 28);
-		registerPanel.add(textField);
+		txtRespuesta = new JTextField();
+		txtRespuesta.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		txtRespuesta.setColumns(10);
+		txtRespuesta.setBounds(35, 296, 418, 28);
+		registerPanel.add(txtRespuesta);
 
 		JButton btnAtras = new JButton("Atrás");
 		btnAtras.addActionListener(new ActionListener() {
@@ -133,15 +137,15 @@ public class _02_Reestablecer extends JFrame implements Vista {
 				controlador.cambiarVentana(2, 0);
 			}
 		});
-		btnAtras.setBounds(329, 343, 124, 23);
+		btnAtras.setBounds(329, 347, 124, 23);
 		registerPanel.add(btnAtras);
 
 		JLabel lblNewPwd1 = new JLabel("Nueva contraseña:");
-		lblNewPwd1.setBounds(35, 77, 124, 14);
+		lblNewPwd1.setBounds(35, 116, 124, 14);
 		registerPanel.add(lblNewPwd1);
 
 		JLabel lblNewPwd2 = new JLabel("Repetir nueva contraseña:");
-		lblNewPwd2.setBounds(35, 143, 160, 14);
+		lblNewPwd2.setBounds(35, 176, 160, 14);
 		registerPanel.add(lblNewPwd2);
 
 		lblWarning = new JLabel("");
@@ -151,12 +155,31 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		registerPanel.add(lblWarning);
 
 		comboBoxPreguntas = new JComboBox();
-		comboBoxPreguntas.setBounds(35, 224, 418, 28);
+		comboBoxPreguntas.setBounds(35, 236, 418, 28);
 		registerPanel.add(comboBoxPreguntas);
 
 		JLabel lblRespuesta = new JLabel("Respuesta:");
-		lblRespuesta.setBounds(35, 256, 81, 14);
+		lblRespuesta.setBounds(35, 273, 81, 14);
 		registerPanel.add(lblRespuesta);
+		
+		txtNick = new JTextField();
+		txtNick.setToolTipText("");
+		txtNick.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		txtNick.setColumns(10);
+		txtNick.setBounds(35, 79, 418, 28);
+		registerPanel.add(txtNick);
+		
+		JLabel lblNewLabel = new JLabel("Nickname");
+		lblNewLabel.setBounds(35, 57, 45, 13);
+		registerPanel.add(lblNewLabel);
+		
+		txtPwd1 = new JPasswordField();
+		txtPwd1.setBounds(35, 139, 418, 28);
+		registerPanel.add(txtPwd1);
+		
+		txtPwd2 = new JPasswordField();
+		txtPwd2.setBounds(35, 199, 418, 28);
+		registerPanel.add(txtPwd2);
 
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setBounds(343, 40, 321, 113);
