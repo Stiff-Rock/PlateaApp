@@ -42,4 +42,4 @@
 
 ## Información extra
 - **Link del Trello:** https://trello.com/invite/b/jGgAVBdh/ATTI745ce3b0b0b00cac2617b306273fb67aF3E4BAA4/tarea-final
-- - **Link de la memoria:** https://docs.google.com/document/d/1K6bwLOP86dao13jQlo6oLibFldE2k7kkcb0x_tNKIvY/edit?usp=sharing
+- **Link de la memoria:** https://docs.google.com/document/d/1K6bwLOP86dao13jQlo6oLibFldE2k7kkcb0x_tNKIvY/edit?usp=sharing
