@@ -1,5 +1,6 @@
 package Modelo;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +17,8 @@ import Vistas.Vista;
 import Vistas._01_Registrar;
 
 public class Modelo {
+	private File miFichero;
+	private final String file = "platea.ini";
 	private String login = "SYSTEM";
 	private String pwd = "0205";
 	private String url = "jdbc:oracle:thin:@localhost:1521:XE";
@@ -30,6 +33,9 @@ public class Modelo {
 	public Modelo() {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
+			url = ;
+			login = ;
+			pwd = ;
 			conexion = DriverManager.getConnection(url, login, pwd);
 			System.out.println("-> Conexion con ORACLE establecida");
 		} catch (ClassNotFoundException e) {
@@ -263,43 +269,51 @@ public class Modelo {
 		return String.valueOf(captcha);
 	}
 
-	public String singIn(String[] datosRegistro) {
-		resultado = "";
+	public String siguienteSingIn(String[] datosRegistro) {
+		String resultado = "";
 
 		if (!datosRegistro[4].equals(datosRegistro[5])) {
 			resultado = "Contraseña";
 		}
 
+		if (resultado.equals("")) {
+			resultado = "Avanza";
+		}
+
+		// Comprueba si faltan campos por rellenar
+		if ((datosRegistro[0].equals(null) || datosRegistro[0].equals(""))
+				|| (datosRegistro[4].equals(null) || datosRegistro[4].equals(""))
+				|| (datosRegistro[5].equals(null) || datosRegistro[5].equals(""))) {
+			resultado = "Faltan";
+		}
+
+		if (!(datosRegistro[0].equals(null) || datosRegistro[0].equals(""))
+				&& !comprobarDisponibilidadNick(datosRegistro[0])) {
+			resultado = "Nickname";
+		}
+
+		return resultado;
+	}
+
+	public String singIn(String[] datosRegistro) {
+		resultado = "";
+
 		if (datosRegistro[9].equals("N")) {
 			resultado = "Politica";
 		}
-
 		if (datosRegistro[10].equals("N")) {
 			resultado = "Mayor";
 		}
-
 		if (!datosRegistro[11].equals(((_01_Registrar) vistas[1]).getCaptcha())) {
 			resultado = "Captcha";
 		}
-
-		for (int i = 0; i < datosRegistro.length; i++) {
-			if ((datosRegistro[i].equals(null) || datosRegistro[i].equals("")) && (i != 7 && i != 8)) {
-				resultado = "Faltan";
-			}
-		}
-
 		if (datosRegistro[7].equals("0") || datosRegistro[7].equals("-1")) {
 			resultado = "Pregunta";
 		}
-
 		if (datosRegistro[8].equals("") || datosRegistro[8].equals(null)) {
 			resultado = "Respuesta";
 		}
 
-		if (!comprobarDisponibilidadNick(datosRegistro[0])) {
-			resultado = "Nickname";
-		}
-		
 		if (resultado.equals("")) {
 			resultado = "Correcto";
 

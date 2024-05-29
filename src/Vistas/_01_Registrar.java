@@ -27,7 +27,7 @@ import javax.swing.border.MatteBorder;
 
 import Controlador.Controlador;
 import Modelo.Modelo;
-
+//TODO HACER LO DEL CODIGO ADMIN
 //@Autor Yago Pernas
 public class _01_Registrar extends JFrame implements Vista {
 	private JPanel mainPanel;
@@ -37,8 +37,6 @@ public class _01_Registrar extends JFrame implements Vista {
 	private JTextField txtCP;
 	private JPasswordField txtPwd1;
 	private JPasswordField txtPwd2;
-
-	private String[] datosRegistro = new String[12];
 	private Controlador controlador;
 	private JTextField txtRespuesta;
 	private JTextField txtCaptcha;
@@ -56,6 +54,25 @@ public class _01_Registrar extends JFrame implements Vista {
 	private JLabel lblTitle1;
 	private JLabel lblTitle1_1;
 
+	private String[] datosRegistro = new String[12];
+	private int progresoSignIn = 0;
+
+	public JPanel getRegisterPanel() {
+		return registerPanel;
+	}
+
+	public JPanel getRegisterPanel2() {
+		return registerPanel2;
+	}
+
+	public void setProgresoSignIn(int progresoSignIn) {
+		this.progresoSignIn = progresoSignIn;
+	}
+
+	public int getProgresoSignIn() {
+		return progresoSignIn;
+	}
+
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
@@ -65,6 +82,7 @@ public class _01_Registrar extends JFrame implements Vista {
 		return captcha;
 	}
 
+	// PREGUNTAR A PEDRO
 	public String[] getDatosRegistro() {
 		datosRegistro[0] = txtNickname.getText();
 		datosRegistro[1] = txtApellido.getText();
@@ -116,12 +134,12 @@ public class _01_Registrar extends JFrame implements Vista {
 		txtRespuesta = new JTextField();
 		txtRespuesta.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		txtRespuesta.setColumns(10);
-		txtRespuesta.setBounds(35, 178, 418, 28);
+		txtRespuesta.setBounds(35, 173, 418, 28);
 		registerPanel2.add(txtRespuesta);
 
 		checkAdmin = new Checkbox("¿Eres admin? Si es así, introduce el código de administrador:");
 		checkAdmin.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		checkAdmin.setBounds(35, 228, 319, 22);
+		checkAdmin.setBounds(35, 221, 319, 22);
 		registerPanel2.add(checkAdmin);
 
 		cmbPregunta = new JComboBox();
@@ -130,24 +148,29 @@ public class _01_Registrar extends JFrame implements Vista {
 		registerPanel2.add(cmbPregunta);
 
 		JButton btnRegister = new JButton("Crear Cuenta");
+		btnRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlador.singIn();
+			}
+		});
 		btnRegister.setBounds(35, 426, 124, 23);
 		registerPanel2.add(btnRegister);
 
 		checkPolitica = new Checkbox("He leído y acepto la política de privacidad.");
 		checkPolitica.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		checkPolitica.setBounds(35, 306, 222, 32);
+		checkPolitica.setBounds(35, 294, 222, 32);
 		registerPanel2.add(checkPolitica);
 
 		checkMayor = new Checkbox("Soy mayor de 14 años");
 		checkMayor.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		checkMayor.setBounds(36, 344, 146, 22);
+		checkMayor.setBounds(36, 332, 146, 22);
 		registerPanel2.add(checkMayor);
 
 		JPanel captchaPanel = new JPanel();
 		captchaPanel.setLayout(null);
 		captchaPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		captchaPanel.setBackground(new Color(85, 170, 170));
-		captchaPanel.setBounds(277, 304, 176, 88);
+		captchaPanel.setBounds(277, 292, 176, 88);
 		registerPanel2.add(captchaPanel);
 
 		JLabel lblCaptchaTitle = new JLabel("Completa el Captcha:");
@@ -170,7 +193,7 @@ public class _01_Registrar extends JFrame implements Vista {
 
 		JLabel lblRespuesta = new JLabel("Respuesta:");
 		lblRespuesta.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblRespuesta.setBounds(35, 153, 81, 14);
+		lblRespuesta.setBounds(35, 148, 81, 14);
 		registerPanel2.add(lblRespuesta);
 
 		JButton btnAnterior = new JButton("<Anterior 2/2>");
@@ -184,7 +207,7 @@ public class _01_Registrar extends JFrame implements Vista {
 		registerPanel2.add(btnAnterior);
 
 		textField = new JTextField();
-		textField.setBounds(35, 256, 418, 28);
+		textField.setBounds(35, 249, 418, 28);
 		registerPanel2.add(textField);
 		textField.setColumns(10);
 
@@ -196,7 +219,7 @@ public class _01_Registrar extends JFrame implements Vista {
 		lblWarning2 = new JLabel("");
 		lblWarning2.setForeground(Color.RED);
 		lblWarning2.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblWarning2.setBounds(35, 382, 222, 22);
+		lblWarning2.setBounds(35, 393, 384, 22);
 		registerPanel2.add(lblWarning2);
 
 		lblTitle1_1 = new JLabel("Crear cuenta");
@@ -229,13 +252,13 @@ public class _01_Registrar extends JFrame implements Vista {
 		txtNickname = new JTextField();
 		txtNickname.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		txtNickname.setColumns(10);
-		txtNickname.setBounds(34, 184, 192, 28);
+		txtNickname.setBounds(34, 177, 192, 28);
 		registerPanel.add(txtNickname);
 
 		txtCP = new JTextField();
 		txtCP.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		txtCP.setColumns(10);
-		txtCP.setBounds(260, 184, 192, 28);
+		txtCP.setBounds(260, 177, 192, 28);
 		registerPanel.add(txtCP);
 
 		JLabel lblNombre = new JLabel("Nombre:");
@@ -250,42 +273,41 @@ public class _01_Registrar extends JFrame implements Vista {
 
 		JLabel lblUsr = new JLabel("Nickname:");
 		lblUsr.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblUsr.setBounds(35, 159, 81, 14);
+		lblUsr.setBounds(35, 152, 81, 14);
 		registerPanel.add(lblUsr);
 
 		JLabel lblCp = new JLabel("CP:");
 		lblCp.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblCp.setBounds(260, 159, 81, 14);
+		lblCp.setBounds(260, 152, 81, 14);
 		registerPanel.add(lblCp);
 
 		JLabel lblPwd = new JLabel("Contraseña");
 		lblPwd.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblPwd.setBounds(34, 231, 81, 14);
+		lblPwd.setBounds(34, 224, 81, 14);
 		registerPanel.add(lblPwd);
 
 		JLabel lblPwd_1 = new JLabel("Repetir contraseña:");
 		lblPwd_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblPwd_1.setBounds(35, 327, 146, 14);
+		lblPwd_1.setBounds(35, 301, 146, 14);
 		registerPanel.add(lblPwd_1);
 
 		txtPwd1 = new JPasswordField();
 		txtPwd1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		txtPwd1.setBounds(34, 256, 418, 28);
+		txtPwd1.setBounds(34, 249, 418, 28);
 		registerPanel.add(txtPwd1);
 
 		txtPwd2 = new JPasswordField();
 		txtPwd2.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		txtPwd2.setBounds(34, 352, 418, 28);
+		txtPwd2.setBounds(34, 326, 418, 28);
 		registerPanel.add(txtPwd2);
 
 		JButton btnSiguiente = new JButton("<Siguiente 1/2>");
 		btnSiguiente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				registerPanel.setVisible(false);
-				registerPanel2.setVisible(true);
+				controlador.siguienteSignIn();
 			}
 		});
-		btnSiguiente.setBounds(316, 415, 137, 34);
+		btnSiguiente.setBounds(316, 426, 137, 23);
 		registerPanel.add(btnSiguiente);
 
 		lblWarning1 = new JLabel("");
