@@ -97,8 +97,6 @@ public class Controlador {
 		String resultado = modelo.singIn(((_01_Registrar) vistas[1]).getDatosRegistro());
 		String mensaje = "Ha ocurrido un error inesperado.";
 
-		System.out.println(mensaje);
-
 		if (resultado.equals("Correcto")) {
 			cambiarVentana(1, 0);
 		} else {
@@ -117,6 +115,9 @@ public class Controlador {
 				break;
 			case "Respuesta":
 				mensaje = "No has respondido a la pregunta";
+				break;
+			case "Admin":
+				mensaje = "Código de admin incorrecto";
 				break;
 			case "Faltan":
 				mensaje = "Es necesario rellenar todos los campos";

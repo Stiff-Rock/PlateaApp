@@ -1,6 +1,9 @@
 package Modelo;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.Random;
 
 import javax.swing.DefaultComboBoxModel;
@@ -17,11 +21,13 @@ import Vistas.Vista;
 import Vistas._01_Registrar;
 
 public class Modelo {
+	private Properties datosDB;
 	private File miFichero;
-	private final String file = "platea.ini";
-	private String login = "SYSTEM";
-	private String pwd = "0205";
-	private String url = "jdbc:oracle:thin:@localhost:1521:XE";
+	private InputStream entrada;
+	private final String FILE = "platea.ini";
+	private String login;
+	private String pwd;
+	private String url;
 
 	private Usuario user;
 	private Vista[] vistas;
@@ -31,11 +37,20 @@ public class Modelo {
 	private int fallos;
 
 	public Modelo() {
+		datosDB = new Properties();
 		try {
+			miFichero = new File(FILE);
+			if (miFichero.exists()) {
+				entrada = new FileInputStream(miFichero);
+				datosDB.load(entrada);
+				login = datosDB.getProperty("login");
+				pwd = datosDB.getProperty("pwd");
+				url = datosDB.getProperty("url");
+			} else {
+				System.err.println("Fichero no encontrado");
+				System.exit(1);
+			}
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			url = ;
-			login = ;
-			pwd = ;
 			conexion = DriverManager.getConnection(url, login, pwd);
 			System.out.println("-> Conexion con ORACLE establecida");
 		} catch (ClassNotFoundException e) {
@@ -44,6 +59,8 @@ public class Modelo {
 		} catch (SQLException e) {
 			System.out.println("Error al conectarse a la BD");
 			e.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		} catch (Exception e) {
 			System.out.println("Error general de Conexion");
 			e.printStackTrace();
@@ -92,6 +109,25 @@ public class Modelo {
 		return isNickAvailable;
 	}
 
+	private String comprobarConfiguracion(String condicion) {
+		String query = "SELECT valor FROM platea.configuracion WHERE clave = ?";
+		String codigoAdmin = "";
+
+		try (PreparedStatement pstmt = conexion.prepareStatement(query)) {
+			pstmt.setString(1, condicion);
+			try (ResultSet resultSet = pstmt.executeQuery()) {
+				if (resultSet.next()) {
+					codigoAdmin = resultSet.getString("VALOR");
+				}
+			} 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println(codigoAdmin);
+		return codigoAdmin;
+	}
+
 	public DefaultComboBoxModel obtenerPreguntasSeguridad() {
 		ArrayList<String> preguntasList = new ArrayList<>();
 		preguntasList.add("Elige una pregunta de seguridad");
@@ -99,7 +135,6 @@ public class Modelo {
 
 		try (PreparedStatement statement = conexion.prepareStatement(query);
 				ResultSet resultSet = statement.executeQuery()) {
-
 			while (resultSet.next()) {
 				String cuestion = resultSet.getString("CUESTION");
 				preguntasList.add(cuestion);
@@ -301,28 +336,39 @@ public class Modelo {
 		if (datosRegistro[9].equals("N")) {
 			resultado = "Politica";
 		}
+
 		if (datosRegistro[10].equals("N")) {
 			resultado = "Mayor";
+		} else {
+			if (!datosRegistro[12].equals(comprobarConfiguracion("Codigo Admin")) 
+					&& !(datosRegistro[12].equals(null) || datosRegistro[12].equals(""))) {
+				resultado = "Admin";
+			}
 		}
-		if (!datosRegistro[11].equals(((_01_Registrar) vistas[1]).getCaptcha())) {
+
+		if (!datosRegistro[11].equals(((_01_Registrar) vistas[1]).getCaptcha()))
+
+		{
 			resultado = "Captcha";
 		}
+
 		if (datosRegistro[7].equals("0") || datosRegistro[7].equals("-1")) {
 			resultado = "Pregunta";
 		}
+
 		if (datosRegistro[8].equals("") || datosRegistro[8].equals(null)) {
 			resultado = "Respuesta";
 		}
 
 		if (resultado.equals("")) {
 			resultado = "Correcto";
-
+			
+			String intermedio = "";
 			// Generar codigo pregunta a partir del índice de comboBox
 			for (int i = datosRegistro[7].length(); i < 3; i++) {
-				datosRegistro[7] += "0" + datosRegistro[7];
+				intermedio += "0";
 			}
-			datosRegistro[7] = "PRE" + datosRegistro[7];
-
+			datosRegistro[7] = "PRE" + intermedio + datosRegistro[7];
 			crearUsuario(datosRegistro);
 		}
 		return resultado;
