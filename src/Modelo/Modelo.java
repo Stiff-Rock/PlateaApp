@@ -1,6 +1,9 @@
 package Modelo;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.Random;
 
 import javax.swing.DefaultComboBoxModel;
@@ -17,11 +21,13 @@ import Vistas.Vista;
 import Vistas._01_Registrar;
 
 public class Modelo {
+	private Properties datosDB;
 	private File miFichero;
-	private final String file = "platea.ini";
-	private String login = "SYSTEM";
-	private String pwd = "0205";
-	private String url = "jdbc:oracle:thin:@localhost:1521:XE";
+	private InputStream entrada;
+	private final String FILE = "platea.ini";
+	private String login;
+	private String pwd;
+	private String url;
 
 	private Usuario user;
 	private Vista[] vistas;
@@ -30,12 +36,23 @@ public class Modelo {
 	private String resultado;
 	private int fallos;
 
+	private DefaultTableModel miTabla;
+
 	public Modelo() {
+		datosDB = new Properties();
 		try {
+			miFichero = new File(FILE);
+			if (miFichero.exists()) {
+				entrada = new FileInputStream(miFichero);
+				datosDB.load(entrada);
+				login = datosDB.getProperty("login");
+				pwd = datosDB.getProperty("pwd");
+				url = datosDB.getProperty("url");
+			} else {
+				System.err.println("Fichero no encontrado");
+				System.exit(1);
+			}
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			url = ;
-			login = ;
-			pwd = ;
 			conexion = DriverManager.getConnection(url, login, pwd);
 			System.out.println("-> Conexion con ORACLE establecida");
 		} catch (ClassNotFoundException e) {
@@ -44,6 +61,8 @@ public class Modelo {
 		} catch (SQLException e) {
 			System.out.println("Error al conectarse a la BD");
 			e.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		} catch (Exception e) {
 			System.out.println("Error general de Conexion");
 			e.printStackTrace();
@@ -113,69 +132,84 @@ public class Modelo {
 		return preguntas;
 	}
 
-	public DefaultTableModel obtenerTabla(String condicion) {
-		String query = "SELECT * FROM platea.DENUNCIA WHERE ?";
+//	"SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA"
+//	query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK IN (SELECT USUARIO_NICK FROM PLATEA.VOTAR WHERE UPVOTE = 'S')"
+	public DefaultTableModel obtenerTabla(int pagina) {
+		String query = null;
 
-		int numColumnas = getNumColumnas(query, condicion);
-		int numFilas = getNumFilas(query, condicion);
+		if (pagina == 3) {
+			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE ESTADO != 'Pendiente'";
+		};
+		if (pagina == 5) {
+			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ?";
+		}
+		if (pagina == 8) {
+			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE ESTADO = 'Pendiente'";
+		}
+
+		int numColumnas = getNumColumnas(query, pagina);
+		int numFilas = getNumFilas(query, pagina);
 
 		String[] cabecera = new String[numColumnas];
 		Object[][] contenido = new Object[numFilas][numColumnas];
 
-		ArrayList<String[]> resultList = new ArrayList<>();
-
-		try (PreparedStatement pstmt = conexion.prepareStatement(query)) {
-			pstmt.setString(1, condicion);
-
-			try (ResultSet rs = pstmt.executeQuery()) {
-				while (rs.next()) {
-					String[] row = new String[8];
-					row[0] = rs.getString("CODIGO");
-					row[1] = rs.getString("DIRECCION");
-					row[2] = rs.getString("CP");
-					row[3] = rs.getString("ESTADO");
-					row[4] = rs.getString("FECHA");
-					row[5] = rs.getString("USUARIO_NICK");
-					row[6] = rs.getString("CATEGORIA_CODIGO");
-					row[7] = rs.getString("DESCRIPCION");
-					resultList.add(row);
-				}
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			if (pagina == 5) {
+				pstmt.setString(1, user.getNickname());
 			}
+			ResultSet rs = pstmt.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			for (int i = 1; i <= numColumnas; i++) {
+				cabecera[i - 1] = rsmd.getColumnName(i);
+			}
+			int filas = 0;
+			while (rs.next()) {
+				for (int col = 1; col <= numColumnas; col++) {
+					contenido[filas][col - 1] = rs.getString(col);
+				}
+				filas++;
+			}
+			rs.close();
+			pstmt.close();
+
+			miTabla = new DefaultTableModel(contenido, cabecera);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		DefaultTableModel tabla = new DefaultTableModel(contenido, cabecera);
-		return tabla;
+		return miTabla;
 	}
 
-	private int getNumFilas(String query, String condicion) {
+	private int getNumColumnas(String query, int pagina) {
 		int numColumnas = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-			pstmt.setString(1, condicion);
+	        if (query.contains("?") && pagina == 5) {
+	            pstmt.setString(1, user.getNickname());
+	        }
 			ResultSet rset = pstmt.executeQuery();
 			ResultSetMetaData rsmd = rset.getMetaData();
 			numColumnas = rsmd.getColumnCount();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(numColumnas);
 		return numColumnas;
 	}
 
-	private int getNumColumnas(String query, String condicion) {
+	private int getNumFilas(String query, int pagina) {
 		int numFilas = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-			pstmt.setString(1, condicion);
+	        if (query.contains("?") && pagina == 5) {
+	            pstmt.setString(1, user.getNickname());
+	        }
 			ResultSet rset = pstmt.executeQuery();
 			while (rset.next())
 				numFilas++;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(numFilas);
 		return numFilas;
 	}
 
@@ -371,7 +405,7 @@ public class Modelo {
 		return user;
 	}
 
-	public DefaultTableModel getTabla(String condicion) {
-		return obtenerTabla(condicion);
+	public DefaultTableModel getTabla(int pagina) {
+		return obtenerTabla(pagina);
 	}
 }

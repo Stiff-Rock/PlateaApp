@@ -107,8 +107,7 @@ public class _03_Home extends Menus {
 		
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				String condicion = "estado != 'nueva'";
-				table.setModel(controlador.getTabla(condicion));
+				table.setModel(controlador.getTabla(3));
 			}
 		});
 	}
