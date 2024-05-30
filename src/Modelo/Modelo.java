@@ -2,11 +2,14 @@ package Modelo;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,6 +20,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
@@ -165,7 +169,8 @@ public class Modelo {
 
 		if (pagina == 3) {
 			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE ESTADO != 'Pendiente'";
-		};
+		}
+		;
 		if (pagina == 5) {
 			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ?";
 		}
@@ -190,9 +195,9 @@ public class Modelo {
 			if (pagina == 5 || pagina == 6 || pagina == 7) {
 				pstmt.setString(1, user.getNickname());
 			}
-			
+
 			System.out.println("Executing query: " + pstmt.toString());
-			
+
 			ResultSet rs = pstmt.executeQuery();
 			ResultSetMetaData rsmd = rs.getMetaData();
 			for (int i = 1; i <= numColumnas; i++) {
@@ -220,9 +225,10 @@ public class Modelo {
 		int numColumnas = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-	        if (query.contains("?") && pagina == 5 || query.contains("?") && pagina == 7 || query.contains("?") && pagina == 6) {
-	            pstmt.setString(1, user.getNickname());
-	        }
+			if (query.contains("?") && pagina == 5 || query.contains("?") && pagina == 7
+					|| query.contains("?") && pagina == 6) {
+				pstmt.setString(1, user.getNickname());
+			}
 			ResultSet rset = pstmt.executeQuery();
 			ResultSetMetaData rsmd = rset.getMetaData();
 			numColumnas = rsmd.getColumnCount();
@@ -236,9 +242,10 @@ public class Modelo {
 		int numFilas = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-	        if (query.contains("?") && pagina == 5 || query.contains("?") && pagina == 7 || query.contains("?") && pagina == 6) {
-	            pstmt.setString(1, user.getNickname());
-	        }
+			if (query.contains("?") && pagina == 5 || query.contains("?") && pagina == 7
+					|| query.contains("?") && pagina == 6) {
+				pstmt.setString(1, user.getNickname());
+			}
 			ResultSet rset = pstmt.executeQuery();
 			while (rset.next())
 				numFilas++;
@@ -613,6 +620,34 @@ public class Modelo {
 			crearPublicacion(datosPublicacion);
 		}
 		return resultado;
+	}
+
+	public String deImagenABase64(ImageIcon imagen) {
+		String fotoBase64 = "";
+		if (imagen != null) {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+				oos.writeObject(imagen);
+				fotoBase64 = Base64.getEncoder().encodeToString(baos.toByteArray());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return fotoBase64;
+	}
+
+	public ImageIcon deBase64AImagen(String fotoBase64) {
+		ImageIcon imagen = null;
+		if (fotoBase64 != null && !fotoBase64.isEmpty()) {
+			byte[] bytes = Base64.getDecoder().decode(fotoBase64);
+			try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+					ObjectInputStream ois = new ObjectInputStream(bais)) {
+				imagen = (ImageIcon) ois.readObject();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		return imagen;
 	}
 
 	// Métodos getter y setter del modelo

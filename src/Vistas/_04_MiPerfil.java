@@ -22,7 +22,7 @@ public class _04_MiPerfil extends Menus {
 	private JTextField txtCp;
 	private JTextField txtTipo;
 	private JLabel lblNickname;
-	private JLabel lblimage;
+	private JLabel lblImage;
 	private JLabel lblWarning;
 
 	public _04_MiPerfil() {
@@ -45,16 +45,17 @@ public class _04_MiPerfil extends Menus {
 		JButton btnUpload = new JButton("Subir Imagen");
 		btnUpload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controlador.cargarImagen(lblImage.getHeight());
 			}
 		});
 		btnUpload.setBounds(22, 60, 100, 25);
 		fotoPanel.add(btnUpload);
 
-		lblimage = new JLabel("");
-		lblimage.setHorizontalAlignment(SwingConstants.CENTER);
-		lblimage.setBackground(Color.LIGHT_GRAY);
-		lblimage.setBounds(0, 0, 145, 145);
-		fotoPanel.add(lblimage);
+		lblImage = new JLabel("");
+		lblImage.setHorizontalAlignment(SwingConstants.CENTER);
+		lblImage.setBackground(Color.LIGHT_GRAY);
+		lblImage.setBounds(0, 0, 145, 145);
+		fotoPanel.add(lblImage);
 
 		JPanel headerPanel = new JPanel();
 		headerPanel.setBounds(0, 0, 806, 128);
@@ -178,11 +179,11 @@ public class _04_MiPerfil extends Menus {
 	}
 
 	public String getImage() {
-		return lblimage.getText();
+		return lblImage.getText();
 	}
 
 	public void setImage(ImageIcon foto) {
-		lblimage.setIcon(foto);
+		lblImage.setIcon(foto);
 	}
 
 	public void setTipo(String tipo) {

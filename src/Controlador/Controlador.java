@@ -2,9 +2,11 @@ package Controlador;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Base64;
 
@@ -161,7 +163,7 @@ public class Controlador {
 		String respuesta = (((_02_Reestablecer) vistas[2]).getRespuesta());
 		String pregunta = modelo.obtenerPreguntaUsuario(nick);
 		String preguntaIdex = (((_02_Reestablecer) vistas[2]).getPregunta());
-		
+
 		if (modelo.verificarCambio(nick, modelo.generarCodigo("PRE", preguntaIdex), respuesta, pwd, usrConfirmado)) {
 			cambiarVentana(2, 0);
 		} else {
@@ -192,7 +194,7 @@ public class Controlador {
 		datos[0] = ((_04_MiPerfil) vistas[4]).getNombre();
 		datos[1] = ((_04_MiPerfil) vistas[4]).getApellido();
 		datos[2] = ((_04_MiPerfil) vistas[4]).getCp();
-//		datos[3] = ((_04_MiPerfil) vistas[4]).getImage();
+		datos[3] = ((_04_MiPerfil) vistas[4]).getImage();
 		String resultado = modelo.actualizarDatosUsuario(datos);
 
 		Color color;
@@ -203,7 +205,7 @@ public class Controlador {
 			user.setNombre(datos[0]);
 			user.setApellido(datos[1]);
 			user.setCp(datos[2]);
-//			user.getFoto(datos[3]);
+			user.setFoto(deBase64AImagen(datos[3]));
 			modelo.updateUsuario();
 			setDatosUsuario();
 		} else {
@@ -224,24 +226,18 @@ public class Controlador {
 		((_04_MiPerfil) vistas[4]).mostrarWarning(mensaje, color);
 	}
 
+	public String deImagenABase64(ImageIcon imagen) {
+		return modelo.deImagenABase64(imagen);
+	}
+
+	public ImageIcon deBase64AImagen(String fotoBase64) {
+		return modelo.deBase64AImagen(fotoBase64);
+	}
+
 	public void crearPublicacion() {
 		String[] datosPublicacion = new String[6];
-		ImageIcon fotoIcon = ((_10_Publicar) vistas[10]).getFoto();
 
-		// Convertir el ImageIcon a una cadena Base64
-		// TODO ESTANDARIZAR PROCESO DE CONVERSION EN UN METODO
-		String fotoBase64 = "";
-		if (fotoIcon != null) {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
-				oos.writeObject(fotoIcon);
-				fotoBase64 = Base64.getEncoder().encodeToString(baos.toByteArray());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		datosPublicacion[0] = fotoBase64;
+		datosPublicacion[0] = deImagenABase64(((_10_Publicar) vistas[10]).getFoto());
 		datosPublicacion[1] = ((_10_Publicar) vistas[10]).getFecha();
 		datosPublicacion[2] = ((_10_Publicar) vistas[10]).getCp();
 		datosPublicacion[3] = ((_10_Publicar) vistas[10]).getCategoria();
