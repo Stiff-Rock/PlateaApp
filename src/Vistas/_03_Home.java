@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -54,6 +55,9 @@ public class _03_Home extends Menus {
 		table.setForeground(new Color(0, 0, 0));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		table.getTableHeader().setReorderingAllowed(false);
 
 		tablaPane.setViewportView(table);
 
@@ -107,7 +111,9 @@ public class _03_Home extends Menus {
 		
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				table.setModel(controlador.getTabla(3));
+				String condicion1 = "ESTADO != ?";
+				String condicion2 = "Nueva";
+				table.setModel(controlador.getTabla(condicion1, condicion2));
 			}
 		});
 	}

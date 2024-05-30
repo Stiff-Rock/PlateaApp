@@ -19,12 +19,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 //@Autor:Anton Luo
 public class _08_Administrador extends Menus {
 	private JTable table;
-	private JButton btnAprobar;
-	private JButton btnDenegar;
+	private JButton btnAprobar, btnDenegar;
 	private JTextField textCambio;
 	private JTextField textField;
 
@@ -91,11 +92,19 @@ public class _08_Administrador extends Menus {
 		tablaPanel.add(tablePane);
 
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+			}
+		});
 		table.setForeground(new Color(0, 0, 0));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 
+		table.getTableHeader().setReorderingAllowed(false);
 		tablePane.setViewportView(table);
+		
 
 		JPanel adminPanel = new JPanel();
 		adminPanel.setBounds(0, 547, 695, 48);
@@ -114,6 +123,11 @@ public class _08_Administrador extends Menus {
 		adminPanel.add(btnAprobar);
 
 		btnDenegar = new JButton("Denegar");
+		btnDenegar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnDenegar.setIcon(cruz);
 		btnDenegar.setBounds(567, 9, 109, 29);
 		adminPanel.add(btnDenegar);
@@ -138,7 +152,9 @@ public class _08_Administrador extends Menus {
 		
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				table.setModel(controlador.getTabla(8));
+				String condicion1 = "ESTADO = ?";
+				String condicion2 = "'Nueva'";
+				table.setModel(controlador.getTabla(condicion1, condicion2));
 			}
 		});
 	}

@@ -1,6 +1,9 @@
 package Vistas;
 
 import java.awt.Color;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -16,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -79,11 +83,15 @@ public class _06_MisFavoritos extends Menus {
 		JScrollPane tablaPane = new JScrollPane();
 		tablaPane.setBounds(10, 60, 675, 525);
 		tablePanel.add(tablaPane);
-
+		
+		
 		table = new JTable();
 		table.setForeground(new Color(0, 0, 0));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		table.getTableHeader().setReorderingAllowed(false);
 		
 		tablaPane.setViewportView(table);
 
@@ -108,10 +116,5 @@ public class _06_MisFavoritos extends Menus {
 		btnBorrar.setIcon(borrar);
 		contentPanel.add(btnBorrar);
 		
-		addWindowListener(new WindowAdapter() {
-			public void windowActivated(WindowEvent e) {
-				table.setModel(controlador.getTabla(6));
-			}
-		});
 	}
 }

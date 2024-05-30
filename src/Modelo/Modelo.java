@@ -162,42 +162,23 @@ public class Modelo {
 		DefaultComboBoxModel preguntas = new DefaultComboBoxModel(objetoResultado);
 		return preguntas;
 	}
-
+//	USUARIO_NICK = ?
 //	"SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA"
-	public DefaultTableModel obtenerTabla(int pagina) {
-		String query = null;
-
-		if (pagina == 3) {
-			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE ESTADO != 'Pendiente'";
+	public DefaultTableModel obtenerTabla(String condicion1, String condicion2) {
+		String queryBase = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO, DESCRIPCION FROM PLATEA.DENUNCIA WHERE ESTADO = 'Nueva'";
+		if (condicion2.equals("user")) {
+			condicion2 = user.getNickname();
 		}
-		;
-		if (pagina == 5) {
-			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ?";
-		}
-		if (pagina == 6) {
-			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ? AND USUARIO_NICK IN (SELECT USUARIO_NICK FROM PLATEA.VOTAR WHERE FAVORITO = 'S')";
-		}
-		if (pagina == 7) {
-			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ? AND USUARIO_NICK IN (SELECT USUARIO_NICK FROM PLATEA.VOTAR WHERE UPVOTE = 'S')";
-		}
-		if (pagina == 8) {
-			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE ESTADO = 'Pendiente'";
-		}
-
-		int numColumnas = getNumColumnas(query, pagina);
-		int numFilas = getNumFilas(query, pagina);
+		System.out.println(queryBase);
+		int numColumnas = getNumColumnas(queryBase, condicion2);
+		int numFilas = getNumFilas(queryBase, condicion2);
 
 		String[] cabecera = new String[numColumnas];
 		Object[][] contenido = new Object[numFilas][numColumnas];
 
 		try {
-			PreparedStatement pstmt = conexion.prepareStatement(query);
-			if (pagina == 5 || pagina == 6 || pagina == 7) {
-				pstmt.setString(1, user.getNickname());
-			}
-
-			System.out.println("Executing query: " + pstmt.toString());
-
+			PreparedStatement pstmt = conexion.prepareStatement(queryBase);
+			pstmt.setString(1, condicion2);
 			ResultSet rs = pstmt.executeQuery();
 			ResultSetMetaData rsmd = rs.getMetaData();
 			for (int i = 1; i <= numColumnas; i++) {
@@ -221,14 +202,10 @@ public class Modelo {
 		return miTabla;
 	}
 
-	private int getNumColumnas(String query, int pagina) {
+	private int getNumColumnas(String query, String condicion) {
 		int numColumnas = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-			if (query.contains("?") && pagina == 5 || query.contains("?") && pagina == 7
-					|| query.contains("?") && pagina == 6) {
-				pstmt.setString(1, user.getNickname());
-			}
 			ResultSet rset = pstmt.executeQuery();
 			ResultSetMetaData rsmd = rset.getMetaData();
 			numColumnas = rsmd.getColumnCount();
@@ -238,14 +215,10 @@ public class Modelo {
 		return numColumnas;
 	}
 
-	private int getNumFilas(String query, int pagina) {
+	private int getNumFilas(String query, String condicion) {
 		int numFilas = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-			if (query.contains("?") && pagina == 5 || query.contains("?") && pagina == 7
-					|| query.contains("?") && pagina == 6) {
-				pstmt.setString(1, user.getNickname());
-			}
 			ResultSet rset = pstmt.executeQuery();
 			while (rset.next())
 				numFilas++;
@@ -667,8 +640,8 @@ public class Modelo {
 		return user;
 	}
 
-	public DefaultTableModel getTabla(int pagina) {
-		return obtenerTabla(pagina);
+	public DefaultTableModel getTabla(String condicion1, String condicion) {
+		return obtenerTabla(condicion1, condicion);
 	}
 
 	public boolean verificarCambio(String nick, String pregunta, String respuesta, String nuevaPwd, String confirmPwd) {

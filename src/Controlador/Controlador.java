@@ -49,8 +49,8 @@ public class Controlador {
 		return modelo.generateCaptcha();
 	}
 
-	public TableModel getTabla(int pagina) {
-		return modelo.getTabla(pagina);
+	public TableModel getTabla(String condicion1, String condicion) {
+		return modelo.getTabla(condicion1, condicion);
 	}
 
 	public DefaultComboBoxModel getPreguntas() {

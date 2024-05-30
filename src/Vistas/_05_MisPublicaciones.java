@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -84,6 +85,9 @@ public class _05_MisPublicaciones extends Menus {
 		table.setForeground(new Color(0, 0, 0));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		table.getTableHeader().setReorderingAllowed(false);
 
 		tablaPane.setViewportView(table);
 
@@ -110,7 +114,9 @@ public class _05_MisPublicaciones extends Menus {
 		
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				table.setModel(controlador.getTabla(5));
+				String condicion1 = "USUARIO_NICK = ?";
+				String condicion2 = "user";
+				table.setModel(controlador.getTabla(condicion1, condicion2));
 			}
 		});
 	}
