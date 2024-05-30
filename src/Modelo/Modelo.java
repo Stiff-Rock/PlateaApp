@@ -22,7 +22,6 @@ import java.util.Properties;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
@@ -45,6 +44,8 @@ public class Modelo {
 	private Connection conexion;
 	private String resultado;
 	private int fallos;
+
+	private DefaultTableModel miTabla;
 
 	public Modelo() {
 		datosDB = new Properties();
@@ -158,69 +159,92 @@ public class Modelo {
 		return preguntas;
 	}
 
-	public DefaultTableModel obtenerTabla(String condicion) {
-		String query = "SELECT * FROM platea.DENUNCIA WHERE ?";
+//	"SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA"
+	public DefaultTableModel obtenerTabla(int pagina) {
+		String query = null;
 
-		int numColumnas = getNumColumnas(query, condicion);
-		int numFilas = getNumFilas(query, condicion);
+		if (pagina == 3) {
+			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE ESTADO != 'Pendiente'";
+		};
+		if (pagina == 5) {
+			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ?";
+		}
+		if (pagina == 6) {
+			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ? AND USUARIO_NICK IN (SELECT USUARIO_NICK FROM PLATEA.VOTAR WHERE FAVORITO = 'S')";
+		}
+		if (pagina == 7) {
+			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ? AND USUARIO_NICK IN (SELECT USUARIO_NICK FROM PLATEA.VOTAR WHERE UPVOTE = 'S')";
+		}
+		if (pagina == 8) {
+			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE ESTADO = 'Pendiente'";
+		}
+
+		int numColumnas = getNumColumnas(query, pagina);
+		int numFilas = getNumFilas(query, pagina);
 
 		String[] cabecera = new String[numColumnas];
 		Object[][] contenido = new Object[numFilas][numColumnas];
 
-		ArrayList<String[]> resultList = new ArrayList<>();
-
-		try (PreparedStatement pstmt = conexion.prepareStatement(query)) {
-			pstmt.setString(1, condicion);
-
-			try (ResultSet rs = pstmt.executeQuery()) {
-				while (rs.next()) {
-					String[] row = new String[8];
-					row[0] = rs.getString("CODIGO");
-					row[1] = rs.getString("DIRECCION");
-					row[2] = rs.getString("CP");
-					row[3] = rs.getString("ESTADO");
-					row[4] = rs.getString("FECHA");
-					row[5] = rs.getString("USUARIO_NICK");
-					row[6] = rs.getString("CATEGORIA_CODIGO");
-					row[7] = rs.getString("DESCRIPCION");
-					resultList.add(row);
-				}
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			if (pagina == 5 || pagina == 6 || pagina == 7) {
+				pstmt.setString(1, user.getNickname());
 			}
+			
+			System.out.println("Executing query: " + pstmt.toString());
+			
+			ResultSet rs = pstmt.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			for (int i = 1; i <= numColumnas; i++) {
+				cabecera[i - 1] = rsmd.getColumnName(i);
+			}
+			int filas = 0;
+			while (rs.next()) {
+				for (int col = 1; col <= numColumnas; col++) {
+					contenido[filas][col - 1] = rs.getString(col);
+				}
+				filas++;
+			}
+			rs.close();
+			pstmt.close();
+
+			miTabla = new DefaultTableModel(contenido, cabecera);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		DefaultTableModel tabla = new DefaultTableModel(contenido, cabecera);
-		return tabla;
+		return miTabla;
 	}
 
-	private int getNumFilas(String query, String condicion) {
+	private int getNumColumnas(String query, int pagina) {
 		int numColumnas = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-			pstmt.setString(1, condicion);
+	        if (query.contains("?") && pagina == 5 || query.contains("?") && pagina == 7 || query.contains("?") && pagina == 6) {
+	            pstmt.setString(1, user.getNickname());
+	        }
 			ResultSet rset = pstmt.executeQuery();
 			ResultSetMetaData rsmd = rset.getMetaData();
 			numColumnas = rsmd.getColumnCount();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(numColumnas);
 		return numColumnas;
 	}
 
-	private int getNumColumnas(String query, String condicion) {
+	private int getNumFilas(String query, int pagina) {
 		int numFilas = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-			pstmt.setString(1, condicion);
+	        if (query.contains("?") && pagina == 5 || query.contains("?") && pagina == 7 || query.contains("?") && pagina == 6) {
+	            pstmt.setString(1, user.getNickname());
+	        }
 			ResultSet rset = pstmt.executeQuery();
 			while (rset.next())
 				numFilas++;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(numFilas);
 		return numFilas;
 	}
 
@@ -608,8 +632,8 @@ public class Modelo {
 		return user;
 	}
 
-	public DefaultTableModel getTabla(String condicion) {
-		return obtenerTabla(condicion);
+	public DefaultTableModel getTabla(int pagina) {
+		return obtenerTabla(pagina);
 	}
 
 	public boolean verificarCambio(String nick, String pregunta, String respuesta, String nuevaPwd, String confirmPwd) {
