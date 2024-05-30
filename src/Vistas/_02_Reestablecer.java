@@ -114,7 +114,7 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		JButton btnLogin = new JButton("Acceder");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controlador.verificar();
+				controlador.verificarCambio();
 			}
 		});
 		btnLogin.setBounds(35, 347, 124, 23);

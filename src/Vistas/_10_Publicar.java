@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -17,7 +20,6 @@ import javax.swing.border.LineBorder;
 
 public class _10_Publicar extends Menus {
 	private JTextField txtFecha;
-	private JTextField txtTitulo;
 	private JLabel lblImage;
 	private JTextField txtDirecicion;
 	private JTextField txtCp;
@@ -26,6 +28,12 @@ public class _10_Publicar extends Menus {
 	private JLabel lblTitle;
 	private JLabel lblDescripcion;
 	private JButton btnSubirFoto;
+	private JButton btnPubllicar;
+	private JLabel lblWarning;
+	private JComboBox comboBoxCategoria;
+	private JLabel lblFoto;
+	private JPanel fotoPanel;
+	private JTextArea txtDescripcion;
 
 	public _10_Publicar() {
 		setTitle("Publicar");
@@ -34,35 +42,34 @@ public class _10_Publicar extends Menus {
 		JPanel publicarPanel = new JPanel();
 		publicarPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		publicarPanel.setBackground(new Color(207, 226, 243));
-		publicarPanel.setBounds(61, 54, 664, 586);
+		publicarPanel.setBounds(61, 27, 664, 640);
 		contentPanel.add(publicarPanel);
 		publicarPanel.setLayout(null);
 
 		txtFecha = new JTextField();
-		txtFecha.setText("DD/MM/AAAA");
 		txtFecha.setBounds(60, 311, 141, 28);
 		publicarPanel.add(txtFecha);
 		txtFecha.setColumns(10);
 
-		JPanel fotoPanel = new JPanel();
+		fotoPanel = new JPanel();
 		fotoPanel.setBackground(new Color(255, 255, 255));
-		fotoPanel.setBounds(225, 126, 213, 144);
+		fotoPanel.setBounds(167, 79, 329, 185);
 		publicarPanel.add(fotoPanel);
 		fotoPanel.setLayout(null);
 
 		btnSubirFoto = new JButton("Subir Foto");
 		btnSubirFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controlador.cargarImagen(fotoPanel.getHeight());
 			}
 		});
-		btnSubirFoto.setBounds(49, 60, 114, 23);
+		btnSubirFoto.setBounds(223, 151, 96, 23);
 		fotoPanel.add(btnSubirFoto);
 
-		txtTitulo = new JTextField();
-		txtTitulo.setText("Titulo");
-		txtTitulo.setBounds(60, 76, 543, 28);
-		publicarPanel.add(txtTitulo);
-		txtTitulo.setColumns(10);
+		lblFoto = new JLabel("");
+		lblFoto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFoto.setBounds(0, 0, 329, 185);
+		fotoPanel.add(lblFoto);
 
 		lblImage = new JLabel("");
 		lblImage.setBackground(new Color(128, 128, 128));
@@ -74,12 +81,12 @@ public class _10_Publicar extends Menus {
 		publicarPanel.add(txtDirecicion);
 		txtDirecicion.setColumns(10);
 
-		JLabel lblNewLabel_1 = new JLabel("Fecha");
-		lblNewLabel_1.setBounds(60, 294, 45, 13);
-		publicarPanel.add(lblNewLabel_1);
+		JLabel lblFecha = new JLabel("Fecha (DD/MM/AAAA):");
+		lblFecha.setBounds(60, 294, 141, 13);
+		publicarPanel.add(lblFecha);
 
-		JLabel lblDireccion = new JLabel("Localizacion");
-		lblDireccion.setBounds(60, 354, 101, 13);
+		JLabel lblDireccion = new JLabel("Direccion:");
+		lblDireccion.setBounds(60, 354, 151, 13);
 		publicarPanel.add(lblDireccion);
 
 		txtCp = new JTextField();
@@ -87,15 +94,16 @@ public class _10_Publicar extends Menus {
 		txtCp.setBounds(261, 311, 141, 28);
 		publicarPanel.add(txtCp);
 
-		JLabel lblCategoria = new JLabel("Categoria");
-		lblCategoria.setBounds(462, 294, 75, 13);
+		JLabel lblCategoria = new JLabel("Categoria:");
+		lblCategoria.setBounds(462, 294, 141, 13);
 		publicarPanel.add(lblCategoria);
 
-		JLabel lblCp = new JLabel("Codigo Postal");
-		lblCp.setBounds(261, 294, 69, 13);
+		JLabel lblCp = new JLabel("Codigo Postal:");
+		lblCp.setBounds(261, 294, 141, 13);
 		publicarPanel.add(lblCp);
 
-		JTextArea txtDescripcion = new JTextArea();
+		txtDescripcion = new JTextArea();
+		txtDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		txtDescripcion.setBounds(60, 441, 543, 117);
 		publicarPanel.add(txtDescripcion);
 
@@ -103,7 +111,8 @@ public class _10_Publicar extends Menus {
 		lblDescripcion.setBounds(60, 417, 131, 13);
 		publicarPanel.add(lblDescripcion);
 
-		JComboBox comboBoxCategoria = new JComboBox();
+		//TODO CARGAR CATEGORIAS
+		comboBoxCategoria = new JComboBox();
 		comboBoxCategoria.setBounds(462, 311, 141, 28);
 		publicarPanel.add(comboBoxCategoria);
 
@@ -124,5 +133,58 @@ public class _10_Publicar extends Menus {
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setBounds(170, 8, 324, 32);
 		filtrosPanel.add(lblTitle);
+
+		btnPubllicar = new JButton("Publicar");
+		btnPubllicar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlador.crearPublicacion();
+			}
+		});
+		btnPubllicar.setBounds(514, 594, 89, 23);
+		publicarPanel.add(btnPubllicar);
+
+		lblWarning = new JLabel("");
+		lblWarning.setForeground(new Color(255, 0, 0));
+		lblWarning.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblWarning.setBounds(60, 598, 378, 14);
+		publicarPanel.add(lblWarning);
+		
+		addWindowListener(new WindowAdapter() {
+			public void windowActivated(WindowEvent e) {
+				comboBoxCategoria.setModel(controlador.getCategorias());
+			}
+		});
+	}
+
+	public void mostrarWarning(String mensaje) {
+		lblWarning.setText(mensaje);
+	}
+
+	public ImageIcon getFoto() {
+		return (ImageIcon) lblFoto.getIcon();
+	}
+
+	public void setFoto(ImageIcon foto) {
+		lblFoto.setIcon(foto);
+	}
+
+	public String getFecha() {
+		return txtFecha.getText();
+	}
+
+	public String getCp() {
+		return txtCp.getText();
+	}
+
+	public String getCategoria() {
+		return String.valueOf(comboBoxCategoria.getSelectedIndex());
+	}
+
+	public String getDireccion() {
+		return txtDirecicion.getText();
+	}
+
+	public String getDescripcion() {
+		return txtDescripcion.getText();
 	}
 }

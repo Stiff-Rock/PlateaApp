@@ -12,7 +12,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -26,8 +25,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
 import Controlador.Controlador;
-import Modelo.Modelo;
-//TODO HACER LO DEL CODIGO ADMIN
+
 //@Autor Yago Pernas
 public class _01_Registrar extends JFrame implements Vista {
 	private JPanel mainPanel;
@@ -40,7 +38,7 @@ public class _01_Registrar extends JFrame implements Vista {
 	private Controlador controlador;
 	private JTextField txtRespuesta;
 	private JTextField txtCaptcha;
-	private JTextField textField;
+	private JTextField txtAdmin;
 	private JPanel registerPanel2;
 	private JPanel registerPanel;
 	private Checkbox checkAdmin;
@@ -50,63 +48,12 @@ public class _01_Registrar extends JFrame implements Vista {
 	private JLabel lblWarning2;
 	private JLabel lblWarning1;
 	private JLabel lblCaptcha;
-	private JComboBox cmbPregunta;
+	private JComboBox comboBoxPreguntas;
 	private JLabel lblTitle1;
 	private JLabel lblTitle1_1;
 
-	private String[] datosRegistro = new String[12];
+	private String[] datosRegistro = new String[13];
 	private int progresoSignIn = 0;
-
-	public JPanel getRegisterPanel() {
-		return registerPanel;
-	}
-
-	public JPanel getRegisterPanel2() {
-		return registerPanel2;
-	}
-
-	public void setProgresoSignIn(int progresoSignIn) {
-		this.progresoSignIn = progresoSignIn;
-	}
-
-	public int getProgresoSignIn() {
-		return progresoSignIn;
-	}
-
-	public void setControlador(Controlador controlador) {
-		this.controlador = controlador;
-	}
-
-	public String getCaptcha() {
-		String captcha = txtCaptcha.getText();
-		return captcha;
-	}
-
-	// PREGUNTAR A PEDRO
-	public String[] getDatosRegistro() {
-		datosRegistro[0] = txtNickname.getText();
-		datosRegistro[1] = txtApellido.getText();
-		datosRegistro[2] = txtNombre.getText();
-		datosRegistro[3] = txtCP.getText();
-		datosRegistro[4] = String.valueOf(txtPwd1.getPassword());
-		datosRegistro[5] = String.valueOf(txtPwd2.getPassword());
-		datosRegistro[6] = checkAdmin.getState() ? "S" : "N";
-		datosRegistro[7] = String.valueOf(cmbPregunta.getSelectedIndex());
-		datosRegistro[8] = txtRespuesta.getText();
-		datosRegistro[9] = checkPolitica.getState() ? "S" : "N";
-		datosRegistro[10] = checkMayor.getState() ? "S" : "N";
-		datosRegistro[11] = txtCaptcha.getText();
-
-		return datosRegistro;
-	}
-
-	public void mostrarWarning1(String mensaje) {
-		lblWarning1.setText(mensaje);
-	}
-
-	public void mostrarWarning2(String mensaje) {
-		lblWarning2.setText(mensaje);
-	}
 
 	public _01_Registrar() {
 
@@ -142,10 +89,10 @@ public class _01_Registrar extends JFrame implements Vista {
 		checkAdmin.setBounds(35, 221, 319, 22);
 		registerPanel2.add(checkAdmin);
 
-		cmbPregunta = new JComboBox();
-		cmbPregunta.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		cmbPregunta.setBounds(35, 101, 418, 28);
-		registerPanel2.add(cmbPregunta);
+		comboBoxPreguntas = new JComboBox();
+		comboBoxPreguntas.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		comboBoxPreguntas.setBounds(35, 101, 418, 28);
+		registerPanel2.add(comboBoxPreguntas);
 
 		JButton btnRegister = new JButton("Crear Cuenta");
 		btnRegister.addActionListener(new ActionListener() {
@@ -206,10 +153,10 @@ public class _01_Registrar extends JFrame implements Vista {
 		btnAnterior.setBounds(316, 426, 137, 23);
 		registerPanel2.add(btnAnterior);
 
-		textField = new JTextField();
-		textField.setBounds(35, 249, 418, 28);
-		registerPanel2.add(textField);
-		textField.setColumns(10);
+		txtAdmin = new JTextField();
+		txtAdmin.setBounds(35, 249, 418, 28);
+		registerPanel2.add(txtAdmin);
+		txtAdmin.setColumns(10);
 
 		JLabel lblPregunta = new JLabel("Pregunta:");
 		lblPregunta.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -359,9 +306,62 @@ public class _01_Registrar extends JFrame implements Vista {
 
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				cmbPregunta.setModel(controlador.getPreguntas());
+				comboBoxPreguntas.setModel(controlador.getPreguntas());
 				lblCaptcha.setText(controlador.getCaptcha());
 			}
 		});
 	}
+
+	public JPanel getRegisterPanel() {
+		return registerPanel;
+	}
+
+	public JPanel getRegisterPanel2() {
+		return registerPanel2;
+	}
+
+	public void setProgresoSignIn(int progresoSignIn) {
+		this.progresoSignIn = progresoSignIn;
+	}
+
+	public int getProgresoSignIn() {
+		return progresoSignIn;
+	}
+
+	public void setControlador(Controlador controlador) {
+		this.controlador = controlador;
+	}
+
+	public String getCaptcha() {
+		String captcha = txtCaptcha.getText();
+		return captcha;
+	}
+
+	// PREGUNTAR A PEDRO
+	public String[] getDatosRegistro() {
+		datosRegistro[0] = txtNickname.getText();
+		datosRegistro[1] = txtApellido.getText();
+		datosRegistro[2] = txtNombre.getText();
+		datosRegistro[3] = txtCP.getText();
+		datosRegistro[4] = String.valueOf(txtPwd1.getPassword());
+		datosRegistro[5] = String.valueOf(txtPwd2.getPassword());
+		datosRegistro[6] = checkAdmin.getState() ? "S" : "N";
+		datosRegistro[7] = String.valueOf(comboBoxPreguntas.getSelectedIndex());
+		datosRegistro[8] = txtRespuesta.getText();
+		datosRegistro[9] = checkPolitica.getState() ? "S" : "N";
+		datosRegistro[10] = checkMayor.getState() ? "S" : "N";
+		datosRegistro[11] = txtCaptcha.getText();
+		datosRegistro[12] = txtAdmin.getText();
+
+		return datosRegistro;
+	}
+
+	public void mostrarWarning1(String mensaje) {
+		lblWarning1.setText(mensaje);
+	}
+
+	public void mostrarWarning2(String mensaje) {
+		lblWarning2.setText(mensaje);
+	}
+
 }

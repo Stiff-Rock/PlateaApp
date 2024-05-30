@@ -1,27 +1,43 @@
 package Modelo;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Properties;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 import Vistas.Vista;
 import Vistas._01_Registrar;
 
 public class Modelo {
+	private Properties datosDB;
 	private File miFichero;
-	private final String file = "platea.ini";
-	private String login = "SYSTEM";
-	private String pwd = "0205";
-	private String url = "jdbc:oracle:thin:@localhost:1521:XE";
+	private InputStream entrada;
+	private final String FILE = "platea.ini";
+	private String login;
+	private String pwd;
+	private String url;
 
 	private Usuario user;
 	private Vista[] vistas;
@@ -31,11 +47,20 @@ public class Modelo {
 	private int fallos;
 
 	public Modelo() {
+		datosDB = new Properties();
 		try {
+			miFichero = new File(FILE);
+			if (miFichero.exists()) {
+				entrada = new FileInputStream(miFichero);
+				datosDB.load(entrada);
+				login = datosDB.getProperty("login");
+				pwd = datosDB.getProperty("pwd");
+				url = datosDB.getProperty("url");
+			} else {
+				System.err.println("Fichero no encontrado");
+				System.exit(1);
+			}
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			url = "jdbc:oracle:thin:@localhost:1521:XE";
-			login = "SYSTEM";
-			pwd = "1234FAIL";
 			conexion = DriverManager.getConnection(url, login, pwd);
 			System.out.println("-> Conexion con ORACLE establecida");
 		} catch (ClassNotFoundException e) {
@@ -44,6 +69,8 @@ public class Modelo {
 		} catch (SQLException e) {
 			System.out.println("Error al conectarse a la BD");
 			e.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		} catch (Exception e) {
 			System.out.println("Error general de Conexion");
 			e.printStackTrace();
@@ -92,24 +119,42 @@ public class Modelo {
 		return isNickAvailable;
 	}
 
-	public DefaultComboBoxModel obtenerPreguntasSeguridad() {
-		ArrayList<String> preguntasList = new ArrayList<>();
-		preguntasList.add("Elige una pregunta de seguridad");
-		String query = "SELECT CUESTION FROM platea.pregunta";
+	private String comprobarConfiguracion(String condicion) {
+		String query = "SELECT valor FROM platea.configuracion WHERE clave = ?";
+		String codigoAdmin = "";
 
-		try (PreparedStatement statement = conexion.prepareStatement(query);
-				ResultSet resultSet = statement.executeQuery()) {
-
-			while (resultSet.next()) {
-				String cuestion = resultSet.getString("CUESTION");
-				preguntasList.add(cuestion);
+		try (PreparedStatement pstmt = conexion.prepareStatement(query)) {
+			pstmt.setString(1, condicion);
+			try (ResultSet resultSet = pstmt.executeQuery()) {
+				if (resultSet.next()) {
+					codigoAdmin = resultSet.getString("VALOR");
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		String[] preguntasObject = preguntasList.toArray(new String[preguntasList.size()]);
-		DefaultComboBoxModel preguntas = new DefaultComboBoxModel(preguntasObject);
+		System.out.println(codigoAdmin);
+		return codigoAdmin;
+	}
+
+	public DefaultComboBoxModel obtenerComboBox(String campo, String tabla) {
+		ArrayList<String> listaResultados = new ArrayList<>();
+		listaResultados.add("Elige:");
+		String query = "SELECT " + campo + " FROM platea." + tabla;
+
+		try (PreparedStatement statement = conexion.prepareStatement(query);
+				ResultSet resultSet = statement.executeQuery()) {
+			while (resultSet.next()) {
+				String datos = resultSet.getString(campo);
+				listaResultados.add(datos);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		String[] objetoResultado = listaResultados.toArray(new String[listaResultados.size()]);
+		DefaultComboBoxModel preguntas = new DefaultComboBoxModel(objetoResultado);
 		return preguntas;
 	}
 
@@ -228,11 +273,27 @@ public class Modelo {
 		return datos;
 	}
 
+	public void updateUsuario() {
+		String sql = "UPDATE platea.usuario SET nombre = ?, apellido = ?, cp = ? WHERE nick = ?";
+		try (PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+			pstmt.setString(1, user.getNombre());
+			pstmt.setString(2, user.getApellido());
+			pstmt.setInt(3, Integer.valueOf(user.getCp()));
+			pstmt.setString(4, user.getNickname());
+//			pstmt.setString(5, user.getFoto());
+			pstmt.executeUpdate();
+			System.out.println("Datos cambiados correctamente");
+		} catch (SQLException e) {
+			// Manejo de excepciones
+			e.printStackTrace();
+		}
+	}
+
 	public String obtenerPreguntaUsuario(String nombreUsuario) {
 		String pregunta = "";
 		String query = "SELECT pregunta.Codigo FROM platea.USUARIO "
-				+ "INNER JOIN platea.PREGUNTA ON platea.USUARIO.PREGUNTA_CODIGO = PREGUNTA.CODIGO " + "WHERE USUARIO.NICK = ?";
-
+				+ "INNER JOIN platea.PREGUNTA ON platea.USUARIO.PREGUNTA_CODIGO = PREGUNTA.CODIGO "
+				+ "WHERE USUARIO.NICK = ?";
 		try (PreparedStatement statement = conexion.prepareStatement(query)) {
 			statement.setString(1, nombreUsuario);
 
@@ -247,6 +308,7 @@ public class Modelo {
 
 		return pregunta;
 	}
+
 	public String generateCaptcha() {
 		String letras = "abcdefghijklmnopqrstuvwxyz";
 		String numeros = "1234567890";
@@ -300,15 +362,26 @@ public class Modelo {
 		if (datosRegistro[9].equals("N")) {
 			resultado = "Politica";
 		}
+
 		if (datosRegistro[10].equals("N")) {
 			resultado = "Mayor";
+		} else {
+			if (!datosRegistro[12].equals(comprobarConfiguracion("Codigo Admin"))
+					&& !(datosRegistro[12].equals(null) || datosRegistro[12].equals(""))) {
+				resultado = "Admin";
+			}
 		}
-		if (!datosRegistro[11].equals(((_01_Registrar) vistas[1]).getCaptcha())) {
+
+		if (!datosRegistro[11].equals(((_01_Registrar) vistas[1]).getCaptcha()))
+
+		{
 			resultado = "Captcha";
 		}
+
 		if (datosRegistro[7].equals("0") || datosRegistro[7].equals("-1")) {
 			resultado = "Pregunta";
 		}
+
 		if (datosRegistro[8].equals("") || datosRegistro[8].equals(null)) {
 			resultado = "Respuesta";
 		}
@@ -316,11 +389,7 @@ public class Modelo {
 		if (resultado.equals("")) {
 			resultado = "Correcto";
 
-			// Generar codigo pregunta a partir del índice de comboBox
-			for (int i = datosRegistro[7].length(); i < 3; i++) {
-				datosRegistro[7] += "0" + datosRegistro[7];
-			}
-			datosRegistro[7] = "PRE" + datosRegistro[7];
+			datosRegistro[7] = generarCodigo("PRE", datosRegistro[7]);
 
 			crearUsuario(datosRegistro);
 		}
@@ -345,12 +414,181 @@ public class Modelo {
 		return resultado;
 	}
 
-	public void terminar() {
+	public String generarCodigo(String prefijo, String indice) {
+		String codigo = "";
+
+		// Generar codigo pregunta a partir del índice dado por parámetro
+		for (int i = indice.length(); i < 3; i++) {
+			codigo += "0";
+		}
+		codigo = prefijo + codigo + indice;
+
+		return codigo;
+	}
+
+	public String actualizarDatosUsuario(String[] datos) {
+		String resultado = "";
+		String numeros = "1234567890";
+
+		// TODO AÑADIR FOTO PERFIL??
+
+		for (int i = 0; i < numeros.length(); i++) {
+			if (datos[0].contains(String.valueOf(numeros.charAt(i)))) {
+				resultado = "Nombre";
+			}
+		}
+
+		for (int i = 0; i < numeros.length(); i++) {
+			if (datos[1].contains(String.valueOf(numeros.charAt(i)))) {
+				resultado = "Apellido";
+			}
+		}
+
+		for (int i = 0; i < datos[2].length(); i++) {
+			if (!numeros.contains(String.valueOf(datos[2].charAt(i)))) {
+				resultado = "Cp";
+			}
+		}
+
+		if (resultado == "") {
+			resultado = "Correcto";
+		}
+
+		return resultado;
+	}
+
+	private void crearPublicacion(String[] datosPublicacion) {
+		String sqlCount = "SELECT COUNT(*) FROM platea.denuncia";
+		String sqlInsert = "INSERT INTO platea.denuncia (CODIGO, IMAGEN, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO, DESCRIPCION) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
 		try {
-			conexion.close();
+			// Paso 1: Ejecutar la consulta para obtener la cantidad de denuncias
+			PreparedStatement countStmt = conexion.prepareStatement(sqlCount);
+			ResultSet resultSet = countStmt.executeQuery();
+			resultSet.next(); // Mover al primer resultado
+			String numeroDenuncias = String.valueOf(resultSet.getInt(1) + 1); // Sumar 1 para crear el nuevo código
+			countStmt.close();
+
+			// Paso 2: Generar el nuevo código
+			String codigoDenuncia = generarCodigo("DEN", numeroDenuncias);
+			String codigoCategoria = generarCodigo("CAT", datosPublicacion[3]);
+
+			// Convertir el String de fecha al formato "yyyy-MM-dd"
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Date fechaDate = null;
+			try {
+				fechaDate = dateFormat.parse(datosPublicacion[1]);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			// Paso 3: Ejecutar la inserción con el nuevo código
+			try (PreparedStatement pstmt = conexion.prepareStatement(sqlInsert)) {
+				pstmt.setString(1, codigoDenuncia);
+				pstmt.setBytes(2, null); // CAMBIAR URGENTE
+				pstmt.setString(3, datosPublicacion[4]);
+				pstmt.setInt(4, Integer.valueOf(datosPublicacion[2]));
+				pstmt.setString(5, "Nueva");
+				pstmt.setDate(6, new java.sql.Date(fechaDate.getTime())); // Convertir la fecha a java.sql.Date
+				pstmt.setString(7, user.getNickname());
+				pstmt.setString(8, codigoCategoria);
+				pstmt.setString(9, datosPublicacion[5]);
+
+				pstmt.executeUpdate();
+
+				System.out.println("Denuncia creada exitosamente.");
+			} catch (SQLException e) {
+				System.out.println("Error al crear la denuncia: " + e.getMessage());
+			}
 		} catch (SQLException e) {
+			System.out.println("Error al obtener la cantidad de denuncias: " + e.getMessage());
+		}
+	}
+
+	public ImageIcon obtenerImagen(String tabla, String campoFoto, String campoId, int id, int alturaImagen) {
+		String query = "SELECT " + campoFoto + " FROM platea." + tabla + " WHERE " + campoId + " = ?";
+		ImageIcon imageIcon = null;
+
+		try (PreparedStatement statement = conexion.prepareStatement(query)) {
+			statement.setInt(1, id);
+			ResultSet resultSet = statement.executeQuery();
+
+			if (resultSet.next()) {
+				Blob blob = resultSet.getBlob(campoFoto);
+				InputStream inputStream = blob.getBinaryStream();
+
+				// Convertir el BLOB a BufferedImage
+				BufferedImage originalImage = ImageIO.read(inputStream);
+
+				// Calcular el nuevo tamaño de la imagen
+				int anchuraOriginal = originalImage.getWidth();
+				int alturaOriginal = originalImage.getHeight();
+				int anchuraEscalada = (alturaImagen * anchuraOriginal) / alturaOriginal;
+
+				// Redimensionar la imagen
+				Image scaledImage = originalImage.getScaledInstance(anchuraEscalada, alturaImagen, Image.SCALE_SMOOTH);
+
+				// Convertir la imagen escalada a BufferedImage
+				BufferedImage bufferedScaledImage = new BufferedImage(anchuraEscalada, alturaImagen,
+						BufferedImage.TYPE_INT_ARGB);
+				bufferedScaledImage.getGraphics().drawImage(scaledImage, 0, 0, null);
+
+				// Convertir BufferedImage a byte[]
+				ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+				ImageIO.write(bufferedScaledImage, "png", outputStream);
+				byte[] imageBytes = outputStream.toByteArray();
+
+				// Crear ImageIcon
+				imageIcon = new ImageIcon(imageBytes);
+
+				inputStream.close();
+				outputStream.close();
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		return imageIcon;
+	}
+
+	public String comprobarInfoPublicacion(String[] datosPublicacion) {
+		String resultado = "";
+
+		if (datosPublicacion[1] != null
+				&& !datosPublicacion[1].matches("(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}")) {
+			resultado = "Fecha";
+		}
+
+		String numeros = "1234567890";
+		for (int i = 0; i < datosPublicacion[2].length(); i++) {
+			if (!numeros.contains(String.valueOf(datosPublicacion[2].charAt(i)))) {
+				resultado = "Cp";
+			}
+		}
+
+		if (datosPublicacion[3].equals("0") || datosPublicacion[3].equals("-1")) {
+			resultado = "Categoria";
+		}
+
+		if (datosPublicacion[5].length() < 100) {
+			resultado = "DescripcionPoco";
+		}
+
+		if (datosPublicacion[5].length() > 300) {
+			resultado = "DescripcionMucho";
+		}
+
+		for (int i = 0; i < datosPublicacion.length; i++) {
+			if (datosPublicacion[i].equals(null) || datosPublicacion[i].equals("")) {
+				resultado = "Faltan"; // Todos los campos son obligatorios
+			}
+		}
+
+		if (resultado.equals("")) {
+			resultado = "Correcto";
+			crearPublicacion(datosPublicacion);
+		}
+		return resultado;
 	}
 
 	// Métodos getter y setter del modelo
@@ -374,35 +612,33 @@ public class Modelo {
 		return obtenerTabla(condicion);
 	}
 
-    public boolean verificarCambio(String nick, String pregunta, String respuesta, String nuevaPwd, String confirmPwd) {
-        String selectQuery = "SELECT 1 FROM platea.usuario WHERE NICK = ? AND PREGUNTA_CODIGO = ? AND RESPUESTA = ?";
-        String updateQuery = "UPDATE platea.usuario SET PWD = ? WHERE NICK = ?";
+	public boolean verificarCambio(String nick, String pregunta, String respuesta, String nuevaPwd, String confirmPwd) {
+		String selectQuery = "SELECT 1 FROM platea.usuario WHERE NICK = ? AND PREGUNTA_CODIGO = ? AND RESPUESTA = ?";
+		String updateQuery = "UPDATE platea.usuario SET PWD = ? WHERE NICK = ?";
 
-        try (PreparedStatement selectStatement = conexion.prepareStatement(selectQuery)) {
-            selectStatement.setString(1, nick);
-            selectStatement.setString(2, pregunta);
-            selectStatement.setString(3, respuesta);
-            ResultSet resultSet = selectStatement.executeQuery();
+		try (PreparedStatement selectStatement = conexion.prepareStatement(selectQuery)) {
+			selectStatement.setString(1, nick);
+			selectStatement.setString(2, pregunta);
+			selectStatement.setString(3, respuesta);
+			ResultSet resultSet = selectStatement.executeQuery();
 
-            if (resultSet.next()) {
-                if (nuevaPwd.equals(confirmPwd)) {
-                    try (PreparedStatement updateStatement = conexion.prepareStatement(updateQuery)) {
-                        updateStatement.setString(1, nuevaPwd);
-                        updateStatement.setString(2, nick);
-                        updateStatement.executeUpdate();
-                        return true;
-                    }
-                } else {
-                	System.out.println("FALLOS");
-                    return false;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+			if (resultSet.next()) {
+				if (nuevaPwd.equals(confirmPwd)) {
+					try (PreparedStatement updateStatement = conexion.prepareStatement(updateQuery)) {
+						updateStatement.setString(1, nuevaPwd);
+						updateStatement.setString(2, nick);
+						updateStatement.executeUpdate();
+						return true;
+					}
+				} else {
+					System.out.println("FALLOS");
+					return false;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
-      
-    }
 
-
+	}
 }
