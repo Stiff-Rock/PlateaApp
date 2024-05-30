@@ -24,6 +24,7 @@ import javax.swing.border.LineBorder;
 import Controlador.Controlador;
 import Modelo.Modelo;
 import javax.swing.JPasswordField;
+import javax.swing.SwingConstants;
 
 //@Autor Yago Pernas
 public class _02_Reestablecer extends JFrame implements Vista {
@@ -63,6 +64,10 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		return txtRespuesta.getText();
 	}
 	
+	public String getPregunta() {
+		comboBoxPreguntas.getSelectedIndex();
+		return String.valueOf(comboBoxPreguntas.getSelectedIndex());
+	}
 	
 	public _02_Reestablecer() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,17 +116,18 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		mainPanel.add(registerPanel);
 		registerPanel.setLayout(null);
 
-		JButton btnLogin = new JButton("Acceder");
-		btnLogin.addActionListener(new ActionListener() {
+		JButton btnCambiar = new JButton("Cambiar");
+		btnCambiar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controlador.verificarCambio();
 			}
 		});
-		btnLogin.setBounds(35, 347, 124, 23);
-		registerPanel.add(btnLogin);
+		btnCambiar.setBounds(35, 347, 124, 23);
+		registerPanel.add(btnCambiar);
 
 		JLabel lblTitle = new JLabel("Reestablecer contraseña");
-		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTitle.setBounds(35, 9, 348, 39);
 		registerPanel.add(lblTitle);
 
@@ -164,7 +170,7 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		
 		txtNick = new JTextField();
 		txtNick.setToolTipText("");
-		txtNick.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		txtNick.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		txtNick.setColumns(10);
 		txtNick.setBounds(35, 79, 418, 28);
 		registerPanel.add(txtNick);
@@ -180,7 +186,7 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		txtPwd2 = new JPasswordField();
 		txtPwd2.setBounds(35, 199, 418, 28);
 		registerPanel.add(txtPwd2);
-
+		
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setBounds(343, 40, 321, 113);
 		mainPanel.add(lblLogo);

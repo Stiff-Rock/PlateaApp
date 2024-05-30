@@ -41,7 +41,7 @@ public class _04_MiPerfil extends Menus {
 		fotoPanel.setBackground(Color.WHITE);
 		fotoPanel.setBounds(36, 56, 145, 145);
 		perfilPanel.add(fotoPanel);
-
+		//TODO HACER FOTO USER
 		JButton btnUpload = new JButton("Subir Imagen");
 		btnUpload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
