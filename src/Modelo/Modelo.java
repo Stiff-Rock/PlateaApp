@@ -133,7 +133,6 @@ public class Modelo {
 	}
 
 //	"SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA"
-//	query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK IN (SELECT USUARIO_NICK FROM PLATEA.VOTAR WHERE UPVOTE = 'S')"
 	public DefaultTableModel obtenerTabla(int pagina) {
 		String query = null;
 
@@ -142,6 +141,12 @@ public class Modelo {
 		};
 		if (pagina == 5) {
 			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ?";
+		}
+		if (pagina == 6) {
+			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ? AND USUARIO_NICK IN (SELECT USUARIO_NICK FROM PLATEA.VOTAR WHERE FAVORITO = 'S')";
+		}
+		if (pagina == 7) {
+			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ? AND USUARIO_NICK IN (SELECT USUARIO_NICK FROM PLATEA.VOTAR WHERE UPVOTE = 'S')";
 		}
 		if (pagina == 8) {
 			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE ESTADO = 'Pendiente'";
@@ -155,9 +160,12 @@ public class Modelo {
 
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-			if (pagina == 5) {
+			if (pagina == 5 || pagina == 6 || pagina == 7) {
 				pstmt.setString(1, user.getNickname());
 			}
+			
+			System.out.println("Executing query: " + pstmt.toString());
+			
 			ResultSet rs = pstmt.executeQuery();
 			ResultSetMetaData rsmd = rs.getMetaData();
 			for (int i = 1; i <= numColumnas; i++) {
@@ -185,7 +193,7 @@ public class Modelo {
 		int numColumnas = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-	        if (query.contains("?") && pagina == 5) {
+	        if (query.contains("?") && pagina == 5 || query.contains("?") && pagina == 7 || query.contains("?") && pagina == 6) {
 	            pstmt.setString(1, user.getNickname());
 	        }
 			ResultSet rset = pstmt.executeQuery();
@@ -201,7 +209,7 @@ public class Modelo {
 		int numFilas = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-	        if (query.contains("?") && pagina == 5) {
+	        if (query.contains("?") && pagina == 5 || query.contains("?") && pagina == 7 || query.contains("?") && pagina == 6) {
 	            pstmt.setString(1, user.getNickname());
 	        }
 			ResultSet rset = pstmt.executeQuery();
