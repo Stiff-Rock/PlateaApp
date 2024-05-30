@@ -158,7 +158,7 @@ public class Controlador {
 		((_04_MiPerfil) vistas[4]).setApellido(user.getApellido());
 		((_04_MiPerfil) vistas[4]).setCp(user.getCp());
 		((_04_MiPerfil) vistas[4]).setNickname(user.getNickname());
-//		((_04_MiPerfil) vistas[4]).setImage(user.getFoto());
+		((_04_MiPerfil) vistas[4]).setImage(user.getFoto());
 
 		String tipo = "";
 		if (user.getEsAdmin().equals("S")) {
