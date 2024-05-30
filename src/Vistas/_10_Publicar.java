@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -28,6 +31,9 @@ public class _10_Publicar extends Menus {
 	private JButton btnPubllicar;
 	private JLabel lblWarning;
 	private JComboBox comboBoxCategoria;
+	private JLabel lblFoto;
+	private JPanel fotoPanel;
+	private JTextArea txtDescripcion;
 
 	public _10_Publicar() {
 		setTitle("Publicar");
@@ -45,19 +51,25 @@ public class _10_Publicar extends Menus {
 		publicarPanel.add(txtFecha);
 		txtFecha.setColumns(10);
 
-		JPanel fotoPanel = new JPanel();
+		fotoPanel = new JPanel();
 		fotoPanel.setBackground(new Color(255, 255, 255));
-		fotoPanel.setBounds(60, 79, 524, 185);
+		fotoPanel.setBounds(167, 79, 329, 185);
 		publicarPanel.add(fotoPanel);
 		fotoPanel.setLayout(null);
 
 		btnSubirFoto = new JButton("Subir Foto");
 		btnSubirFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controlador.cargarImagen(fotoPanel.getHeight());
 			}
 		});
-		btnSubirFoto.setBounds(205, 81, 114, 23);
+		btnSubirFoto.setBounds(223, 151, 96, 23);
 		fotoPanel.add(btnSubirFoto);
+
+		lblFoto = new JLabel("");
+		lblFoto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFoto.setBounds(0, 0, 329, 185);
+		fotoPanel.add(lblFoto);
 
 		lblImage = new JLabel("");
 		lblImage.setBackground(new Color(128, 128, 128));
@@ -69,9 +81,9 @@ public class _10_Publicar extends Menus {
 		publicarPanel.add(txtDirecicion);
 		txtDirecicion.setColumns(10);
 
-		JLabel lblNewLabel_1 = new JLabel("Fecha (DD/MM/AAAA):");
-		lblNewLabel_1.setBounds(60, 294, 141, 13);
-		publicarPanel.add(lblNewLabel_1);
+		JLabel lblFecha = new JLabel("Fecha (DD/MM/AAAA):");
+		lblFecha.setBounds(60, 294, 141, 13);
+		publicarPanel.add(lblFecha);
 
 		JLabel lblDireccion = new JLabel("Direccion:");
 		lblDireccion.setBounds(60, 354, 151, 13);
@@ -90,7 +102,8 @@ public class _10_Publicar extends Menus {
 		lblCp.setBounds(261, 294, 141, 13);
 		publicarPanel.add(lblCp);
 
-		JTextArea txtDescripcion = new JTextArea();
+		txtDescripcion = new JTextArea();
+		txtDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		txtDescripcion.setBounds(60, 441, 543, 117);
 		publicarPanel.add(txtDescripcion);
 
@@ -98,6 +111,7 @@ public class _10_Publicar extends Menus {
 		lblDescripcion.setBounds(60, 417, 131, 13);
 		publicarPanel.add(lblDescripcion);
 
+		//TODO CARGAR CATEGORIAS
 		comboBoxCategoria = new JComboBox();
 		comboBoxCategoria.setBounds(462, 311, 141, 28);
 		publicarPanel.add(comboBoxCategoria);
@@ -119,7 +133,7 @@ public class _10_Publicar extends Menus {
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setBounds(170, 8, 324, 32);
 		filtrosPanel.add(lblTitle);
-		
+
 		btnPubllicar = new JButton("Publicar");
 		btnPubllicar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -128,21 +142,31 @@ public class _10_Publicar extends Menus {
 		});
 		btnPubllicar.setBounds(514, 594, 89, 23);
 		publicarPanel.add(btnPubllicar);
-		
+
 		lblWarning = new JLabel("");
 		lblWarning.setForeground(new Color(255, 0, 0));
 		lblWarning.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblWarning.setBounds(60, 598, 378, 14);
 		publicarPanel.add(lblWarning);
+		
+		addWindowListener(new WindowAdapter() {
+			public void windowActivated(WindowEvent e) {
+				comboBoxCategoria.setModel(controlador.getCategorias());
+			}
+		});
 	}
-	
+
 	public void mostrarWarning(String mensaje) {
 		lblWarning.setText(mensaje);
 	}
 
-//	public ImageIcon getFoto() {
-//		return null;
-//	}
+	public ImageIcon getFoto() {
+		return (ImageIcon) lblFoto.getIcon();
+	}
+
+	public void setFoto(ImageIcon foto) {
+		lblFoto.setIcon(foto);
+	}
 
 	public String getFecha() {
 		return txtFecha.getText();
@@ -161,6 +185,6 @@ public class _10_Publicar extends Menus {
 	}
 
 	public String getDescripcion() {
-		return txtDirecicion.getText();
+		return txtDescripcion.getText();
 	}
 }

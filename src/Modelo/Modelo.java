@@ -1,9 +1,13 @@
 package Modelo;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,7 +21,10 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 import Vistas.Vista;
@@ -131,23 +138,23 @@ public class Modelo {
 		return codigoAdmin;
 	}
 
-	public DefaultComboBoxModel obtenerPreguntasSeguridad() {
-		ArrayList<String> preguntasList = new ArrayList<>();
-		preguntasList.add("Elige una pregunta de seguridad");
-		String query = "SELECT CUESTION FROM platea.pregunta";
+	public DefaultComboBoxModel obtenerComboBox(String campo, String tabla) {
+		ArrayList<String> listaResultados = new ArrayList<>();
+		listaResultados.add("Elige:");
+		String query = "SELECT " + campo + " FROM platea." + tabla;
 
 		try (PreparedStatement statement = conexion.prepareStatement(query);
 				ResultSet resultSet = statement.executeQuery()) {
 			while (resultSet.next()) {
-				String cuestion = resultSet.getString("CUESTION");
-				preguntasList.add(cuestion);
+				String datos = resultSet.getString(campo);
+				listaResultados.add(datos);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		String[] preguntasObject = preguntasList.toArray(new String[preguntasList.size()]);
-		DefaultComboBoxModel preguntas = new DefaultComboBoxModel(preguntasObject);
+		String[] objetoResultado = listaResultados.toArray(new String[listaResultados.size()]);
+		DefaultComboBoxModel preguntas = new DefaultComboBoxModel(objetoResultado);
 		return preguntas;
 	}
 
@@ -284,7 +291,7 @@ public class Modelo {
 
 	public String obtenerPreguntaUsuario(String nombreUsuario) {
 		String pregunta = "";
-		String query = "SELECT pregunta.CUESTION " + "FROM USUARIO "
+		String query = "SELECT pregunta.CUESTION FROM USUARIO "
 				+ "INNER JOIN PREGUNTA ON USUARIO.PREGUNTA_CODIGO = PREGUNTA.CODIGO " + "WHERE USUARIO.NICK = ?";
 
 		try (PreparedStatement statement = conexion.prepareStatement(query)) {
@@ -498,47 +505,90 @@ public class Modelo {
 		}
 	}
 
+	public ImageIcon obtenerImagen(String tabla, String campoFoto, String campoId, int id, int alturaImagen) {
+		String query = "SELECT " + campoFoto + " FROM platea." + tabla + " WHERE " + campoId + " = ?";
+		ImageIcon imageIcon = null;
+
+		try (PreparedStatement statement = conexion.prepareStatement(query)) {
+			statement.setInt(1, id);
+			ResultSet resultSet = statement.executeQuery();
+
+			if (resultSet.next()) {
+				Blob blob = resultSet.getBlob(campoFoto);
+				InputStream inputStream = blob.getBinaryStream();
+
+				// Convertir el BLOB a BufferedImage
+				BufferedImage originalImage = ImageIO.read(inputStream);
+
+				// Calcular el nuevo tamaño de la imagen
+				int anchuraOriginal = originalImage.getWidth();
+				int alturaOriginal = originalImage.getHeight();
+				int anchuraEscalada = (alturaImagen * anchuraOriginal) / alturaOriginal;
+
+				// Redimensionar la imagen
+				Image scaledImage = originalImage.getScaledInstance(anchuraEscalada, alturaImagen, Image.SCALE_SMOOTH);
+
+				// Convertir la imagen escalada a BufferedImage
+				BufferedImage bufferedScaledImage = new BufferedImage(anchuraEscalada, alturaImagen,
+						BufferedImage.TYPE_INT_ARGB);
+				bufferedScaledImage.getGraphics().drawImage(scaledImage, 0, 0, null);
+
+				// Convertir BufferedImage a byte[]
+				ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+				ImageIO.write(bufferedScaledImage, "png", outputStream);
+				byte[] imageBytes = outputStream.toByteArray();
+
+				// Crear ImageIcon
+				imageIcon = new ImageIcon(imageBytes);
+
+				inputStream.close();
+				outputStream.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return imageIcon;
+	}
+
 	public String comprobarInfoPublicacion(String[] datosPublicacion) {
 		String resultado = "";
 
-		if (datosPublicacion[1] != null &&datosPublicacion[1].matches("\\d{2}/\\d{2}/\\d{4}")) {
+		if (datosPublicacion[1] != null
+				&& !datosPublicacion[1].matches("(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}")) {
 			resultado = "Fecha";
 		}
 
 		String numeros = "1234567890";
-		for (int i = 0; i < datosPublicacion[1].length(); i++) {
-			if (!numeros.contains(String.valueOf(datosPublicacion[1].charAt(i)))) {
+		for (int i = 0; i < datosPublicacion[2].length(); i++) {
+			if (!numeros.contains(String.valueOf(datosPublicacion[2].charAt(i)))) {
 				resultado = "Cp";
 			}
 		}
 
-//		if (datosPublicacion[2].equals("0") || datosPublicacion[2].equals("-1")) {
-//			resultado = "Categoria";
-//		}
-
-		if (datosPublicacion[4].length() < 120) {
-			resultado = "Descripcion";
+		if (datosPublicacion[3].equals("0") || datosPublicacion[3].equals("-1")) {
+			resultado = "Categoria";
 		}
 
-//		for (int i = 0; i < datosPublicacion.length; i++) {
-//			if (datosPublicacion[i].equals(null) || datosPublicacion[i].equals("")) {
-//				resultado = "Faltan"; // Todos los campos son obligatorios
-//			}
-//		}
+		if (datosPublicacion[5].length() < 100) {
+			resultado = "DescripcionPoco";
+		}
+
+		if (datosPublicacion[5].length() > 300) {
+			resultado = "DescripcionMucho";
+		}
+
+		for (int i = 0; i < datosPublicacion.length; i++) {
+			if (datosPublicacion[i].equals(null) || datosPublicacion[i].equals("")) {
+				resultado = "Faltan"; // Todos los campos son obligatorios
+			}
+		}
 
 		if (resultado.equals("")) {
 			resultado = "Correcto";
 			crearPublicacion(datosPublicacion);
 		}
 		return resultado;
-	}
-
-	private void terminar() {
-		try {
-			conexion.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 	// Métodos getter y setter del modelo
@@ -561,4 +611,5 @@ public class Modelo {
 	public DefaultTableModel getTabla(String condicion) {
 		return obtenerTabla(condicion);
 	}
+
 }

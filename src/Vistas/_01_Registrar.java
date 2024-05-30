@@ -48,64 +48,12 @@ public class _01_Registrar extends JFrame implements Vista {
 	private JLabel lblWarning2;
 	private JLabel lblWarning1;
 	private JLabel lblCaptcha;
-	private JComboBox cmbPregunta;
+	private JComboBox comboBoxPreguntas;
 	private JLabel lblTitle1;
 	private JLabel lblTitle1_1;
 
 	private String[] datosRegistro = new String[13];
 	private int progresoSignIn = 0;
-
-	public JPanel getRegisterPanel() {
-		return registerPanel;
-	}
-
-	public JPanel getRegisterPanel2() {
-		return registerPanel2;
-	}
-
-	public void setProgresoSignIn(int progresoSignIn) {
-		this.progresoSignIn = progresoSignIn;
-	}
-
-	public int getProgresoSignIn() {
-		return progresoSignIn;
-	}
-
-	public void setControlador(Controlador controlador) {
-		this.controlador = controlador;
-	}
-
-	public String getCaptcha() {
-		String captcha = txtCaptcha.getText();
-		return captcha;
-	}
-
-	// PREGUNTAR A PEDRO
-	public String[] getDatosRegistro() {
-		datosRegistro[0] = txtNickname.getText();
-		datosRegistro[1] = txtApellido.getText();
-		datosRegistro[2] = txtNombre.getText();
-		datosRegistro[3] = txtCP.getText();
-		datosRegistro[4] = String.valueOf(txtPwd1.getPassword());
-		datosRegistro[5] = String.valueOf(txtPwd2.getPassword());
-		datosRegistro[6] = checkAdmin.getState() ? "S" : "N";
-		datosRegistro[7] = String.valueOf(cmbPregunta.getSelectedIndex());
-		datosRegistro[8] = txtRespuesta.getText();
-		datosRegistro[9] = checkPolitica.getState() ? "S" : "N";
-		datosRegistro[10] = checkMayor.getState() ? "S" : "N";
-		datosRegistro[11] = txtCaptcha.getText();
-		datosRegistro[12] = txtAdmin.getText();
-
-		return datosRegistro;
-	}
-
-	public void mostrarWarning1(String mensaje) {
-		lblWarning1.setText(mensaje);
-	}
-
-	public void mostrarWarning2(String mensaje) {
-		lblWarning2.setText(mensaje);
-	}
 
 	public _01_Registrar() {
 
@@ -141,10 +89,10 @@ public class _01_Registrar extends JFrame implements Vista {
 		checkAdmin.setBounds(35, 221, 319, 22);
 		registerPanel2.add(checkAdmin);
 
-		cmbPregunta = new JComboBox();
-		cmbPregunta.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		cmbPregunta.setBounds(35, 101, 418, 28);
-		registerPanel2.add(cmbPregunta);
+		comboBoxPreguntas = new JComboBox();
+		comboBoxPreguntas.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		comboBoxPreguntas.setBounds(35, 101, 418, 28);
+		registerPanel2.add(comboBoxPreguntas);
 
 		JButton btnRegister = new JButton("Crear Cuenta");
 		btnRegister.addActionListener(new ActionListener() {
@@ -358,9 +306,62 @@ public class _01_Registrar extends JFrame implements Vista {
 
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				cmbPregunta.setModel(controlador.getPreguntas());
+				comboBoxPreguntas.setModel(controlador.getPreguntas());
 				lblCaptcha.setText(controlador.getCaptcha());
 			}
 		});
 	}
+
+	public JPanel getRegisterPanel() {
+		return registerPanel;
+	}
+
+	public JPanel getRegisterPanel2() {
+		return registerPanel2;
+	}
+
+	public void setProgresoSignIn(int progresoSignIn) {
+		this.progresoSignIn = progresoSignIn;
+	}
+
+	public int getProgresoSignIn() {
+		return progresoSignIn;
+	}
+
+	public void setControlador(Controlador controlador) {
+		this.controlador = controlador;
+	}
+
+	public String getCaptcha() {
+		String captcha = txtCaptcha.getText();
+		return captcha;
+	}
+
+	// PREGUNTAR A PEDRO
+	public String[] getDatosRegistro() {
+		datosRegistro[0] = txtNickname.getText();
+		datosRegistro[1] = txtApellido.getText();
+		datosRegistro[2] = txtNombre.getText();
+		datosRegistro[3] = txtCP.getText();
+		datosRegistro[4] = String.valueOf(txtPwd1.getPassword());
+		datosRegistro[5] = String.valueOf(txtPwd2.getPassword());
+		datosRegistro[6] = checkAdmin.getState() ? "S" : "N";
+		datosRegistro[7] = String.valueOf(comboBoxPreguntas.getSelectedIndex());
+		datosRegistro[8] = txtRespuesta.getText();
+		datosRegistro[9] = checkPolitica.getState() ? "S" : "N";
+		datosRegistro[10] = checkMayor.getState() ? "S" : "N";
+		datosRegistro[11] = txtCaptcha.getText();
+		datosRegistro[12] = txtAdmin.getText();
+
+		return datosRegistro;
+	}
+
+	public void mostrarWarning1(String mensaje) {
+		lblWarning1.setText(mensaje);
+	}
+
+	public void mostrarWarning2(String mensaje) {
+		lblWarning2.setText(mensaje);
+	}
+
 }

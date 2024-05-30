@@ -1,9 +1,19 @@
 package Controlador;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.Base64;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableModel;
 
 import Modelo.Modelo;
@@ -41,7 +51,15 @@ public class Controlador {
 	}
 
 	public DefaultComboBoxModel getPreguntas() {
-		return modelo.obtenerPreguntasSeguridad();
+		String campo = "cuestion";
+		String tabla = "pregunta";
+		return modelo.obtenerComboBox(campo, tabla);
+	}
+
+	public DefaultComboBoxModel getCategorias() {
+		String campo = "nombre";
+		String tabla = "categoria";
+		return modelo.obtenerComboBox(campo, tabla);
 	}
 
 	public Usuario getUser() {
@@ -191,13 +209,28 @@ public class Controlador {
 
 	public void crearPublicacion() {
 		String[] datosPublicacion = new String[6];
-//		datosPublicacion[0] = ((_10_Publicar) vistas[10]).getFoto();
+		ImageIcon fotoIcon = ((_10_Publicar) vistas[10]).getFoto();
+
+		// Convertir el ImageIcon a una cadena Base64
+		//TODO ESTANDARIZAR PROCESO DE CONVERSION EN UN METODO
+		String fotoBase64 = "";
+		if (fotoIcon != null) {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+				oos.writeObject(fotoIcon);
+				fotoBase64 = Base64.getEncoder().encodeToString(baos.toByteArray());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		datosPublicacion[0] = fotoBase64;
 		datosPublicacion[1] = ((_10_Publicar) vistas[10]).getFecha();
 		datosPublicacion[2] = ((_10_Publicar) vistas[10]).getCp();
 		datosPublicacion[3] = ((_10_Publicar) vistas[10]).getCategoria();
 		datosPublicacion[4] = ((_10_Publicar) vistas[10]).getDireccion();
 		datosPublicacion[5] = ((_10_Publicar) vistas[10]).getDescripcion();
-		
+
 		String resultado = modelo.comprobarInfoPublicacion(datosPublicacion);
 		String mensaje = "";
 		if (resultado.equals("Correcto")) {
@@ -214,9 +247,12 @@ public class Controlador {
 			case "Categoria":
 				mensaje = "No se ha seleccionado una categoría";
 				break;
-			case "Descripcion":
-				// TODO contador de caracteres
+			case "DescripcionPoco":
 				mensaje = "La descripción debe ser de al menos 120 caracteres";
+				break;
+			case "DescripcionMucho":
+				// TODO contador de caracteres
+				mensaje = "La descripción no debe ser mayor a 300 caracteres";
 				break;
 			case "Faltan":
 				mensaje = "Todos los campos son obligatorios";
@@ -226,4 +262,44 @@ public class Controlador {
 		}
 	}
 
+	public void cargarImagen(int alturaImagen) {
+		// Crea un JFileChooser para seleccionar la imagen
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Elige una imagen");
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fileChooser.setAcceptAllFileFilterUsed(false);
+		fileChooser.addChoosableFileFilter(
+				new FileNameExtensionFilter("Archivos de imagen", ImageIO.getReaderFileSuffixes()));
+
+		int result = fileChooser.showOpenDialog(null);
+		if (result == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = fileChooser.getSelectedFile();
+			try {
+				// Lee la imagen seleccionada
+				BufferedImage imagen = ImageIO.read(selectedFile);
+				if (imagen != null) {
+					// Calcula la nueva anchura manteniendo la proporción
+					double proporcion = (double) alturaImagen / imagen.getHeight();
+					int nuevaAnchura = (int) (imagen.getWidth() * proporcion);
+
+					// Escala la imagen al tamaño deseado
+					BufferedImage imagenEscalada = new BufferedImage(nuevaAnchura, alturaImagen,
+							BufferedImage.TYPE_INT_ARGB);
+					imagenEscalada.createGraphics().drawImage(
+							imagen.getScaledInstance(nuevaAnchura, alturaImagen, java.awt.Image.SCALE_SMOOTH), 0, 0,
+							null);
+
+					// Convierte la imagen escalada a ImageIcon
+					ImageIcon imageIcon = new ImageIcon(imagenEscalada);
+
+					// Llama al método setFoto con el ImageIcon
+					((_10_Publicar) vistas[10]).setFoto(imageIcon);
+				} else {
+					System.out.println("No se pudo leer la imagen seleccionada.");
+				}
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
 }

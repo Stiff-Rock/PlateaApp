@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
+import javax.swing.SwingConstants;
 
 public class _04_MiPerfil extends Menus {
 	private JTextField txtNombre;
@@ -49,6 +50,7 @@ public class _04_MiPerfil extends Menus {
 		fotoPanel.add(btnUpload);
 
 		lblimage = new JLabel("");
+		lblimage.setHorizontalAlignment(SwingConstants.CENTER);
 		lblimage.setBackground(Color.LIGHT_GRAY);
 		lblimage.setBounds(0, 0, 145, 145);
 		fotoPanel.add(lblimage);
