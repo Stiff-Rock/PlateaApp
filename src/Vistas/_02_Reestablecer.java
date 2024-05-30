@@ -63,6 +63,10 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		return txtRespuesta.getText();
 	}
 	
+	public String getPregunta() {
+		comboBoxPreguntas.getSelectedIndex();
+		return String.valueOf(comboBoxPreguntas.getSelectedIndex());
+	}
 	
 	public _02_Reestablecer() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -180,7 +184,7 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		txtPwd2 = new JPasswordField();
 		txtPwd2.setBounds(35, 199, 418, 28);
 		registerPanel.add(txtPwd2);
-
+		
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setBounds(343, 40, 321, 113);
 		mainPanel.add(lblLogo);

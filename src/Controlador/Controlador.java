@@ -157,14 +157,12 @@ public class Controlador {
 	public void verificarCambio() {
 		String nick = (((_02_Reestablecer) vistas[2]).getNick());
 		String pwd = (((_02_Reestablecer) vistas[2]).getPwd());
-		;
 		String usrConfirmado = (((_02_Reestablecer) vistas[2]).getPwdVer());
-		;
 		String respuesta = (((_02_Reestablecer) vistas[2]).getRespuesta());
-		;
 		String pregunta = modelo.obtenerPreguntaUsuario(nick);
-
-		if (modelo.verificarCambio(nick, pregunta, respuesta, pwd, usrConfirmado)) {
+		String preguntaIdex = (((_02_Reestablecer) vistas[2]).getPregunta());
+		
+		if (modelo.verificarCambio(nick, modelo.generarCodigo("PRE", preguntaIdex), respuesta, pwd, usrConfirmado)) {
 			cambiarVentana(2, 0);
 		} else {
 			System.out.println("No");
