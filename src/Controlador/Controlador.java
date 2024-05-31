@@ -479,6 +479,7 @@ public class Controlador {
 		String nick = user.getNickname();
 		String CodDenuncia = ((_09_Publicacion) vistas[9]).getCod();
 		modelo.anadirFavorito(nick, CodDenuncia);
+		((_09_Publicacion) vistas[9]).setWarning("Añadido a favoritos!");
 	}
 
 	/**
@@ -488,6 +489,7 @@ public class Controlador {
 		String nick = user.getNickname();
 		String CodDenuncia = ((_09_Publicacion) vistas[9]).getCod();
 		modelo.anadirVotar(nick, CodDenuncia);
+		((_09_Publicacion) vistas[9]).setWarning("Votado!");
 	}
 
 	/**

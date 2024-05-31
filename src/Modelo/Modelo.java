@@ -1083,19 +1083,19 @@ public class Modelo {
 	 * @param codDenuncia El código de la denuncia que se está votando.
 	 */
 	public void anadirVotar(String nick, String codDenuncia) {
-		String sql = "{CALL PLATEA.VOTACION(?, ?, ?, ?)}";
-		try {
-			CallableStatement cst = conexion.prepareCall(sql);
+        String sql = "{CALL PLATEA.VOTACION(?, ?, ?, ?)}";
+        try {
+            CallableStatement cst = conexion.prepareCall(sql);
 
-			cst.setString(1, nick.trim());
-			cst.setString(2, codDenuncia.trim());
-			cst.setString(3, "S".trim());
-			cst.setString(4, "N".trim());
-			cst.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+            cst.setString(1, nick.trim());
+            cst.setString(2, codDenuncia.trim());
+            cst.setString(3, "S".trim());
+            cst.setString(4, "N".trim());
+            cst.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 	/**
 	 * Llama a un procedimiento almacenado en la base de datos para marcar una

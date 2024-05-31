@@ -25,7 +25,7 @@ public class _09_Publicacion extends Menus {
 	private JTextField txtCategoria;
 	private JTextArea txtDescripcion;
 	private JLabel lblFoto;
-	private JLabel lblNumVotos;
+	private JLabel lblWarning;
 
 	/**
 	 * Obtiene el código de la publicación actualmente mostrada en la vista.
@@ -33,9 +33,9 @@ public class _09_Publicacion extends Menus {
 	 * @return El código de la publicación actual.
 	 */
 	public String getCod() {
-	    String[] datos = controlador.getDatosPublicacion();
-	    String cod = datos[6];
-	    return cod;
+		String[] datos = controlador.getDatosPublicacion();
+		String cod = datos[6];
+		return cod;
 	}
 
 	/**
@@ -44,55 +44,63 @@ public class _09_Publicacion extends Menus {
 	 * @param txtFecha El texto de fecha que se establecerá en el campo de fecha.
 	 */
 	public void setTxtFecha(String txtFecha) {
-	    this.txtFecha.setText(txtFecha);
+		this.txtFecha.setText(txtFecha);
 	}
 
 	/**
 	 * Establece el texto de la dirección en el campo correspondiente de la vista.
 	 *
-	 * @param txtDireccion El texto de la dirección que se establecerá en el campo de dirección.
+	 * @param txtDireccion El texto de la dirección que se establecerá en el campo
+	 *                     de dirección.
 	 */
 	public void setTxtDireccion(String txtDireccion) {
-	    this.txtDireccion.setText(txtDireccion);
+		this.txtDireccion.setText(txtDireccion);
 	}
 
 	/**
 	 * Establece el texto del código postal en el campo correspondiente de la vista.
 	 *
-	 * @param txtCp El texto del código postal que se establecerá en el campo de código postal.
+	 * @param txtCp El texto del código postal que se establecerá en el campo de
+	 *              código postal.
 	 */
 	public void setTxtCp(String txtCp) {
-	    this.txtCp.setText(txtCp);
+		this.txtCp.setText(txtCp);
 	}
 
 	/**
 	 * Establece el texto de la categoría en el campo correspondiente de la vista.
 	 *
-	 * @param txtCategoria El texto de la categoría que se establecerá en el campo de categoría.
+	 * @param txtCategoria El texto de la categoría que se establecerá en el campo
+	 *                     de categoría.
 	 */
 	public void setTxtCategoria(String txtCategoria) {
-	    this.txtCategoria.setText(txtCategoria);
+		this.txtCategoria.setText(txtCategoria);
 	}
 
 	/**
 	 * Establece el texto de la descripción en el campo correspondiente de la vista.
 	 *
-	 * @param txtDescripcion El texto de la descripción que se establecerá en el campo de descripción.
+	 * @param txtDescripcion El texto de la descripción que se establecerá en el
+	 *                       campo de descripción.
 	 */
 	public void setTxtDescripcion(String txtDescripcion) {
-	    this.txtDescripcion.setText(txtDescripcion);
+		this.txtDescripcion.setText(txtDescripcion);
 	}
 
 	/**
 	 * Establece la imagen en el componente JLabel de la vista.
 	 *
-	 * @param imagen El ImageIcon que se establecerá en el componente JLabel para mostrar la imagen.
+	 * @param imagen El ImageIcon que se establecerá en el componente JLabel para
+	 *               mostrar la imagen.
 	 */
 	public void setLblFoto(ImageIcon imagen) {
-	    lblFoto.setIcon(imagen);
+		lblFoto.setIcon(imagen);
 	}
 
-
+	public void setWarning(String mensaje) {
+		lblWarning.setText(mensaje);
+	}
+	
 	public _09_Publicacion() {
 		setTitle("Publicación");
 		setContentPane(mainPanel);
@@ -156,7 +164,7 @@ public class _09_Publicacion extends Menus {
 		publicarPanel.add(lblCp);
 
 		JLabel lblDescripcion = new JLabel("Descripción del problema:");
-		lblDescripcion.setBounds(60, 417, 131, 13);
+		lblDescripcion.setBounds(60, 417, 320, 13);
 		publicarPanel.add(lblDescripcion);
 
 		JPanel filtrosPanel = new JPanel();
@@ -176,10 +184,6 @@ public class _09_Publicacion extends Menus {
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTitle.setBounds(170, 8, 324, 32);
 		filtrosPanel.add(lblTitle);
-
-		lblNumVotos = new JLabel("Votos totales: 6.000");
-		lblNumVotos.setBounds(60, 598, 174, 14);
-		publicarPanel.add(lblNumVotos);
 
 		txtCategoria = new JTextField();
 		txtCategoria.setEditable(false);
@@ -206,11 +210,11 @@ public class _09_Publicacion extends Menus {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controlador.meterFavoritos();
-
+				
 			}
 
 		});
-		btnNewButton.setBounds(413, 595, 85, 21);
+		btnNewButton.setBounds(391, 595, 96, 21);
 		publicarPanel.add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Votados");
@@ -220,8 +224,13 @@ public class _09_Publicacion extends Menus {
 
 			}
 		});
-		btnNewButton_1.setBounds(518, 595, 85, 21);
+		btnNewButton_1.setBounds(507, 595, 96, 21);
 		publicarPanel.add(btnNewButton_1);
+
+		lblWarning = new JLabel("");
+		lblWarning.setBounds(60, 598, 282, 14);
+		lblWarning.setForeground(new Color(0, 128, 0));
+		publicarPanel.add(lblWarning);
 
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
