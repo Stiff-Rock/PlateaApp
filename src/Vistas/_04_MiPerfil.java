@@ -3,6 +3,7 @@ package Vistas;
 //@Autor: Anton Luo
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -37,25 +38,21 @@ public class _04_MiPerfil extends Menus {
 		contentPanel.add(perfilPanel);
 
 		JPanel fotoPanel = new JPanel();
+		fotoPanel.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(0, 0, 0)));
 		fotoPanel.setLayout(null);
 		fotoPanel.setBackground(Color.WHITE);
-		fotoPanel.setBounds(36, 56, 145, 145);
+		fotoPanel.setBounds(36, 56, 147, 147);
 		perfilPanel.add(fotoPanel);
-		//TODO HACER FOTO USER
-		JButton btnUpload = new JButton("Subir Imagen");
-		btnUpload.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controlador.cargarImagen(lblImage.getHeight());
-			}
-		});
-		btnUpload.setBounds(22, 60, 100, 25);
-		fotoPanel.add(btnUpload);
+
+		ImageIcon user = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/usuario.png")).getImage()
+				.getScaledInstance(145, 145, Image.SCALE_SMOOTH));
 
 		lblImage = new JLabel("");
+		lblImage.setBounds(1, 1, 145, 145);
+		fotoPanel.add(lblImage);
+		lblImage.setIcon(user);
 		lblImage.setHorizontalAlignment(SwingConstants.CENTER);
 		lblImage.setBackground(Color.LIGHT_GRAY);
-		lblImage.setBounds(0, 0, 145, 145);
-		fotoPanel.add(lblImage);
 
 		JPanel headerPanel = new JPanel();
 		headerPanel.setBounds(0, 0, 806, 128);
@@ -63,11 +60,6 @@ public class _04_MiPerfil extends Menus {
 		headerPanel.setLayout(null);
 		headerPanel.setBorder(null);
 		headerPanel.setBackground(new Color(208, 224, 227));
-
-		lblNickname = new JLabel("Nickname");
-		lblNickname.setFont(new Font("Tahoma", Font.PLAIN, 27));
-		lblNickname.setBounds(206, 70, 541, 47);
-		headerPanel.add(lblNickname);
 
 		JPanel contentPanel = new JPanel();
 		contentPanel.setBounds(0, 127, 806, 594);
@@ -123,6 +115,7 @@ public class _04_MiPerfil extends Menus {
 		btnAplicar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controlador.actualizarDatosUsuario();
+				controlador.setDatosUsuario();
 			}
 		});
 		btnAplicar.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -134,10 +127,24 @@ public class _04_MiPerfil extends Menus {
 		lblWarning.setBounds(30, 317, 282, 14);
 		datosPanel.add(lblWarning);
 
-		addWindowListener(new WindowAdapter() {
-			public void windowActivated(WindowEvent e) {
-				controlador.setDatosUsuario();
+		JButton btnUpload = new JButton("Subir Imagen");
+		btnUpload.setBounds(51, 80, 115, 25);
+		contentPanel.add(btnUpload);
+		btnUpload.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setImage(controlador.cargarImagen(lblImage.getHeight()));
 			}
+		});
+
+		lblNickname = new JLabel("Nickname");
+		lblNickname.setBounds(202, 11, 541, 47);
+		contentPanel.add(lblNickname);
+		lblNickname.setFont(new Font("Tahoma", Font.PLAIN, 27));
+		
+		addWindowListener(new WindowAdapter() {
+		    public void windowOpened(WindowEvent e) {
+		        controlador.setDatosUsuario();
+		    }
 		});
 	}
 
@@ -178,8 +185,8 @@ public class _04_MiPerfil extends Menus {
 		lblNickname.setText(nickname);
 	}
 
-	public String getImage() {
-		return lblImage.getText();
+	public ImageIcon getImage() {
+		return (ImageIcon) lblImage.getIcon();
 	}
 
 	public void setImage(ImageIcon foto) {

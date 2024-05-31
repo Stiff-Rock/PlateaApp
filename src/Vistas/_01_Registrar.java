@@ -306,8 +306,14 @@ public class _01_Registrar extends JFrame implements Vista {
 
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				comboBoxPreguntas.setModel(controlador.getPreguntas());
+
 				lblCaptcha.setText(controlador.getCaptcha());
+			}
+		});
+
+		addWindowListener(new WindowAdapter() {
+			public void windowOpened(WindowEvent e) {
+				comboBoxPreguntas.setModel(controlador.getPreguntas());
 			}
 		});
 	}

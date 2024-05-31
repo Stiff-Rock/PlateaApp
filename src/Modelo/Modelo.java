@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.ByteBuffer;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -48,7 +49,7 @@ public class Modelo {
 	private Connection conexion;
 	private String resultado;
 	private int fallos;
-
+	private String[] datosPublicacion;
 	private DefaultTableModel miTabla;
 
 	public Modelo() {
@@ -163,40 +164,76 @@ public class Modelo {
 		return preguntas;
 	}
 
-//	"SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA"
-	public DefaultTableModel obtenerTabla(int pagina) {
-		String query = null;
+	public String obtenerCategoria(String codigo) {
+		String categoria = "";
+		String query = "SELECT NOMBRE FROM platea.CATEGORIA WHERE CODIGO = ?";
 
-		if (pagina == 3) {
-			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE ESTADO != 'Pendiente'";
+		try (PreparedStatement stmt = conexion.prepareStatement(query)) {
+			stmt.setString(1, codigo);
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					categoria = rs.getString("NOMBRE");
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		;
-		if (pagina == 5) {
-			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ?";
-		}
-		if (pagina == 6) {
-			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ? AND USUARIO_NICK IN (SELECT USUARIO_NICK FROM PLATEA.VOTAR WHERE FAVORITO = 'S')";
-		}
-		if (pagina == 7) {
-			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ? AND USUARIO_NICK IN (SELECT USUARIO_NICK FROM PLATEA.VOTAR WHERE UPVOTE = 'S')";
-		}
-		if (pagina == 8) {
-			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE ESTADO = 'Pendiente'";
-		}
+		return categoria;
+	}
 
-		int numColumnas = getNumColumnas(query, pagina);
-		int numFilas = getNumFilas(query, pagina);
+	private DefaultTableModel obtenerTabla1(String campo, String operador, String valor) {
+	    String query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK AS USUARIO, CATEGORIA_CODIGO AS CATEGORIA FROM PLATEA.DENUNCIA WHERE TRIM("
+	            + campo + ") " + operador + " ?";
+
+	    int numColumnas = getNumColumnas(query);
+	    int numFilas = getNumFilas(query);
+
+	    String[] cabecera = new String[numColumnas];
+	    Object[][] contenido = new Object[numFilas][numColumnas];
+
+	    try {
+	        PreparedStatement pstmt = conexion.prepareStatement(query);
+	        pstmt.setString(1, valor);
+
+	        ResultSet rs = pstmt.executeQuery();
+	        ResultSetMetaData rsmd = rs.getMetaData();
+	        for (int i = 1; i <= numColumnas; i++) {
+	            cabecera[i - 1] = rsmd.getColumnName(i);
+	        }
+	        int filas = 0;
+	        while (rs.next()) {
+	            for (int col = 1; col <= numColumnas; col++) {
+	                contenido[filas][col - 1] = rs.getString(col);
+	            }
+	            filas++;
+	        }
+	        rs.close();
+	        pstmt.close();
+
+	        miTabla = new DefaultTableModel(contenido, cabecera);
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return miTabla;
+	}
+
+
+	private DefaultTableModel obtenerTabla2(String campo) {
+		String query = "SELECT DENUNCIA.CODIGO, DENUNCIA.DIRECCION, DENUNCIA.CP, DENUNCIA.ESTADO, "
+				+ "DENUNCIA.FECHA, DENUNCIA.USUARIO_NICK AS USUARIO, DENUNCIA.CATEGORIA_CODIGO AS CATEGORIA FROM PLATEA.DENUNCIA "
+				+ "JOIN PLATEA.VOTAR ON DENUNCIA.CODIGO = VOTAR.DENUNCIA_CODIGO WHERE VOTAR.USUARIO_NICK = ? AND VOTAR."
+				+ campo + " = 'S'";
+
+		int numColumnas = getNumColumnas(query);
+		int numFilas = getNumFilas(query);
 
 		String[] cabecera = new String[numColumnas];
 		Object[][] contenido = new Object[numFilas][numColumnas];
 
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-			if (pagina == 5 || pagina == 6 || pagina == 7) {
-				pstmt.setString(1, user.getNickname());
-			}
-
-			System.out.println("Executing query: " + pstmt.toString());
+			pstmt.setString(1, user.getNickname());
 
 			ResultSet rs = pstmt.executeQuery();
 			ResultSetMetaData rsmd = rs.getMetaData();
@@ -221,12 +258,11 @@ public class Modelo {
 		return miTabla;
 	}
 
-	private int getNumColumnas(String query, int pagina) {
+	private int getNumColumnas(String query) {
 		int numColumnas = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-			if (query.contains("?") && pagina == 5 || query.contains("?") && pagina == 7
-					|| query.contains("?") && pagina == 6) {
+			if (query.contains("?")) {
 				pstmt.setString(1, user.getNickname());
 			}
 			ResultSet rset = pstmt.executeQuery();
@@ -238,12 +274,11 @@ public class Modelo {
 		return numColumnas;
 	}
 
-	private int getNumFilas(String query, int pagina) {
+	private int getNumFilas(String query) {
 		int numFilas = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-			if (query.contains("?") && pagina == 5 || query.contains("?") && pagina == 7
-					|| query.contains("?") && pagina == 6) {
+			if (query.contains("?")) {
 				pstmt.setString(1, user.getNickname());
 			}
 			ResultSet rset = pstmt.executeQuery();
@@ -253,6 +288,33 @@ public class Modelo {
 			e.printStackTrace();
 		}
 		return numFilas;
+	}
+
+//TODO LOL
+	public void obtenerPublicacion(String codigoDen) {
+		String query = "SELECT * FROM PLATEA.DENUNCIA WHERE CODIGO = ?";
+		datosPublicacion = new String[6];
+
+		try (PreparedStatement pstmt = conexion.prepareStatement(query)) {
+			pstmt.setString(1, codigoDen); // Establecer el valor del parámetro en la consulta SQL
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+
+					if (rs.getBytes("IMAGEN") != null) {
+						datosPublicacion[0] = Base64.getEncoder().encodeToString(rs.getBytes("IMAGEN"));
+					} else {
+						datosPublicacion[0] = null;
+					}
+					datosPublicacion[1] = rs.getString("FECHA");
+					datosPublicacion[2] = rs.getString("CP");
+					datosPublicacion[3] = obtenerCategoria(rs.getString("CATEGORIA_CODIGO"));
+					datosPublicacion[4] = rs.getString("DIRECCION");
+					datosPublicacion[5] = rs.getString("DESCRIPCION");
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void crearUsuario(String[] datosRegistro) {
@@ -292,7 +354,7 @@ public class Modelo {
 					datos[3] = rs.getString("CP");
 					datos[4] = rs.getString("PWD");
 					datos[5] = rs.getString("ADMIN");
-					datos[6] = rs.getBytes("FOTO") != null ? new String(rs.getBytes("FOTO")) : "";
+					datos[6] = Base64.getEncoder().encodeToString(rs.getBytes("FOTO"));
 					datos[7] = rs.getString("PREGUNTA_CODIGO");
 					datos[8] = rs.getString("RESPUESTA");
 				}
@@ -305,17 +367,20 @@ public class Modelo {
 	}
 
 	public void updateUsuario() {
-		String sql = "UPDATE platea.usuario SET nombre = ?, apellido = ?, cp = ? WHERE nick = ?";
+		String sql = "UPDATE platea.usuario SET nombre = ?, apellido = ?, cp = ?, foto = ? WHERE nick = ?";
 		try (PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+			// Convertir el valor long a un array de bytes
+			byte[] fotoBytes = Base64.getDecoder().decode(deImagenABase64(user.getFoto()));
+
 			pstmt.setString(1, user.getNombre());
 			pstmt.setString(2, user.getApellido());
 			pstmt.setInt(3, Integer.valueOf(user.getCp()));
-			pstmt.setString(4, user.getNickname());
-//			pstmt.setString(5, user.getFoto());
+			pstmt.setBytes(4, fotoBytes);
+			pstmt.setString(5, user.getNickname());
+
 			pstmt.executeUpdate();
 			System.out.println("Datos cambiados correctamente");
 		} catch (SQLException e) {
-			// Manejo de excepciones
 			e.printStackTrace();
 		}
 	}
@@ -461,20 +526,19 @@ public class Modelo {
 		String resultado = "";
 		String numeros = "1234567890";
 
-		// TODO AÑADIR FOTO PERFIL??
-
+		// Comprueba que el nombre no tenga números
 		for (int i = 0; i < numeros.length(); i++) {
 			if (datos[0].contains(String.valueOf(numeros.charAt(i)))) {
 				resultado = "Nombre";
 			}
 		}
-
+		// Comprueba que el apellido no tenga números
 		for (int i = 0; i < numeros.length(); i++) {
 			if (datos[1].contains(String.valueOf(numeros.charAt(i)))) {
 				resultado = "Apellido";
 			}
 		}
-
+		// Comprueba que el codigo postal solo tenga números
 		for (int i = 0; i < datos[2].length(); i++) {
 			if (!numeros.contains(String.valueOf(datos[2].charAt(i)))) {
 				resultado = "Cp";
@@ -488,20 +552,22 @@ public class Modelo {
 		return resultado;
 	}
 
-	private void crearPublicacion(String[] datosPublicacion) {
+	private String crearPublicacion(String[] datosPublicacion) {
 		String sqlCount = "SELECT COUNT(*) FROM platea.denuncia";
 		String sqlInsert = "INSERT INTO platea.denuncia (CODIGO, IMAGEN, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO, DESCRIPCION) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+		String codigoDenuncia = "";
 		try {
 			// Paso 1: Ejecutar la consulta para obtener la cantidad de denuncias
 			PreparedStatement countStmt = conexion.prepareStatement(sqlCount);
 			ResultSet resultSet = countStmt.executeQuery();
 			resultSet.next(); // Mover al primer resultado
+			// TODO PROBLEMAS
 			String numeroDenuncias = String.valueOf(resultSet.getInt(1) + 1); // Sumar 1 para crear el nuevo código
 			countStmt.close();
 
 			// Paso 2: Generar el nuevo código
-			String codigoDenuncia = generarCodigo("DEN", numeroDenuncias);
+			codigoDenuncia = generarCodigo("DEN", numeroDenuncias);
 			String codigoCategoria = generarCodigo("CAT", datosPublicacion[3]);
 
 			// Convertir el String de fecha al formato "yyyy-MM-dd"
@@ -526,14 +592,14 @@ public class Modelo {
 				pstmt.setString(9, datosPublicacion[5]);
 
 				pstmt.executeUpdate();
-
-				System.out.println("Denuncia creada exitosamente.");
 			} catch (SQLException e) {
 				System.out.println("Error al crear la denuncia: " + e.getMessage());
 			}
 		} catch (SQLException e) {
 			System.out.println("Error al obtener la cantidad de denuncias: " + e.getMessage());
 		}
+		System.out.println("Denuncia '" + codigoDenuncia + "' creada correctamente");
+		return codigoDenuncia;
 	}
 
 	public ImageIcon obtenerImagen(String tabla, String campoFoto, String campoId, int id, int alturaImagen) {
@@ -582,44 +648,45 @@ public class Modelo {
 		return imageIcon;
 	}
 
-	public String comprobarInfoPublicacion(String[] datosPublicacion) {
-		String resultado = "";
+	public String[] comprobarInfoPublicacion(String[] datosPublicar) {
+		String[] resultados = new String[2];
+		resultados[0] = "";
+		resultados[1] = "";
 
-		if (datosPublicacion[1] != null
-				&& !datosPublicacion[1].matches("(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}")) {
-			resultado = "Fecha";
+		if (datosPublicar[1] != null && !datosPublicar[1].matches("(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}")) {
+			resultados[0] = "Fecha";
 		}
 
 		String numeros = "1234567890";
-		for (int i = 0; i < datosPublicacion[2].length(); i++) {
-			if (!numeros.contains(String.valueOf(datosPublicacion[2].charAt(i)))) {
-				resultado = "Cp";
+		for (int i = 0; i < datosPublicar[2].length(); i++) {
+			if (!numeros.contains(String.valueOf(datosPublicar[2].charAt(i)))) {
+				resultados[0] = "Cp";
 			}
 		}
 
-		if (datosPublicacion[3].equals("0") || datosPublicacion[3].equals("-1")) {
-			resultado = "Categoria";
+		if (datosPublicar[3].equals("0") || datosPublicar[3].equals("-1")) {
+			resultados[0] = "Categoria";
 		}
 
-		if (datosPublicacion[5].length() < 100) {
-			resultado = "DescripcionPoco";
+		if (datosPublicar[5].length() < 50) {
+			resultados[0] = "DescripcionPoco";
 		}
 
-		if (datosPublicacion[5].length() > 300) {
-			resultado = "DescripcionMucho";
+		if (datosPublicar[5].length() > 300) {
+			resultados[0] = "DescripcionMucho";
 		}
 
-		for (int i = 0; i < datosPublicacion.length; i++) {
-			if (datosPublicacion[i].equals(null) || datosPublicacion[i].equals("")) {
-				resultado = "Faltan"; // Todos los campos son obligatorios
+		for (int i = 0; i < datosPublicar.length; i++) {
+			if (datosPublicar[i].equals(null) || datosPublicar[i].equals("")) {
+				resultados[0] = "Faltan"; // Todos los campos son obligatorios
 			}
 		}
 
-		if (resultado.equals("")) {
-			resultado = "Correcto";
-			crearPublicacion(datosPublicacion);
+		if (resultados[0].equals("")) {
+			resultados[0] = "Correcto";
+			resultados[1] = crearPublicacion(datosPublicar);
 		}
-		return resultado;
+		return resultados;
 	}
 
 	public String deImagenABase64(ImageIcon imagen) {
@@ -650,27 +717,6 @@ public class Modelo {
 		return imagen;
 	}
 
-	// Métodos getter y setter del modelo
-	public void setVistas(Vista[] vistas) {
-		this.vistas = vistas;
-	}
-
-	public void setUsuario(Usuario user) {
-		this.user = user;
-	}
-
-	public String getResultado() {
-		return resultado;
-	}
-
-	public Usuario getUser() {
-		return user;
-	}
-
-	public DefaultTableModel getTabla(int pagina) {
-		return obtenerTabla(pagina);
-	}
-
 	public boolean verificarCambio(String nick, String pregunta, String respuesta, String nuevaPwd, String confirmPwd) {
 		String selectQuery = "SELECT 1 FROM platea.usuario WHERE NICK = ? AND PREGUNTA_CODIGO = ? AND RESPUESTA = ?";
 		String updateQuery = "UPDATE platea.usuario SET PWD = ? WHERE NICK = ?";
@@ -699,5 +745,34 @@ public class Modelo {
 		}
 		return false;
 
+	}
+
+	// Métodos getter y setter del modelo
+	public void setVistas(Vista[] vistas) {
+		this.vistas = vistas;
+	}
+
+	public void setUsuario(Usuario user) {
+		this.user = user;
+	}
+
+	public String getResultado() {
+		return resultado;
+	}
+
+	public Usuario getUser() {
+		return user;
+	}
+
+	public DefaultTableModel getTabla1(String campo, String operador, String valor) {
+		return obtenerTabla1(campo, operador, valor);
+	}
+
+	public DefaultTableModel getTabla2(String campo) {
+		return obtenerTabla2(campo);
+	}
+
+	public String[] getDatosPublicacion() {
+		return datosPublicacion;
 	}
 }

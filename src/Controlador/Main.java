@@ -19,6 +19,7 @@ import Vistas._10_Publicar;
 public class Main {
 	public static void main(String[] args) {
 		Modelo modelo = new Modelo();
+		modelo.obtenerPublicacion("DEN001");
 		Controlador controlador = new Controlador();
 		Usuario user = new Usuario();
 		user.mostrarUser();
@@ -47,7 +48,9 @@ public class Main {
 		controlador.setVista(vistas);
 		controlador.setModelo(modelo);
 		controlador.setUsuario(user);
-		
+
+		user.setModelo(modelo);
+
 		controlador.cambiarVentana(0, 0);
 	}
 }

@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -17,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
 
 //@Autor: Anton Luo
 public class _06_MisFavoritos extends Menus {
@@ -30,7 +31,7 @@ public class _06_MisFavoritos extends Menus {
 	public _06_MisFavoritos() {
 		setTitle("Mis favoritos");
 		setContentPane(mainPanel);
-		
+
 		ImageIcon mas = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/mas.png")).getImage()
 				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
 		ImageIcon borrar = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/Quitar.png")).getImage()
@@ -84,9 +85,20 @@ public class _06_MisFavoritos extends Menus {
 		table.setForeground(new Color(0, 0, 0));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		
-		tablaPane.setViewportView(table);
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				// Obtener la fila y columna donde se hizo clic
+				int fila = table.rowAtPoint(e.getPoint());
+				int columna = table.columnAtPoint(e.getPoint());
+				// Obtener el valor del primer campo de la fila donde se hizo clic
+				String valor = table.getValueAt(fila, 0).toString();
+				controlador.prepararPublicacion(valor);
+				controlador.cambiarVentana(6, 9);
+			}
+		});
 
+		tablaPane.setViewportView(table);
+		// TODO BOTON BORRAR
 		JButton btnPublicar = new JButton("Publicar");
 		btnPublicar.setIcon(mas);
 		btnPublicar.addActionListener(new ActionListener() {
@@ -107,10 +119,11 @@ public class _06_MisFavoritos extends Menus {
 		btnBorrar.setBounds(450, 660, 131, 35);
 		btnBorrar.setIcon(borrar);
 		contentPanel.add(btnBorrar);
-		
+
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				table.setModel(controlador.getTabla(6));
+				String campo = "FAVORITO";
+				table.setModel(controlador.getTabla2(campo));
 			}
 		});
 	}

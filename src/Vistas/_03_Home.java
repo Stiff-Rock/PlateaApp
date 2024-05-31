@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -32,7 +34,7 @@ public class _03_Home extends Menus {
 	public _03_Home() {
 		setTitle("Inicio");
 		setContentPane(mainPanel);
-		
+
 		ImageIcon lupa = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/lupa.png")).getImage()
 				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
 		ImageIcon mas = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/mas.png")).getImage()
@@ -54,7 +56,18 @@ public class _03_Home extends Menus {
 		table.setForeground(new Color(0, 0, 0));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				// Obtener la fila y columna donde se hizo clic
+				int fila = table.rowAtPoint(e.getPoint());
+				int columna = table.columnAtPoint(e.getPoint());
+				// Obtener el valor del primer campo de la fila donde se hizo clic
+				String valor = table.getValueAt(fila, 0).toString();
+				controlador.prepararPublicacion(valor);
+				controlador.cambiarVentana(3, 9);
+			}
+		});
+		
 		tablaPane.setViewportView(table);
 
 		JPanel filtrosPanel = new JPanel();
@@ -104,10 +117,13 @@ public class _03_Home extends Menus {
 		});
 		btnPublicar.setIcon(mas);
 		btnPublicar.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		
+
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				table.setModel(controlador.getTabla(3));
+				String campo = "ESTADO";
+				String operador = "!=";
+				String valor = "Nueva";
+				table.setModel(controlador.getTabla1(campo, operador, valor));
 			}
 		});
 	}

@@ -26,6 +26,7 @@ import Vistas._00_Login;
 import Vistas._01_Registrar;
 import Vistas._02_Reestablecer;
 import Vistas._04_MiPerfil;
+import Vistas._09_Publicacion;
 import Vistas._10_Publicar;
 
 public class Controlador {
@@ -49,8 +50,12 @@ public class Controlador {
 		return modelo.generateCaptcha();
 	}
 
-	public TableModel getTabla(int pagina) {
-		return modelo.getTabla(pagina);
+	public TableModel getTabla1(String campo, String operador, String valor) {
+		return modelo.getTabla1(campo, operador, valor);
+	}
+
+	public TableModel getTabla2(String campo) {
+		return modelo.getTabla2(campo);
 	}
 
 	public DefaultComboBoxModel getPreguntas() {
@@ -167,7 +172,7 @@ public class Controlador {
 		if (modelo.verificarCambio(nick, modelo.generarCodigo("PRE", preguntaIdex), respuesta, pwd, usrConfirmado)) {
 			cambiarVentana(2, 0);
 		} else {
-			System.out.println("No");
+			System.out.println("Cambio no aceptado");
 		}
 
 	}
@@ -194,7 +199,8 @@ public class Controlador {
 		datos[0] = ((_04_MiPerfil) vistas[4]).getNombre();
 		datos[1] = ((_04_MiPerfil) vistas[4]).getApellido();
 		datos[2] = ((_04_MiPerfil) vistas[4]).getCp();
-		datos[3] = ((_04_MiPerfil) vistas[4]).getImage();
+		datos[3] = deImagenABase64(((_04_MiPerfil) vistas[4]).getImage());
+
 		String resultado = modelo.actualizarDatosUsuario(datos);
 
 		Color color;
@@ -206,7 +212,9 @@ public class Controlador {
 			user.setApellido(datos[1]);
 			user.setCp(datos[2]);
 			user.setFoto(deBase64AImagen(datos[3]));
+			// Actualiza el registro de la BBDD
 			modelo.updateUsuario();
+			// Actualiza los datos del perfil
 			setDatosUsuario();
 		} else {
 			color = new Color(255, 0, 0);
@@ -235,22 +243,23 @@ public class Controlador {
 	}
 
 	public void crearPublicacion() {
-		String[] datosPublicacion = new String[6];
+		String[] datosPublicar = new String[6];
 
-		datosPublicacion[0] = deImagenABase64(((_10_Publicar) vistas[10]).getFoto());
-		datosPublicacion[1] = ((_10_Publicar) vistas[10]).getFecha();
-		datosPublicacion[2] = ((_10_Publicar) vistas[10]).getCp();
-		datosPublicacion[3] = ((_10_Publicar) vistas[10]).getCategoria();
-		datosPublicacion[4] = ((_10_Publicar) vistas[10]).getDireccion();
-		datosPublicacion[5] = ((_10_Publicar) vistas[10]).getDescripcion();
+		datosPublicar[0] = deImagenABase64(((_10_Publicar) vistas[10]).getFoto());
+		datosPublicar[1] = ((_10_Publicar) vistas[10]).getFecha();
+		datosPublicar[2] = ((_10_Publicar) vistas[10]).getCp();
+		datosPublicar[3] = ((_10_Publicar) vistas[10]).getCategoria();
+		datosPublicar[4] = ((_10_Publicar) vistas[10]).getDireccion();
+		datosPublicar[5] = ((_10_Publicar) vistas[10]).getDescripcion();
 
-		String resultado = modelo.comprobarInfoPublicacion(datosPublicacion);
+		String[] resultados = modelo.comprobarInfoPublicacion(datosPublicar);
+
 		String mensaje = "";
-		if (resultado.equals("Correcto")) {
-			// TODO que se cargue la publicación recien creada
+		if (resultados[0].equals("Correcto")) {
+			modelo.obtenerPublicacion(resultados[1]);
 			cambiarVentana(10, 9);
 		} else {
-			switch (resultado) {
+			switch (resultados[0]) {
 			case "Fecha":
 				mensaje = "La fecha no es válida o no coincide con el formato";
 				break;
@@ -264,7 +273,6 @@ public class Controlador {
 				mensaje = "La descripción debe ser de al menos 120 caracteres";
 				break;
 			case "DescripcionMucho":
-				// TODO contador de caracteres
 				mensaje = "La descripción no debe ser mayor a 300 caracteres";
 				break;
 			case "Faltan":
@@ -275,7 +283,21 @@ public class Controlador {
 		}
 	}
 
-	public void cargarImagen(int alturaImagen) {
+	public void cargarPublicacion() {
+		String[] datosPublicacion = modelo.getDatosPublicacion();
+		((_09_Publicacion) vistas[9]).setLblFoto(deBase64AImagen(datosPublicacion[0]));
+		((_09_Publicacion) vistas[9]).setTxtFecha(datosPublicacion[1]);
+		((_09_Publicacion) vistas[9]).setTxtCp(datosPublicacion[2]);
+		((_09_Publicacion) vistas[9]).setTxtCategoria(datosPublicacion[3]);
+		;
+		((_09_Publicacion) vistas[9]).setTxtDireccion(datosPublicacion[4]);
+		;
+		((_09_Publicacion) vistas[9]).setTxtDescripcion(datosPublicacion[5]);
+		;
+	}
+
+	public ImageIcon cargarImagen(int alturaImagen) {
+		ImageIcon imageIcon = null;
 		// Crea un JFileChooser para seleccionar la imagen
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Elige una imagen");
@@ -294,7 +316,6 @@ public class Controlador {
 					// Calcula la nueva anchura manteniendo la proporción
 					double proporcion = (double) alturaImagen / imagen.getHeight();
 					int nuevaAnchura = (int) (imagen.getWidth() * proporcion);
-
 					// Escala la imagen al tamaño deseado
 					BufferedImage imagenEscalada = new BufferedImage(nuevaAnchura, alturaImagen,
 							BufferedImage.TYPE_INT_ARGB);
@@ -303,10 +324,9 @@ public class Controlador {
 							null);
 
 					// Convierte la imagen escalada a ImageIcon
-					ImageIcon imageIcon = new ImageIcon(imagenEscalada);
+					imageIcon = new ImageIcon(imagenEscalada);
 
 					// Llama al método setFoto con el ImageIcon
-					((_10_Publicar) vistas[10]).setFoto(imageIcon);
 				} else {
 					System.out.println("No se pudo leer la imagen seleccionada.");
 				}
@@ -314,5 +334,10 @@ public class Controlador {
 				ex.printStackTrace();
 			}
 		}
+		return imageIcon;
+	}
+
+	public void prepararPublicacion(String valor) {
+		modelo.obtenerPublicacion(valor);
 	}
 }

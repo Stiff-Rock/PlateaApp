@@ -196,7 +196,7 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		lblLogo.setIcon(resizedLogo);
 		
 		addWindowListener(new WindowAdapter() {
-			public void windowActivated(WindowEvent e) {
+			public void windowOpened(WindowEvent e) {
 				comboBoxPreguntas.setModel(controlador.getPreguntas());
 			}
 		});

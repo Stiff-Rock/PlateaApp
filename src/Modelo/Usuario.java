@@ -13,6 +13,8 @@ public class Usuario {
 	private String codPregunta;
 	private String respuesta;
 
+	private Modelo modelo;
+
 	public Usuario() {
 		this.nickname = "";
 		this.apellido = "";
@@ -104,11 +106,11 @@ public class Usuario {
 		this.cp = cargarUsuario[3];
 		this.pwd = cargarUsuario[4];
 		this.esAdmin = cargarUsuario[5];
-//		this.foto = cargarUsuario[6];
+		this.foto = modelo.deBase64AImagen(cargarUsuario[6]);
 		this.codPregunta = cargarUsuario[7];
 		this.respuesta = cargarUsuario[8];
 
-		System.out.println("Datos de usuario cargados: ");
+		System.out.println("Datos de usuario cargados");
 	}
 
 	public void mostrarUser() {
@@ -116,4 +118,7 @@ public class Usuario {
 				+ codPregunta + " " + respuesta);
 	}
 
+	public void setModelo(Modelo modelo) {
+		this.modelo = modelo;
+	}
 }

@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -84,9 +86,20 @@ public class _07_Votados extends Menus {
 		table.setForeground(new Color(0, 0, 0));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				// Obtener la fila y columna donde se hizo clic
+				int fila = table.rowAtPoint(e.getPoint());
+				int columna = table.columnAtPoint(e.getPoint());
+				// Obtener el valor del primer campo de la fila donde se hizo clic
+				String valor = table.getValueAt(fila, 0).toString();
+				controlador.prepararPublicacion(valor);
+				controlador.cambiarVentana(7, 9);
+			}
+		});
 		
 		tablaPane.setViewportView(table);
-
+		//TODO BOTON BORRAR
 		JButton btnPublicar = new JButton("Publicar");
 		btnPublicar.setIcon(mas);
 		btnPublicar.addActionListener(new ActionListener() {
@@ -110,7 +123,8 @@ public class _07_Votados extends Menus {
 		
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				table.setModel(controlador.getTabla(7));
+				String campo = "UPVOTE";
+				table.setModel(controlador.getTabla2(campo));
 			}
 		});
 	}

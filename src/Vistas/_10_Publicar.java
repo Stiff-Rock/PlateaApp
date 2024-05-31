@@ -16,6 +16,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.border.MatteBorder;
 //@Autor: Hugo Osma
 
 public class _10_Publicar extends Menus {
@@ -34,6 +37,8 @@ public class _10_Publicar extends Menus {
 	private JLabel lblFoto;
 	private JPanel fotoPanel;
 	private JTextArea txtDescripcion;
+	private JLabel lblNumChars;
+	private JPanel panel;
 
 	public _10_Publicar() {
 		setTitle("Publicar");
@@ -52,15 +57,16 @@ public class _10_Publicar extends Menus {
 		txtFecha.setColumns(10);
 
 		fotoPanel = new JPanel();
+		fotoPanel.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(0, 0, 0)));
 		fotoPanel.setBackground(new Color(255, 255, 255));
-		fotoPanel.setBounds(167, 79, 329, 185);
+		fotoPanel.setBounds(167, 79, 331, 187);
 		publicarPanel.add(fotoPanel);
 		fotoPanel.setLayout(null);
 
 		btnSubirFoto = new JButton("Subir Foto");
 		btnSubirFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controlador.cargarImagen(fotoPanel.getHeight());
+				setFoto(controlador.cargarImagen(fotoPanel.getHeight()));
 			}
 		});
 		btnSubirFoto.setBounds(223, 151, 96, 23);
@@ -101,17 +107,11 @@ public class _10_Publicar extends Menus {
 		JLabel lblCp = new JLabel("Codigo Postal:");
 		lblCp.setBounds(261, 294, 141, 13);
 		publicarPanel.add(lblCp);
-
-		txtDescripcion = new JTextArea();
-		txtDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		txtDescripcion.setBounds(60, 441, 543, 117);
-		publicarPanel.add(txtDescripcion);
-
 		lblDescripcion = new JLabel("Descripción del problema:");
-		lblDescripcion.setBounds(60, 417, 131, 13);
+		lblDescripcion.setBounds(60, 417, 172, 13);
 		publicarPanel.add(lblDescripcion);
 
-		//TODO CARGAR CATEGORIAS
+		// TODO CARGAR CATEGORIAS
 		comboBoxCategoria = new JComboBox();
 		comboBoxCategoria.setBounds(462, 311, 141, 28);
 		publicarPanel.add(comboBoxCategoria);
@@ -148,9 +148,45 @@ public class _10_Publicar extends Menus {
 		lblWarning.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblWarning.setBounds(60, 598, 378, 14);
 		publicarPanel.add(lblWarning);
-		
+
+		lblNumChars = new JLabel("Caracteres: 0");
+		lblNumChars.setBounds(60, 566, 225, 14);
+		publicarPanel.add(lblNumChars);
+
+		panel = new JPanel();
+		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBounds(60, 441, 543, 114);
+		publicarPanel.add(panel);
+		panel.setLayout(null);
+
+		txtDescripcion = new JTextArea();
+		txtDescripcion.setBounds(10, 11, 523, 92);
+		panel.add(txtDescripcion);
+		txtDescripcion.setLineWrap(true);
+		txtDescripcion.setRows(5);
+		txtDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		txtDescripcion.getDocument().addDocumentListener(new DocumentListener() {
+			public void insertUpdate(DocumentEvent e) {
+				updateCharacterCount();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				updateCharacterCount();
+			}
+
+			public void changedUpdate(DocumentEvent e) {
+
+			}
+
+			private void updateCharacterCount() {
+				lblNumChars.setText("Caracteres: " + txtDescripcion.getText().length());
+			}
+
+		});
+
 		addWindowListener(new WindowAdapter() {
-			public void windowActivated(WindowEvent e) {
+			public void windowOpened(WindowEvent e) {
 				comboBoxCategoria.setModel(controlador.getCategorias());
 			}
 		});
