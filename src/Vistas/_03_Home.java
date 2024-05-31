@@ -11,15 +11,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
@@ -61,10 +58,10 @@ public class _03_Home extends Menus {
 				// Obtener la fila y columna donde se hizo clic
 				int fila = table.rowAtPoint(e.getPoint());
 				int columna = table.columnAtPoint(e.getPoint());
-					// Obtener el valor del primer campo de la fila donde se hizo clic
-					String valor = table.getValueAt(fila, 0).toString();
-					controlador.prepararPublicacion(valor);
-					controlador.cambiarVentana(3, 9);
+				// Obtener el valor del primer campo de la fila donde se hizo clic
+				String valor = table.getValueAt(fila, 0).toString();
+				controlador.prepararPublicacion(valor);
+				controlador.cambiarVentana(3, 9);
 			}
 		});
 
@@ -92,7 +89,7 @@ public class _03_Home extends Menus {
 		filtrosPanel.setBackground(new Color(162, 196, 201));
 		filtrosPanel.setBounds(0, 0, 695, 49);
 		tablaPanel.add(filtrosPanel);
-		
+
 		JLabel lblInicio = new JLabel("Inicio");
 		lblInicio.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblInicio.setBounds(10, 11, 297, 25);
@@ -109,12 +106,11 @@ public class _03_Home extends Menus {
 		btnPublicar.setIcon(mas);
 		btnPublicar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
-		
 		addWindowListener(new WindowAdapter() {
-		    public void windowOpened(WindowEvent e) {
+			public void windowOpened(WindowEvent e) {
 
-		    	table.setModel(controlador.getTabla(3));
-		    }
+				table.setModel(controlador.getTabla(3));
+			}
 		});
 	}
 }

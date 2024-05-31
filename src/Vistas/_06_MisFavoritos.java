@@ -1,9 +1,6 @@
 package Vistas;
 
 import java.awt.Color;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -13,10 +10,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -63,8 +58,7 @@ public class _06_MisFavoritos extends Menus {
 		JScrollPane tablaPane = new JScrollPane();
 		tablaPane.setBounds(10, 60, 675, 525);
 		tablePanel.add(tablaPane);
-		
-		
+
 		table = new JTable();
 		table.setForeground(new Color(0, 0, 0));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -80,15 +74,15 @@ public class _06_MisFavoritos extends Menus {
 				controlador.cambiarVentana(6, 9);
 			}
 		});
-		
+
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		table.getTableHeader().setReorderingAllowed(false);
-		
+
 		tablaPane.setViewportView(table);
 
 		tablaPane.setViewportView(table);
-		
+
 		JButton btnPublicar = new JButton("Publicar");
 		btnPublicar.setIcon(mas);
 		btnPublicar.addActionListener(new ActionListener() {
@@ -111,10 +105,10 @@ public class _06_MisFavoritos extends Menus {
 		contentPanel.add(btnBorrar);
 
 		addWindowListener(new WindowAdapter() {
-		    public void windowOpened(WindowEvent e) {
-		    	String campo = "FAVORITO";
-		    	table.setModel(controlador.getTabla2(campo));
-		    }
+			public void windowOpened(WindowEvent e) {
+				String campo = "FAVORITO";
+				table.setModel(controlador.getTabla2(campo));
+			}
 		});
 	}
 }

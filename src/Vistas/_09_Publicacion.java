@@ -2,21 +2,20 @@ package Vistas;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 //@Autor: Hugo Osma
 public class _09_Publicacion extends Menus {
@@ -28,12 +27,12 @@ public class _09_Publicacion extends Menus {
 	private JLabel lblFoto;
 	private JLabel lblNumVotos;
 
-	
 	public String getCod() {
-		 String[] datos = controlador.getDatosPublicacion();
-		 String cod= datos[6];
+		String[] datos = controlador.getDatosPublicacion();
+		String cod = datos[6];
 		return cod;
 	}
+
 	public void setTxtFecha(String txtFecha) {
 		this.txtFecha.setText(txtFecha);
 	}
@@ -141,7 +140,7 @@ public class _09_Publicacion extends Menus {
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTitle.setBounds(170, 8, 324, 32);
 		filtrosPanel.add(lblTitle);
-		
+
 		lblNumVotos = new JLabel("Votos totales: 6.000");
 		lblNumVotos.setBounds(60, 598, 174, 14);
 		publicarPanel.add(lblNumVotos);
@@ -166,18 +165,18 @@ public class _09_Publicacion extends Menus {
 		txtDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		txtDescripcion.setBounds(10, 11, 523, 92);
 		panel.add(txtDescripcion);
-		
+
 		JButton btnNewButton = new JButton("Favoritos");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controlador.meterFavoritos();
-				
+
 			}
-			
+
 		});
 		btnNewButton.setBounds(413, 595, 85, 21);
 		publicarPanel.add(btnNewButton);
-		
+
 		JButton btnNewButton_1 = new JButton("Votados");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

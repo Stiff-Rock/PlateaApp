@@ -10,10 +10,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -30,7 +28,7 @@ public class _05_MisPublicaciones extends Menus {
 	public _05_MisPublicaciones() {
 		setTitle("Mis publicaciones");
 		setContentPane(mainPanel);
-		
+
 		ImageIcon mas = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/mas.png")).getImage()
 				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
 		ImageIcon borrar = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/Quitar.png")).getImage()
@@ -76,9 +74,9 @@ public class _05_MisPublicaciones extends Menus {
 				controlador.cambiarVentana(5, 9);
 			}
 		});
-		
+
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		table.getTableHeader().setReorderingAllowed(false);
 
 		tablaPane.setViewportView(table);
@@ -103,11 +101,11 @@ public class _05_MisPublicaciones extends Menus {
 		btnBorrar.setBounds(450, 660, 131, 35);
 		btnBorrar.setIcon(borrar);
 		contentPanel.add(btnBorrar);
-		
+
 		addWindowListener(new WindowAdapter() {
-		    public void windowOpened(WindowEvent e) {
-		    	table.setModel(controlador.getTabla(5));
-		    }
+			public void windowOpened(WindowEvent e) {
+				table.setModel(controlador.getTabla(5));
+			}
 		});
 	}
 }

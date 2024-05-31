@@ -5,15 +5,11 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,13 +18,16 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-
 //@Autor:Anton Luo
 public class _08_Administrador extends Menus {
 	private int pagina = 8;
+	private int fila;
+	private int columna;
 	private String codigoDenuncia;
 	private JTable table;
 	private JButton btnAprobar, btnDenegar;
+	private JTextField textField;
+	private JTextArea textArea;
 
 	public _08_Administrador() {
 		setTitle("Gestionar");
@@ -60,7 +59,7 @@ public class _08_Administrador extends Menus {
 		filtrosPanel.setForeground(Color.WHITE);
 		filtrosPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		filtrosPanel.setBackground(new Color(162, 196, 201));
-		
+
 		JLabel lblPanelDeAdministrador = new JLabel("Panel de administrador");
 		lblPanelDeAdministrador.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblPanelDeAdministrador.setBounds(10, 11, 297, 25);
@@ -88,6 +87,11 @@ public class _08_Administrador extends Menus {
 		JButton btnModificar = new JButton("Modificar\r\n");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String nombreColumna = table.getColumnName(columna);
+				String datoNuevo = textArea.getText();
+				System.out.println(nombreColumna);
+				controlador.modificar(codigoDenuncia, nombreColumna, datoNuevo);
+				table.setModel(controlador.getTabla(pagina));
 			}
 		});
 		btnModificar.setBounds(451, 10, 109, 29);
@@ -103,6 +107,8 @@ public class _08_Administrador extends Menus {
 		btnVer.setIcon(ojo);
 		btnVer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controlador.prepararPublicacion(codigoDenuncia);
+				controlador.cambiarVentana(3, 9);
 			}
 		});
 		btnVer.setBounds(570, 10, 109, 29);
@@ -112,24 +118,6 @@ public class _08_Administrador extends Menus {
 		btnAprobar.setBounds(451, 50, 109, 28);
 		adminPanel.add(btnAprobar);
 		btnAprobar.setIcon(tick);
-
-		btnDenegar = new JButton("Denegar");
-		btnDenegar.setBounds(570, 50, 109, 28);
-		adminPanel.add(btnDenegar);
-		btnDenegar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int tipo = 2;
-
-				controlador.AprobarDenegar(codigoDenuncia, tipo);
-				table.setModel(controlador.getTabla(pagina));
-			}
-		});
-		btnDenegar.setIcon(cruz);
-
-		JTextArea textArea = new JTextArea();
-		textArea.setLineWrap(true);
-		textArea.setBounds(10, 30, 428, 48);
-		adminPanel.add(textArea);
 		btnAprobar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int tipo = 1;
@@ -139,10 +127,27 @@ public class _08_Administrador extends Menus {
 			}
 		});
 
+		btnDenegar = new JButton("Denegar");
+		btnDenegar.setBounds(570, 50, 109, 28);
+		adminPanel.add(btnDenegar);
+		btnDenegar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int tipo = 2;
+				controlador.AprobarDenegar(codigoDenuncia, tipo);
+				table.setModel(controlador.getTabla(pagina));
+			}
+		});
+		btnDenegar.setIcon(cruz);
+
+		textArea = new JTextArea();
+		textArea.setLineWrap(true);
+		textArea.setBounds(10, 30, 428, 48);
+		adminPanel.add(textArea);
+
 		addWindowListener(new WindowAdapter() {
-		    public void windowOpened(WindowEvent e) {
-		    	table.setModel(controlador.getTabla(8));
-		    }
+			public void windowOpened(WindowEvent e) {
+				table.setModel(controlador.getTabla(8));
+			}
 		});
 	}
 }

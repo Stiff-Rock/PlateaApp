@@ -48,6 +48,7 @@ public class _02_Reestablecer extends JFrame implements Vista {
 	public void cargarPreguntas(DefaultComboBoxModel preguntas) {
 		comboBoxPreguntas.setModel(preguntas);
 	}
+
 	public String getNick() {
 		return txtNick.getText();
 	}
@@ -55,19 +56,20 @@ public class _02_Reestablecer extends JFrame implements Vista {
 	public String getPwd() {
 		return String.valueOf(txtPwd1.getPassword());
 	}
+
 	public String getPwdVer() {
 		return String.valueOf(txtPwd2.getPassword());
 	}
-	
+
 	public String getRespuesta() {
 		return txtRespuesta.getText();
 	}
-	
+
 	public String getPregunta() {
 		comboBoxPreguntas.getSelectedIndex();
 		return String.valueOf(comboBoxPreguntas.getSelectedIndex());
 	}
-	
+
 	public _02_Reestablecer() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Restablecer contraseña");
@@ -166,26 +168,26 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		JLabel lblRespuesta = new JLabel("Respuesta:");
 		lblRespuesta.setBounds(35, 273, 81, 14);
 		registerPanel.add(lblRespuesta);
-		
+
 		txtNick = new JTextField();
 		txtNick.setToolTipText("");
 		txtNick.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		txtNick.setColumns(10);
 		txtNick.setBounds(35, 79, 418, 28);
 		registerPanel.add(txtNick);
-		
+
 		JLabel lblNewLabel = new JLabel("Nickname");
 		lblNewLabel.setBounds(35, 57, 81, 13);
 		registerPanel.add(lblNewLabel);
-		
+
 		txtPwd1 = new JPasswordField();
 		txtPwd1.setBounds(35, 139, 418, 28);
 		registerPanel.add(txtPwd1);
-		
+
 		txtPwd2 = new JPasswordField();
 		txtPwd2.setBounds(35, 199, 418, 28);
 		registerPanel.add(txtPwd2);
-		
+
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setBounds(343, 40, 321, 113);
 		mainPanel.add(lblLogo);
@@ -193,7 +195,7 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		ImageIcon resizedLogo = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/logo.png")).getImage()
 				.getScaledInstance(321, 113, Image.SCALE_SMOOTH));
 		lblLogo.setIcon(resizedLogo);
-		
+
 		addWindowListener(new WindowAdapter() {
 			public void windowOpened(WindowEvent e) {
 				comboBoxPreguntas.setModel(controlador.getPreguntas());

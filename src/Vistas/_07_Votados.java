@@ -10,10 +10,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -77,11 +75,11 @@ public class _07_Votados extends Menus {
 			}
 		});
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		table.getTableHeader().setReorderingAllowed(false);
-		
+
 		tablaPane.setViewportView(table);
-		
+
 		JButton btnPublicar = new JButton("Publicar");
 		btnPublicar.setIcon(mas);
 		btnPublicar.addActionListener(new ActionListener() {
@@ -102,12 +100,12 @@ public class _07_Votados extends Menus {
 		btnBorrar.setBounds(450, 660, 131, 35);
 		btnBorrar.setIcon(borrar);
 		contentPanel.add(btnBorrar);
-		
+
 		addWindowListener(new WindowAdapter() {
-		    public void windowOpened(WindowEvent e) {
-		    	String campo = "UPVOTE";
-		    	table.setModel(controlador.getTabla2(campo));
-		    }
+			public void windowOpened(WindowEvent e) {
+				String campo = "UPVOTE";
+				table.setModel(controlador.getTabla2(campo));
+			}
 		});
 	}
 }

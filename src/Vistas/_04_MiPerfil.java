@@ -140,11 +140,11 @@ public class _04_MiPerfil extends Menus {
 		lblNickname.setBounds(202, 11, 541, 47);
 		contentPanel.add(lblNickname);
 		lblNickname.setFont(new Font("Tahoma", Font.PLAIN, 27));
-		
+
 		addWindowListener(new WindowAdapter() {
-		    public void windowOpened(WindowEvent e) {
-		        controlador.setDatosUsuario();
-		    }
+			public void windowOpened(WindowEvent e) {
+				controlador.setDatosUsuario();
+			}
 		});
 	}
 

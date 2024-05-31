@@ -335,20 +335,26 @@ public class Controlador {
 	public void AprobarDenegar(String codigoDenuncia, int tipo) {
 		modelo.AprobarDenegar(codigoDenuncia, tipo);
 	}
-public String [] getDatosPublicacion() {
-	return modelo.getDatosPublicacion();
-}
+
+	public String[] getDatosPublicacion() {
+		return modelo.getDatosPublicacion();
+	}
+
 	public void meterFavoritos() {
-		String nick=user.getNickname();
-		String CodDenuncia=((_09_Publicacion) vistas[9]).getCod();
-		modelo.anadirFavoritos(nick,CodDenuncia);
-		
+		String nick = user.getNickname();
+		String CodDenuncia = ((_09_Publicacion) vistas[9]).getCod();
+		modelo.anadirFavoritos(nick, CodDenuncia);
+
 	}
 
 	public void meterVoatar() {
-		String nick=user.getNickname();
-		String CodDenuncia=((_09_Publicacion) vistas[9]).getCod();
-		modelo.anadirVotar(nick,CodDenuncia);
-		
+		String nick = user.getNickname();
+		String CodDenuncia = ((_09_Publicacion) vistas[9]).getCod();
+		modelo.anadirVotar(nick, CodDenuncia);
+	}
+
+	public void modificar(String codigoDenuncia, String nombreColumna, String text) {
+		modelo.modificar(codigoDenuncia, nombreColumna, text);
+
 	}
 }

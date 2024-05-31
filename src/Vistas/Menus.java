@@ -62,7 +62,7 @@ public class Menus extends JFrame implements Vista {
 		navPanel.setBackground(new Color(162, 196, 201));
 		navPanel.setBounds(0, 0, 202, 721);
 		mainPanel.add(navPanel);
-		
+
 		// Variables de los iconos e imágenes reescaladas para la interfaz
 		ImageIcon logo = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/logo.png")).getImage()
 				.getScaledInstance(170, 65, Image.SCALE_SMOOTH));
@@ -177,7 +177,7 @@ public class Menus extends JFrame implements Vista {
 		contentPanel.setBounds(212, 11, 786, 695);
 		mainPanel.add(contentPanel);
 		contentPanel.setLayout(null);
-		
+
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
 				if ((controlador.getUser()).getEsAdmin().equals("S")) {
