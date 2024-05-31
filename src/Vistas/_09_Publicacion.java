@@ -188,7 +188,7 @@ public class _09_Publicacion extends Menus {
 		publicarPanel.add(btnNewButton_1);
 
 		addWindowListener(new WindowAdapter() {
-			public void windowOpened(WindowEvent e) {
+			public void windowActivated(WindowEvent e) {
 				controlador.cargarPublicacion();
 			}
 		});
