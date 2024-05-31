@@ -21,6 +21,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 //@Autor:Anton Luo
 public class _08_Administrador extends Menus {
@@ -28,7 +30,6 @@ public class _08_Administrador extends Menus {
 	private String codigoDenuncia;
 	private JTable table;
 	private JButton btnAprobar, btnDenegar;
-	private JTextField textCambio;
 	private JTextField textField;
 
 	public _08_Administrador() {
@@ -38,17 +39,19 @@ public class _08_Administrador extends Menus {
 		ImageIcon lupa = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/lupa.png")).getImage()
 				.getScaledInstance(15, 15, Image.SCALE_SMOOTH));
 		ImageIcon tick = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/crux.png")).getImage()
-				.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+				.getScaledInstance(17, 17, Image.SCALE_SMOOTH));
 		ImageIcon cruz = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/cerrar.png")).getImage()
-				.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+				.getScaledInstance(17, 17, Image.SCALE_SMOOTH));
 		ImageIcon lapiz = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/lapiz.png")).getImage()
-				.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+				.getScaledInstance(17, 17, Image.SCALE_SMOOTH));
+		ImageIcon ojo = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/ojo.png")).getImage()
+				.getScaledInstance(17, 17, Image.SCALE_SMOOTH));
 
 		JPanel tablaPanel = new JPanel();
 		tablaPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		tablaPanel.setForeground(new Color(162, 196, 201));
 		tablaPanel.setBackground(new Color(207, 226, 243));
-		tablaPanel.setBounds(45, 50, 695, 595);
+		tablaPanel.setBounds(45, 30, 695, 634);
 		contentPanel.add(tablaPanel);
 		tablaPanel.setLayout(null);
 
@@ -95,33 +98,75 @@ public class _08_Administrador extends Menus {
 
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                // Obtener la fila y columna donde se hizo clic
-                int fila = table.rowAtPoint(e.getPoint());
-                int columna = table.columnAtPoint(e.getPoint());
-                // Obtener el valor del primer campo de la fila donde se hizo clic
-                codigoDenuncia = table.getValueAt(fila, 0).toString();
-                // controlador.prepararPublicacion(valor);
+			public void mouseClicked(MouseEvent e) {
+				// Obtener la fila y columna donde se hizo clic
+				int fila = table.rowAtPoint(e.getPoint());
+				int columna = table.columnAtPoint(e.getPoint());
+				// Obtener el valor del primer campo de la fila donde se hizo clic
+				codigoDenuncia = table.getValueAt(fila, 0).toString();
+				// controlador.prepararPublicacion(valor);
 //                controlador.cambiarVentana(6, 9);
-            }
-        });
+			}
+		});
 		table.setForeground(new Color(0, 0, 0));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 
 		table.getTableHeader().setReorderingAllowed(false);
 		tablePane.setViewportView(table);
-		
 
 		JPanel adminPanel = new JPanel();
-		adminPanel.setBounds(0, 547, 695, 48);
+		adminPanel.setBounds(0, 547, 695, 87);
 		tablaPanel.add(adminPanel);
 		adminPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		adminPanel.setBackground(new Color(162, 196, 201));
 		adminPanel.setLayout(null);
 
+		JButton btnModificar = new JButton("Modificar\r\n");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnModificar.setBounds(451, 10, 109, 29);
+		btnModificar.setIcon(lapiz);
+		adminPanel.add(btnModificar);
+
+		JLabel lblCambio = new JLabel("Introduce el cambio:");
+		lblCambio.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblCambio.setBounds(10, 10, 133, 14);
+		adminPanel.add(lblCambio);
+
+		JButton btnVer = new JButton("Ver");
+		btnVer.setIcon(ojo);
+		btnVer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnVer.setBounds(570, 10, 109, 29);
+		adminPanel.add(btnVer);
+
 		btnAprobar = new JButton("Aprobar");
+		btnAprobar.setBounds(451, 50, 109, 28);
+		adminPanel.add(btnAprobar);
 		btnAprobar.setIcon(tick);
+
+		btnDenegar = new JButton("Denegar");
+		btnDenegar.setBounds(570, 50, 109, 28);
+		adminPanel.add(btnDenegar);
+		btnDenegar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int tipo = 2;
+
+				controlador.AprobarDenegar(codigoDenuncia, tipo);
+				table.setModel(controlador.getTabla(pagina));
+			}
+		});
+		btnDenegar.setIcon(cruz);
+
+		JTextArea textArea = new JTextArea();
+		textArea.setLineWrap(true);
+		textArea.setBounds(10, 30, 428, 48);
+		adminPanel.add(textArea);
 		btnAprobar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int tipo = 1;
@@ -130,40 +175,7 @@ public class _08_Administrador extends Menus {
 				table.setModel(controlador.getTabla(pagina));
 			}
 		});
-		btnAprobar.setBounds(442, 9, 109, 29);
-		adminPanel.add(btnAprobar);
 
-		btnDenegar = new JButton("Denegar");
-		btnDenegar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int tipo = 2;
-				System.out.println(codigoDenuncia);
-				controlador.AprobarDenegar(codigoDenuncia, tipo);
-				table.setModel(controlador.getTabla(pagina));
-			}
-		});
-		btnDenegar.setIcon(cruz);
-		btnDenegar.setBounds(567, 9, 109, 29);
-		adminPanel.add(btnDenegar);
-
-		textCambio = new JTextField();
-		textCambio.setBounds(129, 10, 159, 28);
-		adminPanel.add(textCambio);
-		textCambio.setColumns(10);
-
-		JButton btnModificar = new JButton("Modificar\r\n");
-		btnModificar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnModificar.setBounds(317, 9, 109, 29);
-		btnModificar.setIcon(lapiz);
-		adminPanel.add(btnModificar);
-
-		JLabel lblCambio = new JLabel("Introduce el cambio:");
-		lblCambio.setBounds(16, 17, 110, 14);
-		adminPanel.add(lblCambio);
-		
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
 				table.setModel(controlador.getTabla(pagina));
