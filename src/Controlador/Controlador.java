@@ -343,7 +343,7 @@ public class Controlador {
 	public void meterFavoritos() {
 		String nick = user.getNickname();
 		String CodDenuncia = ((_09_Publicacion) vistas[9]).getCod();
-		modelo.anadirFavoritos(nick, CodDenuncia);
+		modelo.anadirFavorito(nick, CodDenuncia);
 
 	}
 
