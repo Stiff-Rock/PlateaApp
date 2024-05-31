@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Blob;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -180,43 +181,124 @@ public class Modelo {
 		return categoria;
 	}
 
-	private DefaultTableModel obtenerTabla1(String campo, String operador, String valor) {
-	    String query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK AS USUARIO, CATEGORIA_CODIGO AS CATEGORIA FROM PLATEA.DENUNCIA WHERE TRIM("
-	            + campo + ") " + operador + " ?";
+	public DefaultTableModel obtenerTabla(int pagina) {
+		String query = null;
 
-	    int numColumnas = getNumColumnas(query);
-	    int numFilas = getNumFilas(query);
+		if (pagina == 3) {
+			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE ESTADO != 'Nueva'";
+		}
+		if (pagina == 5) {
+			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ?";
+		}
+		if (pagina == 8) {
+			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE ESTADO = 'Nueva'";
+		}
 
-	    String[] cabecera = new String[numColumnas];
-	    Object[][] contenido = new Object[numFilas][numColumnas];
+		int numColumnas = getNumColumnas(query, pagina);
+		int numFilas = getNumFilas(query, pagina);
 
-	    try {
-	        PreparedStatement pstmt = conexion.prepareStatement(query);
-	        pstmt.setString(1, valor);
+		String[] cabecera = new String[numColumnas];
+		Object[][] contenido = new Object[numFilas][numColumnas];
 
-	        ResultSet rs = pstmt.executeQuery();
-	        ResultSetMetaData rsmd = rs.getMetaData();
-	        for (int i = 1; i <= numColumnas; i++) {
-	            cabecera[i - 1] = rsmd.getColumnName(i);
-	        }
-	        int filas = 0;
-	        while (rs.next()) {
-	            for (int col = 1; col <= numColumnas; col++) {
-	                contenido[filas][col - 1] = rs.getString(col);
-	            }
-	            filas++;
-	        }
-	        rs.close();
-	        pstmt.close();
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			if (pagina == 5) {
+				pstmt.setString(1, user.getNickname());
+			}
 
-	        miTabla = new DefaultTableModel(contenido, cabecera);
+			System.out.println("Executing query: " + pstmt.toString());
 
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    return miTabla;
+			ResultSet rs = pstmt.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			for (int i = 1; i <= numColumnas; i++) {
+				cabecera[i - 1] = rsmd.getColumnName(i);
+			}
+			int filas = 0;
+			while (rs.next()) {
+				for (int col = 1; col <= numColumnas; col++) {
+					contenido[filas][col - 1] = rs.getString(col);
+				}
+				filas++;
+			}
+			rs.close();
+			pstmt.close();
+
+			miTabla = new DefaultTableModel(contenido, cabecera);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return miTabla;
 	}
 
+	private int getNumColumnas(String query, int pagina) {
+		int numColumnas = 0;
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			if (query.contains("?") && pagina == 5) {
+				pstmt.setString(1, user.getNickname());
+			}
+			ResultSet rset = pstmt.executeQuery();
+			ResultSetMetaData rsmd = rset.getMetaData();
+			numColumnas = rsmd.getColumnCount();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return numColumnas;
+	}
+
+	private int getNumFilas(String query, int pagina) {
+		int numFilas = 0;
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			if (query.contains("?") && pagina == 5) {
+				pstmt.setString(1, user.getNickname());
+			}
+			ResultSet rset = pstmt.executeQuery();
+			while (rset.next())
+				numFilas++;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return numFilas;
+	}
+
+	private DefaultTableModel obtenerTabla1(String campo, String operador, String valor) {
+		String query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK AS USUARIO, CATEGORIA_CODIGO AS CATEGORIA FROM PLATEA.DENUNCIA WHERE TRIM("
+				+ campo + ") " + operador + " ?";
+
+		int numColumnas = getNumColumnas(query);
+		int numFilas = getNumFilas(query);
+
+		String[] cabecera = new String[numColumnas];
+		Object[][] contenido = new Object[numFilas][numColumnas];
+
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, valor);
+
+			ResultSet rs = pstmt.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			for (int i = 1; i <= numColumnas; i++) {
+				cabecera[i - 1] = rsmd.getColumnName(i);
+			}
+			int filas = 0;
+			while (rs.next()) {
+				for (int col = 1; col <= numColumnas; col++) {
+					contenido[filas][col - 1] = rs.getString(col);
+				}
+				filas++;
+			}
+			rs.close();
+			pstmt.close();
+
+			miTabla = new DefaultTableModel(contenido, cabecera);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return miTabla;
+	}
 
 	private DefaultTableModel obtenerTabla2(String campo) {
 		String query = "SELECT DENUNCIA.CODIGO, DENUNCIA.DIRECCION, DENUNCIA.CP, DENUNCIA.ESTADO, "
@@ -261,6 +343,7 @@ public class Modelo {
 		int numColumnas = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
+
 			if (query.contains("?")) {
 				pstmt.setString(1, user.getNickname());
 			}
@@ -277,6 +360,7 @@ public class Modelo {
 		int numFilas = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
+
 			if (query.contains("?")) {
 				pstmt.setString(1, user.getNickname());
 			}
@@ -289,7 +373,6 @@ public class Modelo {
 		return numFilas;
 	}
 
-//TODO LOL
 	public void obtenerPublicacion(String codigoDen) {
 		String query = "SELECT * FROM PLATEA.DENUNCIA WHERE CODIGO = ?";
 		datosPublicacion = new String[6];
@@ -772,5 +855,30 @@ public class Modelo {
 
 	public String[] getDatosPublicacion() {
 		return datosPublicacion;
+	}
+
+	public void AprobarDenegar(String codigoDenuncia, int tipo) {
+		if (tipo == 1) {
+			String sql = "{CALL PLATEA.APROBAR(?)}";
+			try {
+				CallableStatement cst = conexion.prepareCall(sql);
+
+				cst.setString(1, codigoDenuncia.trim());
+				cst.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if (tipo == 2) {
+			String sql = "{CALL PLATEA.BORRAR_DENUNCIA(?)}";
+			try {
+				CallableStatement cst = conexion.prepareCall(sql);
+
+				cst.setString(1, codigoDenuncia.trim());
+				cst.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 
 //@Autor: Anton Luo
@@ -97,6 +98,10 @@ public class _05_MisPublicaciones extends Menus {
 			}
 		});
 		
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		table.getTableHeader().setReorderingAllowed(false);
+
 		tablaPane.setViewportView(table);
 
 		JButton btnPublicar = new JButton("Publicar");

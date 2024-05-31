@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -68,6 +69,21 @@ public class _03_Home extends Menus {
 			}
 		});
 		
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                // Obtener la fila y columna donde se hizo clic
+                int fila = table.rowAtPoint(e.getPoint());
+                int columna = table.columnAtPoint(e.getPoint());
+                // Obtener el valor del primer campo de la fila donde se hizo clic
+                String valor = table.getValueAt(fila, 0).toString();
+//               controlador.prepararPublicacion(valor);
+                controlador.cambiarVentana(6, 9);
+            }
+        });
+		
+		table.getTableHeader().setReorderingAllowed(false);
+
 		tablaPane.setViewportView(table);
 
 		JPanel filtrosPanel = new JPanel();

@@ -23,9 +23,10 @@ import javax.swing.border.LineBorder;
 
 //@Autor:Anton Luo
 public class _08_Administrador extends Menus {
+	private int pagina = 8;
+	private String codigoDenuncia;
 	private JTable table;
-	private JButton btnAprobar;
-	private JButton btnDenegar;
+	private JButton btnAprobar, btnDenegar;
 	private JTextField textCambio;
 	private JTextField textField;
 
@@ -92,6 +93,17 @@ public class _08_Administrador extends Menus {
 		tablaPanel.add(tablePane);
 
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                // Obtener la fila y columna donde se hizo clic
+                int fila = table.rowAtPoint(e.getPoint());
+                int columna = table.columnAtPoint(e.getPoint());
+                // Obtener el valor del primer campo de la fila donde se hizo clic
+                codigoDenuncia = table.getValueAt(fila, 0).toString();
+                // controlador.prepararPublicacion(valor);
+//                controlador.cambiarVentana(6, 9);
+            }
+        });
 		table.setForeground(new Color(0, 0, 0));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -107,7 +119,9 @@ public class _08_Administrador extends Menus {
 			}
 		});
 
+		table.getTableHeader().setReorderingAllowed(false);
 		tablePane.setViewportView(table);
+		
 
 		JPanel adminPanel = new JPanel();
 		adminPanel.setBounds(0, 547, 695, 48);
@@ -120,12 +134,24 @@ public class _08_Administrador extends Menus {
 		btnAprobar.setIcon(tick);
 		btnAprobar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int tipo = 1;
+				System.out.println(codigoDenuncia);
+				controlador.AprobarDenegar(codigoDenuncia, tipo);
+				table.setModel(controlador.getTabla(pagina));
 			}
 		});
 		btnAprobar.setBounds(442, 9, 109, 29);
 		adminPanel.add(btnAprobar);
 
 		btnDenegar = new JButton("Denegar");
+		btnDenegar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int tipo = 2;
+				System.out.println(codigoDenuncia);
+				controlador.AprobarDenegar(codigoDenuncia, tipo);
+				table.setModel(controlador.getTabla(pagina));
+			}
+		});
 		btnDenegar.setIcon(cruz);
 		btnDenegar.setBounds(567, 9, 109, 29);
 		adminPanel.add(btnDenegar);

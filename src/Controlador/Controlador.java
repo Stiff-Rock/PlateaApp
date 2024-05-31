@@ -331,7 +331,15 @@ public class Controlador {
 		return imageIcon;
 	}
 
+	public TableModel getTabla(int pagina) {
+        return modelo.obtenerTabla(pagina);
+    }
+	
 	public void prepararPublicacion(String valor) {
 		modelo.obtenerPublicacion(valor);
+	}
+
+	public void AprobarDenegar(String codigoDenuncia, int tipo) {
+		modelo.AprobarDenegar(codigoDenuncia, tipo);
 	}
 }
