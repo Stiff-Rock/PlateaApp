@@ -206,8 +206,6 @@ public class Modelo {
 				pstmt.setString(1, user.getNickname());
 			}
 
-			System.out.println("Executing query: " + pstmt.toString());
-
 			ResultSet rs = pstmt.executeQuery();
 			ResultSetMetaData rsmd = rs.getMetaData();
 			for (int i = 1; i <= numColumnas; i++) {

@@ -14,8 +14,8 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
-//@Autor: Hugo Osma
 
+//@Autor: Hugo Osma
 public class _09_Publicacion extends Menus {
 	private JTextField txtFecha;
 	private JTextField txtDireccion;
@@ -132,7 +132,7 @@ public class _09_Publicacion extends Menus {
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTitle.setBounds(170, 8, 324, 32);
 		filtrosPanel.add(lblTitle);
-		//TODO VOTOS TOTALES
+		// TODO VOTOS TOTALES
 		lblNumVotos = new JLabel("Votos totales: 6.000");
 		lblNumVotos.setBounds(60, 598, 174, 14);
 		publicarPanel.add(lblNumVotos);
