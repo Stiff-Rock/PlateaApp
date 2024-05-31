@@ -72,6 +72,109 @@ public class _01_Registrar extends JFrame implements Vista {
 
 		registerPanel2 = new JPanel();
 		registerPanel2.setVisible(false);
+
+		// PANEL 1
+
+		registerPanel = new JPanel();
+		registerPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		registerPanel.setBounds(260, 143, 488, 475);
+		registerPanel.setBackground(new Color(207, 226, 243));
+		mainPanel.add(registerPanel);
+		registerPanel.setLayout(null);
+
+		txtNombre = new JTextField();
+		txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		txtNombre.setBounds(34, 104, 192, 28);
+		registerPanel.add(txtNombre);
+		txtNombre.setColumns(10);
+
+		txtApellido = new JTextField();
+		txtApellido.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		txtApellido.setColumns(10);
+		txtApellido.setBounds(260, 104, 192, 28);
+		registerPanel.add(txtApellido);
+
+		txtNickname = new JTextField();
+		txtNickname.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		txtNickname.setColumns(10);
+		txtNickname.setBounds(34, 177, 192, 28);
+		registerPanel.add(txtNickname);
+
+		txtCP = new JTextField();
+		txtCP.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		txtCP.setColumns(10);
+		txtCP.setBounds(260, 177, 192, 28);
+		registerPanel.add(txtCP);
+
+		JLabel lblNombre = new JLabel("Nombre:");
+		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNombre.setBounds(35, 76, 74, 14);
+		registerPanel.add(lblNombre);
+
+		JLabel lblApellido = new JLabel("Apellido:");
+		lblApellido.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblApellido.setBounds(260, 79, 74, 14);
+		registerPanel.add(lblApellido);
+
+		JLabel lblUsr = new JLabel("Nickname:");
+		lblUsr.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblUsr.setBounds(35, 152, 81, 14);
+		registerPanel.add(lblUsr);
+
+		JLabel lblCp = new JLabel("CP:");
+		lblCp.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblCp.setBounds(260, 152, 81, 14);
+		registerPanel.add(lblCp);
+
+		JLabel lblPwd = new JLabel("Contraseña");
+		lblPwd.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblPwd.setBounds(34, 224, 81, 14);
+		registerPanel.add(lblPwd);
+
+		JLabel lblPwd_1 = new JLabel("Repetir contraseña:");
+		lblPwd_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblPwd_1.setBounds(35, 301, 146, 14);
+		registerPanel.add(lblPwd_1);
+
+		txtPwd1 = new JPasswordField();
+		txtPwd1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		txtPwd1.setBounds(34, 249, 418, 28);
+		registerPanel.add(txtPwd1);
+
+		txtPwd2 = new JPasswordField();
+		txtPwd2.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		txtPwd2.setBounds(34, 326, 418, 28);
+		registerPanel.add(txtPwd2);
+
+		JButton btnSiguiente = new JButton("<Siguiente 1/2>");
+		btnSiguiente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlador.siguienteSignIn();
+			}
+		});
+		btnSiguiente.setBounds(316, 426, 137, 23);
+		registerPanel.add(btnSiguiente);
+
+		lblWarning1 = new JLabel("");
+		lblWarning1.setForeground(Color.RED);
+		lblWarning1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblWarning1.setBounds(35, 382, 222, 22);
+		registerPanel.add(lblWarning1);
+
+		lblTitle1 = new JLabel("Crear cuenta");
+		lblTitle1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitle1.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTitle1.setBounds(175, 15, 137, 28);
+		registerPanel.add(lblTitle1);
+
+		JButton btnNewButton = new JButton("Generar Nick");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlador.generarNick();
+			}
+		});
+		btnNewButton.setBounds(113, 152, 113, 14);
+		registerPanel.add(btnNewButton);
 		registerPanel2.setLayout(null);
 		registerPanel2.setBorder(new LineBorder(new Color(0, 0, 0)));
 		registerPanel2.setBackground(new Color(207, 226, 243));
@@ -175,100 +278,6 @@ public class _01_Registrar extends JFrame implements Vista {
 		lblTitle1_1.setBounds(175, 15, 137, 28);
 		registerPanel2.add(lblTitle1_1);
 
-		// PANEL 1
-
-		registerPanel = new JPanel();
-		registerPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		registerPanel.setBounds(260, 143, 488, 475);
-		registerPanel.setBackground(new Color(207, 226, 243));
-		mainPanel.add(registerPanel);
-		registerPanel.setLayout(null);
-
-		txtNombre = new JTextField();
-		txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		txtNombre.setBounds(34, 104, 192, 28);
-		registerPanel.add(txtNombre);
-		txtNombre.setColumns(10);
-
-		txtApellido = new JTextField();
-		txtApellido.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		txtApellido.setColumns(10);
-		txtApellido.setBounds(260, 104, 192, 28);
-		registerPanel.add(txtApellido);
-
-		txtNickname = new JTextField();
-		txtNickname.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		txtNickname.setColumns(10);
-		txtNickname.setBounds(34, 177, 192, 28);
-		registerPanel.add(txtNickname);
-
-		txtCP = new JTextField();
-		txtCP.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		txtCP.setColumns(10);
-		txtCP.setBounds(260, 177, 192, 28);
-		registerPanel.add(txtCP);
-
-		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNombre.setBounds(35, 76, 74, 14);
-		registerPanel.add(lblNombre);
-
-		JLabel lblApellido = new JLabel("Apellido:");
-		lblApellido.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblApellido.setBounds(260, 79, 74, 14);
-		registerPanel.add(lblApellido);
-
-		JLabel lblUsr = new JLabel("Nickname:");
-		lblUsr.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblUsr.setBounds(35, 152, 81, 14);
-		registerPanel.add(lblUsr);
-
-		JLabel lblCp = new JLabel("CP:");
-		lblCp.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblCp.setBounds(260, 152, 81, 14);
-		registerPanel.add(lblCp);
-
-		JLabel lblPwd = new JLabel("Contraseña");
-		lblPwd.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblPwd.setBounds(34, 224, 81, 14);
-		registerPanel.add(lblPwd);
-
-		JLabel lblPwd_1 = new JLabel("Repetir contraseña:");
-		lblPwd_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblPwd_1.setBounds(35, 301, 146, 14);
-		registerPanel.add(lblPwd_1);
-
-		txtPwd1 = new JPasswordField();
-		txtPwd1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		txtPwd1.setBounds(34, 249, 418, 28);
-		registerPanel.add(txtPwd1);
-
-		txtPwd2 = new JPasswordField();
-		txtPwd2.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		txtPwd2.setBounds(34, 326, 418, 28);
-		registerPanel.add(txtPwd2);
-
-		JButton btnSiguiente = new JButton("<Siguiente 1/2>");
-		btnSiguiente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controlador.siguienteSignIn();
-			}
-		});
-		btnSiguiente.setBounds(316, 426, 137, 23);
-		registerPanel.add(btnSiguiente);
-
-		lblWarning1 = new JLabel("");
-		lblWarning1.setForeground(Color.RED);
-		lblWarning1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblWarning1.setBounds(35, 382, 222, 22);
-		registerPanel.add(lblWarning1);
-
-		lblTitle1 = new JLabel("Crear cuenta");
-		lblTitle1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitle1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblTitle1.setBounds(175, 15, 137, 28);
-		registerPanel.add(lblTitle1);
-
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		bottomPanel.setBounds(260, 633, 488, 70);
@@ -358,7 +367,6 @@ public class _01_Registrar extends JFrame implements Vista {
 		datosRegistro[10] = checkMayor.getState() ? "S" : "N";
 		datosRegistro[11] = txtCaptcha.getText();
 		datosRegistro[12] = txtAdmin.getText();
-
 		return datosRegistro;
 	}
 
@@ -370,4 +378,15 @@ public class _01_Registrar extends JFrame implements Vista {
 		lblWarning2.setText(mensaje);
 	}
 
+	public void setNickname(String nick) {
+		txtNickname.setText(nick);
+	}
+	
+	public String getNombre() {
+		return txtNombre.getText();
+	}
+
+	public String getApellido() {
+		return txtApellido.getText();
+	}
 }

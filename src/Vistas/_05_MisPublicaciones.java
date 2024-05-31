@@ -24,7 +24,8 @@ public class _05_MisPublicaciones extends Menus {
 	private JPanel filtrosPanel;
 	private JTable table;
 	private JLabel lblTitle;
-
+	private String codigoDenuncia;
+	
 	public _05_MisPublicaciones() {
 		setTitle("Mis publicaciones");
 		setContentPane(mainPanel);
@@ -69,9 +70,7 @@ public class _05_MisPublicaciones extends Menus {
 				int fila = table.rowAtPoint(e.getPoint());
 				int columna = table.columnAtPoint(e.getPoint());
 				// Obtener el valor del primer campo de la fila donde se hizo clic
-				String valor = table.getValueAt(fila, 0).toString();
-				controlador.prepararPublicacion(valor);
-				controlador.cambiarVentana(5, 9);
+				codigoDenuncia = table.getValueAt(fila, 0).toString();
 			}
 		});
 
@@ -91,16 +90,19 @@ public class _05_MisPublicaciones extends Menus {
 		btnPublicar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnPublicar.setBounds(609, 660, 131, 35);
 		contentPanel.add(btnPublicar);
-
-		JButton btnBorrar = new JButton("Borrar");
-		btnBorrar.addActionListener(new ActionListener() {
+		
+		ImageIcon ojo = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/ojo.png")).getImage()
+				.getScaledInstance(17, 17, Image.SCALE_SMOOTH));
+		JButton btnVer = new JButton("Ver");
+		btnVer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controlador.prepararPublicacion(codigoDenuncia);
+				controlador.cambiarVentana(5, 9);
 			}
 		});
-		btnBorrar.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnBorrar.setBounds(450, 660, 131, 35);
-		btnBorrar.setIcon(borrar);
-		contentPanel.add(btnBorrar);
+		btnVer.setBounds(468, 662, 131, 35);
+		btnVer.setIcon(ojo);
+		contentPanel.add(btnVer);
 
 		addWindowListener(new WindowAdapter() {
 			public void windowOpened(WindowEvent e) {

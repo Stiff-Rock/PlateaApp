@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -76,6 +78,15 @@ public class _08_Administrador extends Menus {
 
 		table.getTableHeader().setReorderingAllowed(false);
 		tablePane.setViewportView(table);
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				// Obtener la fila y columna donde se hizo clic
+				int fila = table.rowAtPoint(e.getPoint());
+				int columna = table.columnAtPoint(e.getPoint());
+				// Obtener el valor del primer campo de la fila donde se hizo clic
+				codigoDenuncia = table.getValueAt(fila, 0).toString();
+			}
+		});
 
 		JPanel adminPanel = new JPanel();
 		adminPanel.setBounds(0, 547, 695, 87);
@@ -108,7 +119,7 @@ public class _08_Administrador extends Menus {
 		btnVer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controlador.prepararPublicacion(codigoDenuncia);
-				controlador.cambiarVentana(3, 9);
+				controlador.cambiarVentana(8, 9);
 			}
 		});
 		btnVer.setBounds(570, 10, 109, 29);

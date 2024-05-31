@@ -357,4 +357,18 @@ public class Controlador {
 		modelo.modificar(codigoDenuncia, nombreColumna, text);
 
 	}
+
+	public void generarNick() {
+		String nombre = ((_01_Registrar) vistas[1]).getNombre();
+		String apellido = ((_01_Registrar) vistas[1]).getApellido();
+		((_01_Registrar) vistas[1]).setNickname(modelo.generarNick(nombre, apellido));
+	}
+
+	public void borrarFavoritos(String codigoDenuncia) {
+		modelo.borrarFavorito(codigoDenuncia);
+	}
+
+	public void borrarVotados(String codigoDenuncia) {
+		modelo.borrarVotar(codigoDenuncia);
+	}
 }

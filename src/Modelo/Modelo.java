@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -190,6 +193,7 @@ public class Modelo {
 		if (pagina == 5) {
 			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO, DESCRIPCION FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ?";
 		}
+
 		if (pagina == 8) {
 			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO, DESCRIPCION FROM PLATEA.DENUNCIA WHERE ESTADO = 'Nueva'";
 		}
@@ -918,5 +922,52 @@ public class Modelo {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public String generarNick(String nombre, String apellido) {
+		String nick = "";
+		// Verificar si el nombre y el apellido no son nulos o vacíos
+		if (nombre != null && !nombre.isEmpty() && apellido != null && !apellido.isEmpty()) {
+			// Tomar la mitad del nombre y del apellido
+			String mitadNombre = nombre.substring(0, nombre.length() / 2);
+			String mitadApellido = apellido.substring(0, apellido.length() / 2);
+
+			// Concatenar las letras para formar el apodo
+			nick = mitadNombre + mitadApellido;
+
+			// Limitar el apodo a un máximo de 20 caracteres
+			if (nick.length() > 20) {
+				nick = nick.substring(0, 20);
+			}
+		}
+		return nick;
+	}
+
+	public void borrarFavorito(String codigoDenuncia) {
+		try {
+			String sql = "UPDATE platea.votar SET FAVORITO = 'N' WHERE DENUNCIA_CODIGO = ?";
+			try (PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+				pstmt.setString(1, codigoDenuncia);
+				int filasActualizadas = pstmt.executeUpdate();
+				System.out.println("Filas actualizadas: " + filasActualizadas);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Votar '" + codigoDenuncia + "' borrado de favoritos");
+	}
+
+	public void borrarVotar(String codigoDenuncia) {
+		try {
+			String sql = "UPDATE platea.votar SET UPVOTE = 'N' WHERE DENUNCIA_CODIGO = ?";
+			try (PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+				pstmt.setString(1, codigoDenuncia);
+				int filasActualizadas = pstmt.executeUpdate();
+				System.out.println("Filas actualizadas: " + filasActualizadas);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Votar '" + codigoDenuncia + "' borrado de votados");
 	}
 }

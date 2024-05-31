@@ -24,7 +24,8 @@ public class _06_MisFavoritos extends Menus {
 	private JPanel filtrosPanel;
 	private JTable table;
 	private JLabel lblTitle;
-
+	private String codigoDenuncia;
+	
 	public _06_MisFavoritos() {
 		setTitle("Mis favoritos");
 		setContentPane(mainPanel);
@@ -69,9 +70,8 @@ public class _06_MisFavoritos extends Menus {
 				int fila = table.rowAtPoint(e.getPoint());
 				int columna = table.columnAtPoint(e.getPoint());
 				// Obtener el valor del primer campo de la fila donde se hizo clic
-				String valor = table.getValueAt(fila, 0).toString();
-				controlador.prepararPublicacion(valor);
-				controlador.cambiarVentana(6, 9);
+				codigoDenuncia = table.getValueAt(fila, 0).toString();
+				controlador.prepararPublicacion(codigoDenuncia);
 			}
 		});
 
@@ -97,15 +97,31 @@ public class _06_MisFavoritos extends Menus {
 		JButton btnBorrar = new JButton("Borrar");
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controlador.borrarFavoritos(codigoDenuncia);
+				String campo = "FAVORITO";
+				table.setModel(controlador.getTabla2(campo));
 			}
 		});
 		btnBorrar.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnBorrar.setBounds(450, 660, 131, 35);
+		btnBorrar.setBounds(468, 660, 131, 35);
 		btnBorrar.setIcon(borrar);
 		contentPanel.add(btnBorrar);
 
+		ImageIcon ojo = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/ojo.png")).getImage()
+				.getScaledInstance(17, 17, Image.SCALE_SMOOTH));
+		JButton btnVer = new JButton("Ver");
+		btnVer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlador.prepararPublicacion(codigoDenuncia);
+				controlador.cambiarVentana(6, 9);
+			}
+		});
+		btnVer.setBounds(327, 660, 131, 35);
+		btnVer.setIcon(ojo);
+		contentPanel.add(btnVer);
+
 		addWindowListener(new WindowAdapter() {
-			public void windowOpened(WindowEvent e) {
+			public void windowActivated(WindowEvent e) {
 				String campo = "FAVORITO";
 				table.setModel(controlador.getTabla2(campo));
 			}
