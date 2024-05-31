@@ -336,8 +336,8 @@ public class Modelo {
 
 	public void obtenerPublicacion(String codigoDen) {
 		String query = "SELECT * FROM PLATEA.DENUNCIA WHERE CODIGO = ?";
-		datosPublicacion = new String[6];
-
+		datosPublicacion = new String[7];
+		datosPublicacion[6] = codigoDen;
 		try (PreparedStatement pstmt = conexion.prepareStatement(query)) {
 			pstmt.setString(1, codigoDen); // Establecer el valor del parámetro en la consulta SQL
 			try (ResultSet rs = pstmt.executeQuery()) {
@@ -836,5 +836,75 @@ public class Modelo {
 
 	public String[] getDatosPublicacion() {
 		return datosPublicacion;
+	}
+
+
+
+	public void anadirFavoritos(String nick, String codDenuncia) {
+	    String selectQuery = "SELECT COUNT(1) FROM platea.votar WHERE USUARIO_NICK = ? AND DENUNCIA_CODIGO = ?";
+	    String updateQuery = "UPDATE platea.votar SET favorito = ? WHERE USUARIO_NICK = ? AND DENUNCIA_CODIGO = ?";
+	    String insertQuery = "INSERT INTO platea.votar (USUARIO_NICK, DENUNCIA_CODIGO, upvote ,favorito) VALUES (?, ?,?, ?)";
+
+	    try (PreparedStatement selectStatement = conexion.prepareStatement(selectQuery)) {
+	        selectStatement.setString(1, nick);
+	        selectStatement.setString(2, codDenuncia);
+	        ResultSet resultSet = selectStatement.executeQuery();
+
+	        if (resultSet.next()) {
+	            // Existe una entrada, establecemos el campo favorito como "S"
+	            try (PreparedStatement updateStatement = conexion.prepareStatement(updateQuery)) {
+	                updateStatement.setString(1, "S");
+	                updateStatement.setString(2, nick);
+	                updateStatement.setString(3, codDenuncia);
+	                updateStatement.executeUpdate();
+	            }
+	        } else {
+	            // No existe una entrada, insertamos una nueva con favorito como "S"
+	            try (PreparedStatement insertStatement = conexion.prepareStatement(insertQuery)) {
+	                insertStatement.setString(1, nick);
+	                insertStatement.setString(2, codDenuncia);
+	                insertStatement.setString(3, "N"); // Asumiendo que upvote es false por defecto
+	                insertStatement.setString(4, "S");  // Aquí se establece favorito a "S" inicialmente
+	                insertStatement.executeUpdate();
+	            }
+	        }
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	public void anadirVotar(String nick, String codDenuncia) {
+	    String selectQuery = "SELECT COUNT(1) FROM platea.votar WHERE usuario_Nick = ? AND DENUNCIA_CODIGO = ?";
+	    String updateQuery = "UPDATE platea.votar SET upvote = ? WHERE usuario_Nick = ? AND DENUNCIA_CODIGO = ?";
+	    String insertQuery = "INSERT INTO platea.votar (USUARIO_NICK, DENUNCIA_CODIGO, upvote, favorito) VALUES (?, ?, ?, ?)";
+
+	    try (PreparedStatement selectStatement = conexion.prepareStatement(selectQuery)) {
+	        selectStatement.setString(1, nick);
+	        selectStatement.setString(2, codDenuncia);
+	        ResultSet resultSet = selectStatement.executeQuery();
+
+	        if (resultSet.next()) {
+	            // Existe una entrada, establecemos el campo upvote como "S"
+	            try (PreparedStatement updateStatement = conexion.prepareStatement(updateQuery)) {
+	                updateStatement.setString(1, "S");
+	                updateStatement.setString(2, nick);
+	                updateStatement.setString(3, codDenuncia);
+	                updateStatement.executeUpdate();
+	            }
+	        } else {
+	            // No existe una entrada, insertamos una nueva con upvote como "S"
+	            try (PreparedStatement insertStatement = conexion.prepareStatement(insertQuery)) {
+	                insertStatement.setString(1, nick);
+	                insertStatement.setString(2, codDenuncia);
+	                insertStatement.setString(3, "S"); // Asumiendo que upvote es true por defecto
+	                insertStatement.setString(4, "N");  // Aquí se establece favorito a "N" inicialmente
+	                insertStatement.executeUpdate();
+	            }
+	        }
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
 }

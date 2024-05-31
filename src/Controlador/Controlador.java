@@ -335,4 +335,20 @@ public class Controlador {
 	public void AprobarDenegar(String codigoDenuncia, int tipo) {
 		modelo.AprobarDenegar(codigoDenuncia, tipo);
 	}
+public String [] getDatosPublicacion() {
+	return modelo.getDatosPublicacion();
+}
+	public void meterFavoritos() {
+		String nick=user.getNickname();
+		String CodDenuncia=((_09_Publicacion) vistas[9]).getCod();
+		modelo.anadirFavoritos(nick,CodDenuncia);
+		
+	}
+
+	public void meterVoatar() {
+		String nick=user.getNickname();
+		String CodDenuncia=((_09_Publicacion) vistas[9]).getCod();
+		modelo.anadirVotar(nick,CodDenuncia);
+		
+	}
 }
