@@ -14,6 +14,9 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 //@Autor: Hugo Osma
 public class _09_Publicacion extends Menus {
@@ -25,6 +28,12 @@ public class _09_Publicacion extends Menus {
 	private JLabel lblFoto;
 	private JLabel lblNumVotos;
 
+	
+	public String getCod() {
+		 String[] datos = controlador.getDatosPublicacion();
+		 String cod= datos[6];
+		return cod;
+	}
 	public void setTxtFecha(String txtFecha) {
 		this.txtFecha.setText(txtFecha);
 	}
@@ -137,19 +146,11 @@ public class _09_Publicacion extends Menus {
 		lblNumVotos.setBounds(60, 598, 174, 14);
 		publicarPanel.add(lblNumVotos);
 
-		JToggleButton tglbtnVotar = new JToggleButton("Votar");
-		tglbtnVotar.setBounds(514, 594, 89, 23);
-		publicarPanel.add(tglbtnVotar);
-
 		txtCategoria = new JTextField();
 		txtCategoria.setEditable(false);
 		txtCategoria.setColumns(10);
 		txtCategoria.setBounds(462, 311, 141, 28);
 		publicarPanel.add(txtCategoria);
-
-		JToggleButton tglbtnFavorito = new JToggleButton("Favorito");
-		tglbtnFavorito.setBounds(407, 594, 89, 23);
-		publicarPanel.add(tglbtnFavorito);
 
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
@@ -164,6 +165,27 @@ public class _09_Publicacion extends Menus {
 		txtDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		txtDescripcion.setBounds(10, 11, 523, 92);
 		panel.add(txtDescripcion);
+		
+		JButton btnNewButton = new JButton("Favoritos");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlador.meterFavoritos();
+				
+			}
+			
+		});
+		btnNewButton.setBounds(413, 595, 85, 21);
+		publicarPanel.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Votados");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlador.meterVoatar();
+
+			}
+		});
+		btnNewButton_1.setBounds(518, 595, 85, 21);
+		publicarPanel.add(btnNewButton_1);
 
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
