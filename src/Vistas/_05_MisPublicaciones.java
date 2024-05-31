@@ -105,7 +105,7 @@ public class _05_MisPublicaciones extends Menus {
 		contentPanel.add(btnVer);
 
 		addWindowListener(new WindowAdapter() {
-			public void windowOpened(WindowEvent e) {
+			public void windowActivated(WindowEvent e) {
 				table.setModel(controlador.getTabla(5));
 			}
 		});

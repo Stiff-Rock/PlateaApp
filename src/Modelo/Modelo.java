@@ -1131,14 +1131,13 @@ public class Modelo {
 	 *                       especificada.
 	 */
 	public void modificar(String codigoDenuncia, String nombreColumna, String text) {
-		String sql = "{CALL PLATEA.CAMBIAR_DATOS(?, ?, ?, ?)}";
+		String sql = "{CALL PLATEA.CAMBIAR_DATOS(?, ?, ?)}";
 		try {
 			CallableStatement cst = conexion.prepareCall(sql);
 
 			cst.setString(1, codigoDenuncia.trim());
 			cst.setString(2, nombreColumna.trim());
-			cst.setString(3, "S".trim());
-			cst.setString(4, "N".trim());
+			cst.setString(3, text.trim());
 			cst.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

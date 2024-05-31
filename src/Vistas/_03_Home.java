@@ -112,7 +112,7 @@ public class _03_Home extends Menus {
 		btnPublicar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
 		addWindowListener(new WindowAdapter() {
-			public void windowOpened(WindowEvent e) {
+			public void windowActivated(WindowEvent e) {
 
 				table.setModel(controlador.getTabla(3));
 			}
