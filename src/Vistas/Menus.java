@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import Controlador.Controlador;
-import Modelo.Usuario;
 
 public class Menus extends JFrame implements Vista {
 	protected JButton btnInicio;

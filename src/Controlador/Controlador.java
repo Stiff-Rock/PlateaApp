@@ -2,13 +2,8 @@ package Controlador;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Base64;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
@@ -172,9 +167,8 @@ public class Controlador {
 		if (modelo.verificarCambio(nick, modelo.generarCodigo("PRE", preguntaIdex), respuesta, pwd, usrConfirmado)) {
 			cambiarVentana(2, 0);
 		} else {
-			System.out.println("Cambio no aceptado");
+			((_02_Reestablecer) vistas[2]).mostrarWarningcambio();
 		}
-
 	}
 
 	public void setDatosUsuario() {

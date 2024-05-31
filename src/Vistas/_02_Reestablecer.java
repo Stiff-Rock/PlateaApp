@@ -18,13 +18,12 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import Controlador.Controlador;
-import Modelo.Modelo;
-import javax.swing.JPasswordField;
-import javax.swing.SwingConstants;
 
 //@Autor Yago Pernas
 public class _02_Reestablecer extends JFrame implements Vista {
@@ -42,8 +41,8 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		this.controlador = controlador;
 	}
 
-	public void mostrarWarning(String mensaje) {
-		lblWarning.setText(mensaje);
+	public void mostrarWarningcambio() {
+		lblWarning.setText("Campos incorrectos, fallo al cambiar contraseña");
 	}
 
 	public void cargarPreguntas(DefaultComboBoxModel preguntas) {
@@ -157,7 +156,7 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		lblWarning = new JLabel("");
 		lblWarning.setForeground(Color.RED);
 		lblWarning.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblWarning.setBounds(35, 310, 222, 22);
+		lblWarning.setBounds(35, 323, 286, 22);
 		registerPanel.add(lblWarning);
 
 		comboBoxPreguntas = new JComboBox();
@@ -176,7 +175,7 @@ public class _02_Reestablecer extends JFrame implements Vista {
 		registerPanel.add(txtNick);
 		
 		JLabel lblNewLabel = new JLabel("Nickname");
-		lblNewLabel.setBounds(35, 57, 45, 13);
+		lblNewLabel.setBounds(35, 57, 81, 13);
 		registerPanel.add(lblNewLabel);
 		
 		txtPwd1 = new JPasswordField();

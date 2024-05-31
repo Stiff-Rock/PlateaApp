@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.ByteBuffer;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -736,7 +735,6 @@ public class Modelo {
 						return true;
 					}
 				} else {
-					System.out.println("FALLOS");
 					return false;
 				}
 			}

@@ -16,10 +16,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.border.MatteBorder;
 //@Autor: Hugo Osma
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class _10_Publicar extends Menus {
 	private JTextField txtFecha;
