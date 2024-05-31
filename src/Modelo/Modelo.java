@@ -185,13 +185,13 @@ public class Modelo {
 		String query = null;
 
 		if (pagina == 3) {
-			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE ESTADO != 'Nueva'";
+			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO, DESCRIPCION FROM PLATEA.DENUNCIA WHERE ESTADO != 'Nueva'";
 		}
 		if (pagina == 5) {
-			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ?";
+			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO, DESCRIPCION FROM PLATEA.DENUNCIA WHERE USUARIO_NICK = ?";
 		}
 		if (pagina == 8) {
-			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO FROM PLATEA.DENUNCIA WHERE ESTADO = 'Nueva'";
+			query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK, CATEGORIA_CODIGO, DESCRIPCION FROM PLATEA.DENUNCIA WHERE ESTADO = 'Nueva'";
 		}
 
 		int numColumnas = getNumColumnas(query, pagina);
@@ -837,5 +837,19 @@ public class Modelo {
 
 	public String[] getDatosPublicacion() {
 		return datosPublicacion;
+	}
+
+	public void modificar(String codigoDenuncia, String nombreColumna, String text) {
+		String sql = "{CALL PLATEA.CAMBIAR_DATOS(?, ?, ?)}";
+		try {
+			CallableStatement cst = conexion.prepareCall(sql);
+
+			cst.setString(1, codigoDenuncia.trim());
+			cst.setString(2, nombreColumna.trim());
+			cst.setString(3, text.trim());
+			cst.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

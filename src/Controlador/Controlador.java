@@ -338,4 +338,8 @@ public class Controlador {
 	public void AprobarDenegar(String codigoDenuncia, int tipo) {
 		modelo.AprobarDenegar(codigoDenuncia, tipo);
 	}
+
+	public void modificar(String codigoDenuncia, String nombreColumna, String text) {
+		modelo.modificar(codigoDenuncia, nombreColumna, text);
+	}
 }
