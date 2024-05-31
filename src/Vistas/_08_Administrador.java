@@ -24,6 +24,8 @@ import java.awt.event.MouseEvent;
 
 //@Autor:Anton Luo
 public class _08_Administrador extends Menus {
+	private int pagina = 8;
+	private String codigoDenuncia;
 	private JTable table;
 	private JButton btnAprobar, btnDenegar;
 	private JTextField textCambio;
@@ -93,11 +95,16 @@ public class _08_Administrador extends Menus {
 
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				
-			}
-		});
+            public void mouseClicked(MouseEvent e) {
+                // Obtener la fila y columna donde se hizo clic
+                int fila = table.rowAtPoint(e.getPoint());
+                int columna = table.columnAtPoint(e.getPoint());
+                // Obtener el valor del primer campo de la fila donde se hizo clic
+                codigoDenuncia = table.getValueAt(fila, 0).toString();
+                // controlador.prepararPublicacion(valor);
+//                controlador.cambiarVentana(6, 9);
+            }
+        });
 		table.setForeground(new Color(0, 0, 0));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -117,6 +124,10 @@ public class _08_Administrador extends Menus {
 		btnAprobar.setIcon(tick);
 		btnAprobar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int tipo = 1;
+				System.out.println(codigoDenuncia);
+				controlador.AprobarDenegar(codigoDenuncia, tipo);
+				table.setModel(controlador.getTabla(pagina));
 			}
 		});
 		btnAprobar.setBounds(442, 9, 109, 29);
@@ -125,7 +136,10 @@ public class _08_Administrador extends Menus {
 		btnDenegar = new JButton("Denegar");
 		btnDenegar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				int tipo = 2;
+				System.out.println(codigoDenuncia);
+				controlador.AprobarDenegar(codigoDenuncia, tipo);
+				table.setModel(controlador.getTabla(pagina));
 			}
 		});
 		btnDenegar.setIcon(cruz);
@@ -152,9 +166,7 @@ public class _08_Administrador extends Menus {
 		
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				String condicion1 = "ESTADO = ?";
-				String condicion2 = "'Nueva'";
-				table.setModel(controlador.getTabla(condicion1, condicion2));
+				table.setModel(controlador.getTabla(pagina));
 			}
 		});
 	}

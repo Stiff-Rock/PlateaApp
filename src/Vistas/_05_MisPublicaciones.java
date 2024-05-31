@@ -114,9 +114,8 @@ public class _05_MisPublicaciones extends Menus {
 		
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				String condicion1 = "USUARIO_NICK = ?";
-				String condicion2 = "user";
-				table.setModel(controlador.getTabla(condicion1, condicion2));
+				int pagina = 5;
+				table.setModel(controlador.getTabla(pagina));
 			}
 		});
 	}

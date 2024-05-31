@@ -49,8 +49,8 @@ public class Controlador {
 		return modelo.generateCaptcha();
 	}
 
-	public TableModel getTabla(String condicion1, String condicion) {
-		return modelo.getTabla(condicion1, condicion);
+	public TableModel getTabla(int pagina) {
+		return modelo.getTabla(pagina);
 	}
 
 	public DefaultComboBoxModel getPreguntas() {
@@ -314,5 +314,9 @@ public class Controlador {
 				ex.printStackTrace();
 			}
 		}
+	}
+
+	public void AprobarDenegar(String codigoDenuncia, int tipo) {
+		modelo.AprobarDenegar(codigoDenuncia, tipo);
 	}
 }
