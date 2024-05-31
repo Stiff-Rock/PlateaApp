@@ -62,26 +62,26 @@ public class _03_Home extends Menus {
 				// Obtener la fila y columna donde se hizo clic
 				int fila = table.rowAtPoint(e.getPoint());
 				int columna = table.columnAtPoint(e.getPoint());
-				// Obtener el valor del primer campo de la fila donde se hizo clic
-				String valor = table.getValueAt(fila, 0).toString();
-				controlador.prepararPublicacion(valor);
-				controlador.cambiarVentana(3, 9);
+					// Obtener el valor del primer campo de la fila donde se hizo clic
+					String valor = table.getValueAt(fila, 0).toString();
+					controlador.prepararPublicacion(valor);
+					controlador.cambiarVentana(3, 9);
 			}
 		});
-		
+
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                // Obtener la fila y columna donde se hizo clic
-                int fila = table.rowAtPoint(e.getPoint());
-                int columna = table.columnAtPoint(e.getPoint());
-                // Obtener el valor del primer campo de la fila donde se hizo clic
-                String valor = table.getValueAt(fila, 0).toString();
+			public void mouseClicked(MouseEvent e) {
+				// Obtener la fila y columna donde se hizo clic
+				int fila = table.rowAtPoint(e.getPoint());
+				int columna = table.columnAtPoint(e.getPoint());
+				// Obtener el valor del primer campo de la fila donde se hizo clic
+				String valor = table.getValueAt(fila, 0).toString();
 //               controlador.prepararPublicacion(valor);
-                controlador.cambiarVentana(6, 9);
-            }
-        });
-		
+				controlador.cambiarVentana(6, 9);
+			}
+		});
+
 		table.getTableHeader().setReorderingAllowed(false);
 
 		tablaPane.setViewportView(table);
@@ -136,10 +136,7 @@ public class _03_Home extends Menus {
 
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				String campo = "ESTADO";
-				String operador = "!=";
-				String valor = "Nueva";
-				table.setModel(controlador.getTabla1(campo, operador, valor));
+				table.setModel(controlador.getTabla(3));
 			}
 		});
 	}

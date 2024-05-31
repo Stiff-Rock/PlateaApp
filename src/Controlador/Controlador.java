@@ -45,10 +45,6 @@ public class Controlador {
 		return modelo.generateCaptcha();
 	}
 
-	public TableModel getTabla1(String campo, String operador, String valor) {
-		return modelo.getTabla1(campo, operador, valor);
-	}
-
 	public TableModel getTabla2(String campo) {
 		return modelo.getTabla2(campo);
 	}
@@ -332,9 +328,9 @@ public class Controlador {
 	}
 
 	public TableModel getTabla(int pagina) {
-        return modelo.obtenerTabla(pagina);
-    }
-	
+		return modelo.obtenerTabla(pagina);
+	}
+
 	public void prepararPublicacion(String valor) {
 		modelo.obtenerPublicacion(valor);
 	}

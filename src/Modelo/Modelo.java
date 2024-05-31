@@ -261,48 +261,6 @@ public class Modelo {
 		return numFilas;
 	}
 
-	private DefaultTableModel obtenerTabla1(String campo, String operador, String valor) {
-		String query = "SELECT CODIGO, DIRECCION, CP, ESTADO, FECHA, USUARIO_NICK AS USUARIO, CATEGORIA_CODIGO AS CATEGORIA FROM PLATEA.DENUNCIA WHERE TRIM("
-				+ campo + ") " + operador + " ?";
-
-		int numColumnas = getNumColumnas(query);
-		int numFilas = getNumFilas(query);
-
-		String[] cabecera = new String[numColumnas];
-		Object[][] contenido = new Object[numFilas][numColumnas];
-
-		try {
-			PreparedStatement pstmt = conexion.prepareStatement(query);
-			pstmt.setString(1, valor);
-
-			ResultSet rs = pstmt.executeQuery();
-			ResultSetMetaData rsmd = rs.getMetaData();
-			for (int i = 1; i <= numColumnas; i++) {
-				cabecera[i - 1] = rsmd.getColumnName(i);
-			}
-			int filas = 0;
-			while (rs.next()) {
-				for (int col = 1; col <= numColumnas; col++) {
-					contenido[filas][col - 1] = rs.getString(col);
-				}
-				filas++;
-			}
-			rs.close();
-			pstmt.close();
-
-			miTabla = new DefaultTableModel(contenido, cabecera) {
-	            @Override
-	            public boolean isCellEditable(int row, int column) {
-	                return false; // Hace que todas las celdas no sean editables
-	            }
-	        };
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return miTabla;
-	}
-
 	private DefaultTableModel obtenerTabla2(String campo) {
 		String query = "SELECT DENUNCIA.CODIGO, DENUNCIA.DIRECCION, DENUNCIA.CP, DENUNCIA.ESTADO, "
 				+ "DENUNCIA.FECHA, DENUNCIA.USUARIO_NICK AS USUARIO, DENUNCIA.CATEGORIA_CODIGO AS CATEGORIA FROM PLATEA.DENUNCIA "
@@ -831,35 +789,6 @@ public class Modelo {
 
 	}
 
-	// Métodos getter y setter del modelo
-	public void setVistas(Vista[] vistas) {
-		this.vistas = vistas;
-	}
-
-	public void setUsuario(Usuario user) {
-		this.user = user;
-	}
-
-	public String getResultado() {
-		return resultado;
-	}
-
-	public Usuario getUser() {
-		return user;
-	}
-
-	public DefaultTableModel getTabla1(String campo, String operador, String valor) {
-		return obtenerTabla1(campo, operador, valor);
-	}
-
-	public DefaultTableModel getTabla2(String campo) {
-		return obtenerTabla2(campo);
-	}
-
-	public String[] getDatosPublicacion() {
-		return datosPublicacion;
-	}
-
 	public void AprobarDenegar(String codigoDenuncia, int tipo) {
 		if (tipo == 1) {
 			String sql = "{CALL PLATEA.APROBAR(?)}";
@@ -883,5 +812,30 @@ public class Modelo {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	// Métodos getter y setter del modelo
+	public void setVistas(Vista[] vistas) {
+		this.vistas = vistas;
+	}
+
+	public void setUsuario(Usuario user) {
+		this.user = user;
+	}
+
+	public String getResultado() {
+		return resultado;
+	}
+
+	public Usuario getUser() {
+		return user;
+	}
+
+	public DefaultTableModel getTabla2(String campo) {
+		return obtenerTabla2(campo);
+	}
+
+	public String[] getDatosPublicacion() {
+		return datosPublicacion;
 	}
 }

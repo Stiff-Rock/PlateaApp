@@ -127,10 +127,7 @@ public class _05_MisPublicaciones extends Menus {
 		
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				String campo = "USUARIO_NICK";
-				String operador = "=";
-				String valor = controlador.getUser().getNombre();
-				table.setModel(controlador.getTabla1(campo, operador, valor));
+				table.setModel(controlador.getTabla(5));
 			}
 		});
 	}
