@@ -27,9 +27,7 @@ import javax.swing.border.LineBorder;
 //@Autor: Anton Luo
 public class _06_MisFavoritos extends Menus {
 	private JPanel filtrosPanel;
-	private JLabel lblFiltrosTxt;
 	private JTable table;
-	private JComboBox comboBoxProximidad;
 	private JLabel lblTitle;
 
 	public _06_MisFavoritos() {
@@ -56,25 +54,6 @@ public class _06_MisFavoritos extends Menus {
 		filtrosPanel.setBackground(new Color(162, 196, 201));
 		filtrosPanel.setForeground(new Color(255, 255, 255));
 		filtrosPanel.setLayout(null);
-
-		lblFiltrosTxt = new JLabel("Filtros:");
-		lblFiltrosTxt.setBounds(308, 17, 46, 14);
-		filtrosPanel.add(lblFiltrosTxt);
-
-		JComboBox comboBoxFecha = new JComboBox();
-		comboBoxFecha.setModel(new DefaultComboBoxModel(new String[] { "Fecha" }));
-		comboBoxFecha.setBounds(355, 13, 101, 22);
-		filtrosPanel.add(comboBoxFecha);
-
-		JComboBox comboBoxEstado = new JComboBox();
-		comboBoxEstado.setModel(new DefaultComboBoxModel(new String[] { "Estado", "Pendiente", "Resuelto" }));
-		comboBoxEstado.setBounds(466, 13, 101, 22);
-		filtrosPanel.add(comboBoxEstado);
-
-		comboBoxProximidad = new JComboBox();
-		comboBoxProximidad.setModel(new DefaultComboBoxModel(new String[] { "Proximidad" }));
-		comboBoxProximidad.setBounds(577, 13, 101, 22);
-		filtrosPanel.add(comboBoxProximidad);
 
 		lblTitle = new JLabel("Mis favoritos");
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -109,7 +88,7 @@ public class _06_MisFavoritos extends Menus {
 		tablaPane.setViewportView(table);
 
 		tablaPane.setViewportView(table);
-		// TODO BOTON BORRAR
+		
 		JButton btnPublicar = new JButton("Publicar");
 		btnPublicar.setIcon(mas);
 		btnPublicar.addActionListener(new ActionListener() {
@@ -130,12 +109,12 @@ public class _06_MisFavoritos extends Menus {
 		btnBorrar.setBounds(450, 660, 131, 35);
 		btnBorrar.setIcon(borrar);
 		contentPanel.add(btnBorrar);
-		addWindowListener(new WindowAdapter() {
-			public void windowActivated(WindowEvent e) {
-				String campo = "FAVORITO";
-				table.setModel(controlador.getTabla2(campo));
-			}
-		});
 
+		addWindowListener(new WindowAdapter() {
+		    public void windowOpened(WindowEvent e) {
+		    	String campo = "FAVORITO";
+		    	table.setModel(controlador.getTabla2(campo));
+		    }
+		});
 	}
 }

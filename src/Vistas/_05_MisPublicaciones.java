@@ -24,9 +24,7 @@ import javax.swing.border.LineBorder;
 //@Autor: Anton Luo
 public class _05_MisPublicaciones extends Menus {
 	private JPanel filtrosPanel;
-	private JLabel lblFiltrosTxt;
 	private JTable table;
-	private JComboBox comboBoxProximidad;
 	private JLabel lblTitle;
 
 	public _05_MisPublicaciones() {
@@ -53,25 +51,6 @@ public class _05_MisPublicaciones extends Menus {
 		filtrosPanel.setBackground(new Color(162, 196, 201));
 		filtrosPanel.setForeground(new Color(255, 255, 255));
 		filtrosPanel.setLayout(null);
-
-		lblFiltrosTxt = new JLabel("Filtros:");
-		lblFiltrosTxt.setBounds(308, 17, 46, 14);
-		filtrosPanel.add(lblFiltrosTxt);
-
-		JComboBox comboBoxFecha = new JComboBox();
-		comboBoxFecha.setModel(new DefaultComboBoxModel(new String[] { "Fecha" }));
-		comboBoxFecha.setBounds(355, 13, 101, 22);
-		filtrosPanel.add(comboBoxFecha);
-
-		JComboBox comboBoxEstado = new JComboBox();
-		comboBoxEstado.setModel(new DefaultComboBoxModel(new String[] { "Estado", "Pendiente", "Resuelto" }));
-		comboBoxEstado.setBounds(466, 13, 101, 22);
-		filtrosPanel.add(comboBoxEstado);
-
-		comboBoxProximidad = new JComboBox();
-		comboBoxProximidad.setModel(new DefaultComboBoxModel(new String[] { "Proximidad" }));
-		comboBoxProximidad.setBounds(577, 13, 101, 22);
-		filtrosPanel.add(comboBoxProximidad);
 
 		lblTitle = new JLabel("Mis publicaciones");
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -126,9 +105,9 @@ public class _05_MisPublicaciones extends Menus {
 		contentPanel.add(btnBorrar);
 		
 		addWindowListener(new WindowAdapter() {
-			public void windowActivated(WindowEvent e) {
-				table.setModel(controlador.getTabla(5));
-			}
+		    public void windowOpened(WindowEvent e) {
+		    	table.setModel(controlador.getTabla(5));
+		    }
 		});
 	}
 }

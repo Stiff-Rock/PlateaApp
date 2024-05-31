@@ -342,7 +342,6 @@ public class Modelo {
 			pstmt.setString(1, codigoDen); // Establecer el valor del parámetro en la consulta SQL
 			try (ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
-
 					if (rs.getBytes("IMAGEN") != null) {
 						datosPublicacion[0] = Base64.getEncoder().encodeToString(rs.getBytes("IMAGEN"));
 					} else {
@@ -605,7 +604,7 @@ public class Modelo {
 			PreparedStatement countStmt = conexion.prepareStatement(sqlCount);
 			ResultSet resultSet = countStmt.executeQuery();
 			resultSet.next(); // Mover al primer resultado
-			// TODO PROBLEMAS
+
 			String numeroDenuncias = String.valueOf(resultSet.getInt(1) + 1); // Sumar 1 para crear el nuevo código
 			countStmt.close();
 
@@ -625,7 +624,7 @@ public class Modelo {
 			// Paso 3: Ejecutar la inserción con el nuevo código
 			try (PreparedStatement pstmt = conexion.prepareStatement(sqlInsert)) {
 				pstmt.setString(1, codigoDenuncia);
-				pstmt.setBytes(2, null); // CAMBIAR URGENTE
+				pstmt.setBytes(2, Base64.getDecoder().decode(datosPublicacion[0]));
 				pstmt.setString(3, datosPublicacion[4]);
 				pstmt.setInt(4, Integer.valueOf(datosPublicacion[2]));
 				pstmt.setString(5, "Nueva");

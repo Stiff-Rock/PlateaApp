@@ -111,7 +111,6 @@ public class _10_Publicar extends Menus {
 		lblDescripcion.setBounds(60, 417, 172, 13);
 		publicarPanel.add(lblDescripcion);
 
-		// TODO CARGAR CATEGORIAS
 		comboBoxCategoria = new JComboBox();
 		comboBoxCategoria.setBounds(462, 311, 141, 28);
 		publicarPanel.add(comboBoxCategoria);

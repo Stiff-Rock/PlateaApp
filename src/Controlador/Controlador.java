@@ -279,11 +279,8 @@ public class Controlador {
 		((_09_Publicacion) vistas[9]).setTxtFecha(datosPublicacion[1]);
 		((_09_Publicacion) vistas[9]).setTxtCp(datosPublicacion[2]);
 		((_09_Publicacion) vistas[9]).setTxtCategoria(datosPublicacion[3]);
-		;
 		((_09_Publicacion) vistas[9]).setTxtDireccion(datosPublicacion[4]);
-		;
 		((_09_Publicacion) vistas[9]).setTxtDescripcion(datosPublicacion[5]);
-		;
 	}
 
 	public ImageIcon cargarImagen(int alturaImagen) {

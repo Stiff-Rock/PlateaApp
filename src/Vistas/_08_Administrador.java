@@ -29,7 +29,6 @@ public class _08_Administrador extends Menus {
 	private String codigoDenuncia;
 	private JTable table;
 	private JButton btnAprobar, btnDenegar;
-	private JTextField textField;
 
 	public _08_Administrador() {
 		setTitle("Gestionar");
@@ -61,52 +60,17 @@ public class _08_Administrador extends Menus {
 		filtrosPanel.setForeground(Color.WHITE);
 		filtrosPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		filtrosPanel.setBackground(new Color(162, 196, 201));
-
-		JLabel lblLupa = new JLabel("");
-		lblLupa.setBounds(8, 17, 14, 14);
-		lblLupa.setIcon(lupa);
-		filtrosPanel.add(lblLupa);
-
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(27, 11, 271, 26);
-		filtrosPanel.add(textField);
-
-		JLabel lblFiltrosTxt = new JLabel("Filtros:");
-		lblFiltrosTxt.setBounds(308, 17, 46, 14);
-		filtrosPanel.add(lblFiltrosTxt);
-
-		JComboBox comboBoxFecha = new JComboBox();
-		comboBoxFecha.setModel(new DefaultComboBoxModel(new String[] { "Fecha" }));
-		comboBoxFecha.setBounds(355, 13, 101, 22);
-		filtrosPanel.add(comboBoxFecha);
-
-		JComboBox comboBoxEstado = new JComboBox();
-		comboBoxEstado.setModel(new DefaultComboBoxModel(new String[] { "Estado" }));
-		comboBoxEstado.setBounds(466, 13, 101, 22);
-		filtrosPanel.add(comboBoxEstado);
-
-		JComboBox comboBoxProximidad = new JComboBox();
-		comboBoxProximidad.setModel(new DefaultComboBoxModel(new String[] { "Proximidad" }));
-		comboBoxProximidad.setBounds(577, 13, 101, 22);
-		filtrosPanel.add(comboBoxProximidad);
+		
+		JLabel lblPanelDeAdministrador = new JLabel("Panel de administrador");
+		lblPanelDeAdministrador.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblPanelDeAdministrador.setBounds(10, 11, 297, 25);
+		filtrosPanel.add(lblPanelDeAdministrador);
 
 		JScrollPane tablePane = new JScrollPane();
 		tablePane.setBounds(10, 60, 675, 453);
 		tablaPanel.add(tablePane);
 
 		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				// Obtener la fila y columna donde se hizo clic
-				int fila = table.rowAtPoint(e.getPoint());
-				int columna = table.columnAtPoint(e.getPoint());
-				// Obtener el valor del primer campo de la fila donde se hizo clic
-				codigoDenuncia = table.getValueAt(fila, 0).toString();
-				// controlador.prepararPublicacion(valor);
-//                controlador.cambiarVentana(6, 9);
-			}
-		});
 		table.setForeground(new Color(0, 0, 0));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -176,9 +140,9 @@ public class _08_Administrador extends Menus {
 		});
 
 		addWindowListener(new WindowAdapter() {
-			public void windowActivated(WindowEvent e) {
-				table.setModel(controlador.getTabla(8));
-			}
+		    public void windowOpened(WindowEvent e) {
+		    	table.setModel(controlador.getTabla(8));
+		    }
 		});
 	}
 }

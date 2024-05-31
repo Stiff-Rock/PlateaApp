@@ -26,7 +26,6 @@ import javax.swing.table.DefaultTableModel;
 
 public class _03_Home extends Menus {
 	private JTable table;
-	private JTextField txtBuscador;
 
 	public void cargarTabla(DefaultTableModel tablaInicio) {
 		table.setModel(tablaInicio);
@@ -77,7 +76,7 @@ public class _03_Home extends Menus {
 				int columna = table.columnAtPoint(e.getPoint());
 				// Obtener el valor del primer campo de la fila donde se hizo clic
 				String valor = table.getValueAt(fila, 0).toString();
-//               controlador.prepararPublicacion(valor);
+				controlador.prepararPublicacion(valor);
 				controlador.cambiarVentana(6, 9);
 			}
 		});
@@ -93,35 +92,11 @@ public class _03_Home extends Menus {
 		filtrosPanel.setBackground(new Color(162, 196, 201));
 		filtrosPanel.setBounds(0, 0, 695, 49);
 		tablaPanel.add(filtrosPanel);
-
-		JLabel lblLupa = new JLabel("");
-		lblLupa.setBounds(8, 17, 14, 14);
-		lblLupa.setIcon(lupa);
-		filtrosPanel.add(lblLupa);
-
-		txtBuscador = new JTextField();
-		txtBuscador.setColumns(10);
-		txtBuscador.setBounds(27, 11, 271, 26);
-		filtrosPanel.add(txtBuscador);
-
-		JLabel lblFiltrosTxt = new JLabel("Filtros:");
-		lblFiltrosTxt.setBounds(308, 17, 46, 14);
-		filtrosPanel.add(lblFiltrosTxt);
-
-		JComboBox comboBoxFecha = new JComboBox();
-		comboBoxFecha.setModel(new DefaultComboBoxModel(new String[] { "Fecha" }));
-		comboBoxFecha.setBounds(355, 13, 101, 22);
-		filtrosPanel.add(comboBoxFecha);
-
-		JComboBox comboBoxEstado = new JComboBox();
-		comboBoxEstado.setModel(new DefaultComboBoxModel(new String[] { "Estado" }));
-		comboBoxEstado.setBounds(466, 13, 101, 22);
-		filtrosPanel.add(comboBoxEstado);
-
-		JComboBox comboBoxProximidad = new JComboBox();
-		comboBoxProximidad.setModel(new DefaultComboBoxModel(new String[] { "Proximidad" }));
-		comboBoxProximidad.setBounds(577, 13, 101, 22);
-		filtrosPanel.add(comboBoxProximidad);
+		
+		JLabel lblInicio = new JLabel("Inicio");
+		lblInicio.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblInicio.setBounds(10, 11, 297, 25);
+		filtrosPanel.add(lblInicio);
 
 		JButton btnPublicar = new JButton("Publicar");
 		btnPublicar.setBounds(609, 660, 131, 35);
@@ -134,10 +109,12 @@ public class _03_Home extends Menus {
 		btnPublicar.setIcon(mas);
 		btnPublicar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
+		
 		addWindowListener(new WindowAdapter() {
-			public void windowActivated(WindowEvent e) {
-				table.setModel(controlador.getTabla(3));
-			}
+		    public void windowOpened(WindowEvent e) {
+
+		    	table.setModel(controlador.getTabla(3));
+		    }
 		});
 	}
 }
