@@ -29,42 +29,91 @@ public class Controlador {
 	private Usuario user;
 	private Vista[] vistas;
 
+	/**
+	 * Establece las vistas que serán utilizadas por esta clase.
+	 *
+	 * @param vistas Un arreglo de objetos Vista que representan las vistas a
+	 *               establecer.
+	 */
 	public void setVista(Vista[] vistas) {
 		this.vistas = vistas;
 	}
 
+	/**
+	 * Establece el modelo de datos que será utilizado por esta clase.
+	 *
+	 * @param modelo El objeto Modelo que se asignará como modelo de datos.
+	 */
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
 	}
 
+	/**
+	 * Establece el usuario actual que interactúa con la interfaz.
+	 *
+	 * @param user El objeto Usuario que representa al usuario actual.
+	 */
 	public void setUsuario(Usuario user) {
 		this.user = user;
 	}
 
+	/**
+	 * Obtiene el captcha generado por el modelo de datos.
+	 *
+	 * @return Una cadena que representa el captcha generado.
+	 */
 	public String getCaptcha() {
 		return modelo.generateCaptcha();
 	}
 
+	/**
+	 * Obtiene un modelo de tabla basado en un campo específico del modelo de datos.
+	 *
+	 * @param campo El campo sobre el cual se desea obtener la tabla.
+	 * @return Un objeto TableModel que representa la tabla correspondiente al campo
+	 *         especificado.
+	 */
 	public TableModel getTabla2(String campo) {
 		return modelo.getTabla2(campo);
 	}
 
+	/**
+	 * Obtiene un modelo de ComboBox predeterminado que contiene preguntas.
+	 *
+	 * @return Un DefaultComboBoxModel que contiene preguntas del modelo de datos.
+	 */
 	public DefaultComboBoxModel getPreguntas() {
 		String campo = "cuestion";
 		String tabla = "pregunta";
 		return modelo.obtenerComboBox(campo, tabla);
 	}
 
+	/**
+	 * Obtiene un modelo de ComboBox predeterminado que contiene categorías.
+	 *
+	 * @return Un DefaultComboBoxModel que contiene categorías del modelo de datos.
+	 */
 	public DefaultComboBoxModel getCategorias() {
 		String campo = "nombre";
 		String tabla = "categoria";
 		return modelo.obtenerComboBox(campo, tabla);
 	}
 
+	/**
+	 * Obtiene el usuario actual que está interactuando con la aplicación.
+	 *
+	 * @return El objeto Usuario que representa al usuario actual.
+	 */
 	public Usuario getUser() {
 		return modelo.getUser();
 	}
 
+	/**
+	 * Cambia la ventana que se muestra en la interfaz gráfica.
+	 *
+	 * @param desde El índice de la ventana actual que se ocultará.
+	 * @param hasta El índice de la ventana que se mostrará.
+	 */
 	public void cambiarVentana(int desde, int hasta) {
 		((JFrame) vistas[desde]).setVisible(false);
 		((JFrame) vistas[hasta]).setVisible(true);
@@ -75,6 +124,11 @@ public class Controlador {
 		}
 	}
 
+	/**
+	 * Realiza el proceso de inicio de sesión utilizando las credenciales
+	 * proporcionadas. Muestra diferentes vistas dependiendo del resultado del
+	 * inicio de sesión.
+	 */
 	public void login() {
 		String usr = ((_00_Login) vistas[0]).getUsr();
 		String pwd = ((_00_Login) vistas[0]).getPwd();
@@ -93,6 +147,11 @@ public class Controlador {
 		}
 	}
 
+	/**
+	 * Avanza en el proceso de registro, mostrando la siguiente parte del formulario
+	 * si es posible. Muestra mensajes de error si hay algún problema con los datos
+	 * proporcionados.
+	 */
 	public void siguienteSignIn() {
 		String resultado = modelo.siguienteSingIn(((_01_Registrar) vistas[1]).getDatosRegistro());
 		String mensaje = "";
@@ -117,6 +176,10 @@ public class Controlador {
 		}
 	}
 
+	/**
+	 * Proceso de registro de un nuevo usuario. Realiza la verificación de los datos
+	 * proporcionados y muestra mensajes de error si es necesario.
+	 */
 	public void singIn() {
 		String resultado = modelo.singIn(((_01_Registrar) vistas[1]).getDatosRegistro());
 		String mensaje = "Ha ocurrido un error inesperado.";
@@ -152,6 +215,10 @@ public class Controlador {
 		}
 	}
 
+	/**
+	 * Verifica y procesa el cambio de contraseña de un usuario. Muestra un mensaje
+	 * de error si no se pueden verificar los datos correctamente.
+	 */
 	public void verificarCambio() {
 		String nick = (((_02_Reestablecer) vistas[2]).getNick());
 		String pwd = (((_02_Reestablecer) vistas[2]).getPwd());
@@ -167,6 +234,10 @@ public class Controlador {
 		}
 	}
 
+	/**
+	 * Establece los datos del usuario actual en la vista de perfil. Actualiza los
+	 * campos con la información del usuario.
+	 */
 	public void setDatosUsuario() {
 		((_04_MiPerfil) vistas[4]).setNombre(user.getNombre());
 		((_04_MiPerfil) vistas[4]).setApellido(user.getApellido());
@@ -183,6 +254,11 @@ public class Controlador {
 		((_04_MiPerfil) vistas[4]).setTipo(tipo);
 	}
 
+	/**
+	 * Actualiza los datos del usuario con la información proporcionada en la vista
+	 * de perfil. Realiza validaciones sobre los datos proporcionados y muestra
+	 * mensajes de éxito o error en la vista.
+	 */
 	public void actualizarDatosUsuario() {
 		String datos[] = new String[4];
 
@@ -224,14 +300,31 @@ public class Controlador {
 		((_04_MiPerfil) vistas[4]).mostrarWarning(mensaje, color);
 	}
 
+	/**
+	 * Convierte una imagen representada por un ImageIcon a su representación en
+	 * formato Base64.
+	 *
+	 * @param imagen El ImageIcon que representa la imagen a convertir.
+	 * @return Una cadena que representa la imagen en formato Base64.
+	 */
 	public String deImagenABase64(ImageIcon imagen) {
 		return modelo.deImagenABase64(imagen);
 	}
 
+	/**
+	 * Convierte una imagen en formato Base64 a un objeto ImageIcon.
+	 *
+	 * @param fotoBase64 Una cadena que representa la imagen en formato Base64.
+	 * @return Un ImageIcon que representa la imagen decodificada.
+	 */
 	public ImageIcon deBase64AImagen(String fotoBase64) {
 		return modelo.deBase64AImagen(fotoBase64);
 	}
 
+	/**
+	 * Crea una nueva publicación con la información proporcionada. Verifica la
+	 * validez de los datos y muestra mensajes de error si es necesario.
+	 */
 	public void crearPublicacion() {
 		String[] datosPublicar = new String[6];
 
@@ -273,6 +366,10 @@ public class Controlador {
 		}
 	}
 
+	/**
+	 * Carga los datos de una publicación desde el modelo y los muestra en la vista
+	 * de publicación. Actualiza los campos de la vista con los datos obtenidos.
+	 */
 	public void cargarPublicacion() {
 		String[] datosPublicacion = modelo.getDatosPublicacion();
 		((_09_Publicacion) vistas[9]).setLblFoto(deBase64AImagen(datosPublicacion[0]));
@@ -283,6 +380,14 @@ public class Controlador {
 		((_09_Publicacion) vistas[9]).setTxtDescripcion(datosPublicacion[5]);
 	}
 
+	/**
+	 * Carga una imagen desde el sistema de archivos y la devuelve como un ImageIcon
+	 * escalado a la altura especificada.
+	 *
+	 * @param alturaImagen La altura deseada para la imagen escalada.
+	 * @return Un ImageIcon escalado con la imagen seleccionada, o null si no se
+	 *         seleccionó ninguna imagen.
+	 */
 	public ImageIcon cargarImagen(int alturaImagen) {
 		ImageIcon imageIcon = null;
 		// Crea un JFileChooser para seleccionar la imagen
@@ -324,51 +429,111 @@ public class Controlador {
 		return imageIcon;
 	}
 
+	/**
+	 * Obtiene una tabla de datos desde el modelo para la página especificada.
+	 *
+	 * @param pagina El número de página de la tabla que se desea obtener.
+	 * @return Un TableModel que contiene los datos de la tabla correspondiente a la
+	 *         página especificada.
+	 */
 	public TableModel getTabla(int pagina) {
 		return modelo.obtenerTabla(pagina);
 	}
 
+	/**
+	 * Prepara la vista de una publicación utilizando el valor proporcionado como
+	 * referencia. Obtiene los datos de la publicación correspondiente desde el
+	 * modelo.
+	 *
+	 * @param valor El valor que se utilizará para identificar la publicación.
+	 */
 	public void prepararPublicacion(String valor) {
 		modelo.obtenerPublicacion(valor);
 	}
 
+	/**
+	 * Aprueba o deniega una denuncia según el código de denuncia y el tipo
+	 * especificados.
+	 *
+	 * @param codigoDenuncia El código de la denuncia que se desea aprobar o
+	 *                       denegar.
+	 * @param tipo           El tipo de acción a realizar (aprobación o denegación).
+	 */
 	public void AprobarDenegar(String codigoDenuncia, int tipo) {
 		modelo.AprobarDenegar(codigoDenuncia, tipo);
 	}
 
+	/**
+	 * Obtiene los datos de la publicación actualmente mostrada en la vista.
+	 *
+	 * @return Un array de Strings que contiene los datos de la publicación actual.
+	 */
 	public String[] getDatosPublicacion() {
 		return modelo.getDatosPublicacion();
 	}
 
+	/**
+	 * Agrega la publicación actual a la lista de favoritos del usuario actual.
+	 */
 	public void meterFavoritos() {
 		String nick = user.getNickname();
 		String CodDenuncia = ((_09_Publicacion) vistas[9]).getCod();
-		modelo.anadirFavoritos(nick, CodDenuncia);
-
+		modelo.anadirFavorito(nick, CodDenuncia);
 	}
 
+	/**
+	 * Agrega el voto del usuario actual a la publicación actual.
+	 */
 	public void meterVoatar() {
 		String nick = user.getNickname();
 		String CodDenuncia = ((_09_Publicacion) vistas[9]).getCod();
 		modelo.anadirVotar(nick, CodDenuncia);
 	}
 
+	/**
+	 * Modifica una columna específica de una denuncia según el código de denuncia,
+	 * el nombre de la columna y el texto especificados.
+	 *
+	 * @param codigoDenuncia El código de la denuncia que se desea modificar.
+	 * @param nombreColumna  El nombre de la columna que se desea modificar.
+	 * @param text           El nuevo valor que se desea asignar a la columna
+	 *                       especificada.
+	 */
 	public void modificar(String codigoDenuncia, String nombreColumna, String text) {
 		modelo.modificar(codigoDenuncia, nombreColumna, text);
-
 	}
 
+	/**
+	 * Genera un apodo (nickname) basado en el nombre y apellido obtenidos de la
+	 * vista y lo establece en la vista.
+	 */
 	public void generarNick() {
+		// Obtiene el nombre de la vista de registro
 		String nombre = ((_01_Registrar) vistas[1]).getNombre();
+		// Obtiene el apellido de la vista de registro
 		String apellido = ((_01_Registrar) vistas[1]).getApellido();
+		// Genera el apodo usando el modelo y lo establece en la vista de registro
 		((_01_Registrar) vistas[1]).setNickname(modelo.generarNick(nombre, apellido));
 	}
 
+	/**
+	 * Actualiza el campo de FAVORITO basado en el código de denuncia proporcionado.
+	 *
+	 * @param codigoDenuncia El código de denuncia cuyo registro de favoritos se va
+	 *                       a borrar.
+	 */
 	public void borrarFavoritos(String codigoDenuncia) {
 		modelo.borrarFavorito(codigoDenuncia);
 	}
 
+	/**
+	 * Actualiza el campo de UPVOTE basado en el código de denuncia proporcionado.
+	 *
+	 * @param codigoDenuncia El código de denuncia cuyo registro de votados se va a
+	 *                       borrar.
+	 */
 	public void borrarVotados(String codigoDenuncia) {
 		modelo.borrarVotar(codigoDenuncia);
 	}
+
 }

@@ -37,39 +37,76 @@ public class _02_Reestablecer extends JFrame implements Vista {
 	private JPasswordField txtPwd1;
 	private JPasswordField txtPwd2;
 
+	/**
+	 * Establece el controlador para esta vista.
+	 *
+	 * @param controlador El controlador que se asignará a esta vista.
+	 */
 	public void setControlador(Controlador controlador) {
-		this.controlador = controlador;
+	    this.controlador = controlador;
 	}
 
+	/**
+	 * Muestra un mensaje de advertencia en la etiqueta correspondiente indicando que ha habido un error al cambiar la contraseña.
+	 */
 	public void mostrarWarningcambio() {
-		lblWarning.setText("Campos incorrectos, fallo al cambiar contraseña");
+	    lblWarning.setText("Campos incorrectos, fallo al cambiar contraseña");
 	}
 
+	/**
+	 * Carga el modelo de ComboBox de preguntas con el modelo proporcionado.
+	 *
+	 * @param preguntas El modelo de ComboBox de preguntas que se cargará en el ComboBox correspondiente.
+	 */
 	public void cargarPreguntas(DefaultComboBoxModel preguntas) {
-		comboBoxPreguntas.setModel(preguntas);
+	    comboBoxPreguntas.setModel(preguntas);
 	}
 
+	/**
+	 * Obtiene el nickname ingresado en el campo de texto correspondiente.
+	 *
+	 * @return El nickname ingresado.
+	 */
 	public String getNick() {
-		return txtNick.getText();
+	    return txtNick.getText();
 	}
 
+	/**
+	 * Obtiene la contraseña ingresada en el primer campo de contraseña.
+	 *
+	 * @return La contraseña ingresada como una cadena de caracteres.
+	 */
 	public String getPwd() {
-		return String.valueOf(txtPwd1.getPassword());
+	    return String.valueOf(txtPwd1.getPassword());
 	}
 
+	/**
+	 * Obtiene la contraseña de verificación ingresada en el segundo campo de contraseña.
+	 *
+	 * @return La contraseña de verificación ingresada como una cadena de caracteres.
+	 */
 	public String getPwdVer() {
-		return String.valueOf(txtPwd2.getPassword());
+	    return String.valueOf(txtPwd2.getPassword());
 	}
 
+	/**
+	 * Obtiene la respuesta ingresada en el campo de texto correspondiente.
+	 *
+	 * @return La respuesta ingresada.
+	 */
 	public String getRespuesta() {
-		return txtRespuesta.getText();
+	    return txtRespuesta.getText();
 	}
 
+	/**
+	 * Obtiene el índice de la pregunta seleccionada en el ComboBox de preguntas.
+	 *
+	 * @return El índice de la pregunta seleccionada.
+	 */
 	public String getPregunta() {
-		comboBoxPreguntas.getSelectedIndex();
-		return String.valueOf(comboBoxPreguntas.getSelectedIndex());
+	    comboBoxPreguntas.getSelectedIndex();
+	    return String.valueOf(comboBoxPreguntas.getSelectedIndex());
 	}
-
 	public _02_Reestablecer() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Restablecer contraseña");

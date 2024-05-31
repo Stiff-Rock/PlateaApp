@@ -24,8 +24,13 @@ import javax.swing.table.DefaultTableModel;
 public class _03_Home extends Menus {
 	private JTable table;
 
+	/**
+	 * Carga el modelo de tabla proporcionado en la tabla de la vista.
+	 *
+	 * @param tablaInicio El modelo de tabla que se cargará en la tabla de la vista.
+	 */
 	public void cargarTabla(DefaultTableModel tablaInicio) {
-		table.setModel(tablaInicio);
+	    table.setModel(tablaInicio);
 	}
 
 	public _03_Home() {

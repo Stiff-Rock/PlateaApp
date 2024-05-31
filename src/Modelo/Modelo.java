@@ -842,82 +842,111 @@ public class Modelo {
 		return datosPublicacion;
 	}
 
-	public void anadirFavoritos(String nick, String codDenuncia) {
-		String selectQuery = "SELECT COUNT(1) FROM platea.votar WHERE USUARIO_NICK = ? AND DENUNCIA_CODIGO = ?";
-		String updateQuery = "UPDATE platea.votar SET favorito = ? WHERE USUARIO_NICK = ? AND DENUNCIA_CODIGO = ?";
-		String insertQuery = "INSERT INTO platea.votar (USUARIO_NICK, DENUNCIA_CODIGO, upvote ,favorito) VALUES (?, ?,?, ?)";
+//	public void anadirFavoritos(String nick, String codDenuncia) {
+//		String selectQuery = "SELECT COUNT(1) FROM platea.votar WHERE USUARIO_NICK = ? AND DENUNCIA_CODIGO = ?";
+//		String updateQuery = "UPDATE platea.votar SET favorito = ? WHERE USUARIO_NICK = ? AND DENUNCIA_CODIGO = ?";
+//		String insertQuery = "INSERT INTO platea.votar (USUARIO_NICK, DENUNCIA_CODIGO, upvote ,favorito) VALUES (?, ?,?, ?)";
+//
+//		try (PreparedStatement selectStatement = conexion.prepareStatement(selectQuery)) {
+//			selectStatement.setString(1, nick);
+//			selectStatement.setString(2, codDenuncia);
+//			ResultSet resultSet = selectStatement.executeQuery();
+//
+//			if (resultSet.next()) {
+//				// Existe una entrada, establecemos el campo favorito como "S"
+//				try (PreparedStatement updateStatement = conexion.prepareStatement(updateQuery)) {
+//					updateStatement.setString(1, "S");
+//					updateStatement.setString(2, nick);
+//					updateStatement.setString(3, codDenuncia);
+//					updateStatement.executeUpdate();
+//				}
+//			} else {
+//				// No existe una entrada, insertamos una nueva con favorito como "S"
+//				try (PreparedStatement insertStatement = conexion.prepareStatement(insertQuery)) {
+//					insertStatement.setString(1, nick);
+//					insertStatement.setString(2, codDenuncia);
+//					insertStatement.setString(3, "N"); // Asumiendo que upvote es false por defecto
+//					insertStatement.setString(4, "S"); // Aquí se establece favorito a "S" inicialmente
+//					insertStatement.executeUpdate();
+//				}
+//			}
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	public void anadirVotar(String nick, String codDenuncia) {
+//		String selectQuery = "SELECT COUNT(1) FROM platea.votar WHERE usuario_Nick = ? AND DENUNCIA_CODIGO = ?";
+//		String updateQuery = "UPDATE platea.votar SET upvote = ? WHERE usuario_Nick = ? AND DENUNCIA_CODIGO = ?";
+//		String insertQuery = "INSERT INTO platea.votar (USUARIO_NICK, DENUNCIA_CODIGO, upvote, favorito) VALUES (?, ?, ?, ?)";
+//
+//		try (PreparedStatement selectStatement = conexion.prepareStatement(selectQuery)) {
+//			selectStatement.setString(1, nick);
+//			selectStatement.setString(2, codDenuncia);
+//			ResultSet resultSet = selectStatement.executeQuery();
+//
+//			if (resultSet.next()) {
+//				// Existe una entrada, establecemos el campo upvote como "S"
+//				try (PreparedStatement updateStatement = conexion.prepareStatement(updateQuery)) {
+//					updateStatement.setString(1, "S");
+//					updateStatement.setString(2, nick);
+//					updateStatement.setString(3, codDenuncia);
+//					updateStatement.executeUpdate();
+//				}
+//			} else {
+//				// No existe una entrada, insertamos una nueva con upvote como "S"
+//				try (PreparedStatement insertStatement = conexion.prepareStatement(insertQuery)) {
+//					insertStatement.setString(1, nick);
+//					insertStatement.setString(2, codDenuncia);
+//					insertStatement.setString(3, "S"); // Asumiendo que upvote es true por defecto
+//					insertStatement.setString(4, "N"); // Aquí se establece favorito a "N" inicialmente
+//					insertStatement.executeUpdate();
+//				}
+//			}
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
+	public void anadirVotar(String nick, String codDenuncia) {
+		String sql = "{CALL PLATEA.VOTACION(?, ?, ?, ?)}";
+		try {
+			CallableStatement cst = conexion.prepareCall(sql);
 
-		try (PreparedStatement selectStatement = conexion.prepareStatement(selectQuery)) {
-			selectStatement.setString(1, nick);
-			selectStatement.setString(2, codDenuncia);
-			ResultSet resultSet = selectStatement.executeQuery();
-
-			if (resultSet.next()) {
-				// Existe una entrada, establecemos el campo favorito como "S"
-				try (PreparedStatement updateStatement = conexion.prepareStatement(updateQuery)) {
-					updateStatement.setString(1, "S");
-					updateStatement.setString(2, nick);
-					updateStatement.setString(3, codDenuncia);
-					updateStatement.executeUpdate();
-				}
-			} else {
-				// No existe una entrada, insertamos una nueva con favorito como "S"
-				try (PreparedStatement insertStatement = conexion.prepareStatement(insertQuery)) {
-					insertStatement.setString(1, nick);
-					insertStatement.setString(2, codDenuncia);
-					insertStatement.setString(3, "N"); // Asumiendo que upvote es false por defecto
-					insertStatement.setString(4, "S"); // Aquí se establece favorito a "S" inicialmente
-					insertStatement.executeUpdate();
-				}
-			}
-
+			cst.setString(1, nick.trim());
+			cst.setString(2, codDenuncia.trim());
+			cst.setString(3, "S".trim());
+			cst.setString(4, "N".trim());
+			cst.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+	public void anadirFavorito(String nick, String codDenuncia) {
+		String sql = "{CALL PLATEA.Favoritito(?, ?, ?, ?)}";
+		try {
+			CallableStatement cst = conexion.prepareCall(sql);
 
-	public void anadirVotar(String nick, String codDenuncia) {
-		String selectQuery = "SELECT COUNT(1) FROM platea.votar WHERE usuario_Nick = ? AND DENUNCIA_CODIGO = ?";
-		String updateQuery = "UPDATE platea.votar SET upvote = ? WHERE usuario_Nick = ? AND DENUNCIA_CODIGO = ?";
-		String insertQuery = "INSERT INTO platea.votar (USUARIO_NICK, DENUNCIA_CODIGO, upvote, favorito) VALUES (?, ?, ?, ?)";
-
-		try (PreparedStatement selectStatement = conexion.prepareStatement(selectQuery)) {
-			selectStatement.setString(1, nick);
-			selectStatement.setString(2, codDenuncia);
-			ResultSet resultSet = selectStatement.executeQuery();
-
-			if (resultSet.next()) {
-				// Existe una entrada, establecemos el campo upvote como "S"
-				try (PreparedStatement updateStatement = conexion.prepareStatement(updateQuery)) {
-					updateStatement.setString(1, "S");
-					updateStatement.setString(2, nick);
-					updateStatement.setString(3, codDenuncia);
-					updateStatement.executeUpdate();
-				}
-			} else {
-				// No existe una entrada, insertamos una nueva con upvote como "S"
-				try (PreparedStatement insertStatement = conexion.prepareStatement(insertQuery)) {
-					insertStatement.setString(1, nick);
-					insertStatement.setString(2, codDenuncia);
-					insertStatement.setString(3, "S"); // Asumiendo que upvote es true por defecto
-					insertStatement.setString(4, "N"); // Aquí se establece favorito a "N" inicialmente
-					insertStatement.executeUpdate();
-				}
-			}
-
+			cst.setString(1, nick.trim());
+			cst.setString(2, codDenuncia.trim());
+			cst.setString(3, "N".trim());
+			cst.setString(4, "S".trim());
+			cst.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void modificar(String codigoDenuncia, String nombreColumna, String text) {
-		String sql = "{CALL PLATEA.CAMBIAR_DATOS(?, ?, ?)}";
+		String sql = "{CALL PLATEA.CAMBIAR_DATOS(?, ?, ?, ?)}";
 		try {
 			CallableStatement cst = conexion.prepareCall(sql);
 
 			cst.setString(1, codigoDenuncia.trim());
 			cst.setString(2, nombreColumna.trim());
-			cst.setString(3, text.trim());
+			cst.setString(3, "S".trim());
+			cst.setString(4, "N".trim());
 			cst.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

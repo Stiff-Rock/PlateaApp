@@ -17,6 +17,11 @@ import javax.swing.SwingConstants;
 
 import Controlador.Controlador;
 
+/**
+ * La clase Menus es una plantilla base para todas las ventanas de la aplicación
+ * que contienen una barra de navegación. Hereda de JFrame e implementa la
+ * interfaz Vista.
+ */
 public class Menus extends JFrame implements Vista {
 	protected JButton btnInicio;
 	protected JButton btnPerfil;
@@ -33,18 +38,39 @@ public class Menus extends JFrame implements Vista {
 	// reflejarlo en los botones.
 	private int indiceActual = 0;
 
+	/**
+	 * Establece el controlador de la aplicación.
+	 * 
+	 * @param controlador El controlador de la aplicación.
+	 */
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
 
+	/**
+	 * Establece el índice actual que indica en qué ventana se encuentra la
+	 * aplicación.
+	 * 
+	 * @param indice El índice de la ventana actual.
+	 */
 	public final void setIndiceActual(int indice) {
 		this.indiceActual = indice;
 	}
 
+	/**
+	 * Obtiene el índice actual que indica en qué ventana se encuentra la
+	 * aplicación.
+	 * 
+	 * @return El índice de la ventana actual.
+	 */
 	public final int getIndiceActual() {
 		return indiceActual;
 	}
 
+	/**
+	 * Constructor de la clase Menus. Configura la ventana principal y los
+	 * componentes de la interfaz de usuario, incluyendo la barra de navegación.
+	 */
 	public Menus() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
