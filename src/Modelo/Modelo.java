@@ -292,7 +292,12 @@ public class Modelo {
 			rs.close();
 			pstmt.close();
 
-			miTabla = new DefaultTableModel(contenido, cabecera);
+			miTabla = new DefaultTableModel(contenido, cabecera) {
+	            @Override
+	            public boolean isCellEditable(int row, int column) {
+	                return false; // Hace que todas las celdas no sean editables
+	            }
+	        };
 
 		} catch (SQLException e) {
 			e.printStackTrace();

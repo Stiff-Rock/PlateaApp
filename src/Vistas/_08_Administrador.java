@@ -94,34 +94,22 @@ public class _08_Administrador extends Menus {
 
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                // Obtener la fila y columna donde se hizo clic
-                int fila = table.rowAtPoint(e.getPoint());
-                int columna = table.columnAtPoint(e.getPoint());
-                // Obtener el valor del primer campo de la fila donde se hizo clic
-                codigoDenuncia = table.getValueAt(fila, 0).toString();
-                // controlador.prepararPublicacion(valor);
-//                controlador.cambiarVentana(6, 9);
-            }
-        });
-		table.setForeground(new Color(0, 0, 0));
-		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				// Obtener la fila y columna donde se hizo clic
 				int fila = table.rowAtPoint(e.getPoint());
 				int columna = table.columnAtPoint(e.getPoint());
 				// Obtener el valor del primer campo de la fila donde se hizo clic
-				String valor = table.getValueAt(fila, 0).toString();
-				controlador.prepararPublicacion(valor);
-				controlador.cambiarVentana(8, 9);
+				codigoDenuncia = table.getValueAt(fila, 0).toString();
+				// controlador.prepararPublicacion(valor);
+//                controlador.cambiarVentana(6, 9);
 			}
 		});
+		table.setForeground(new Color(0, 0, 0));
+		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 
 		table.getTableHeader().setReorderingAllowed(false);
 		tablePane.setViewportView(table);
-		
 
 		JPanel adminPanel = new JPanel();
 		adminPanel.setBounds(0, 547, 695, 48);
@@ -176,10 +164,7 @@ public class _08_Administrador extends Menus {
 
 		addWindowListener(new WindowAdapter() {
 			public void windowActivated(WindowEvent e) {
-				String campo = "ESTADO";
-				String operador = "=";
-				String valor = "Nueva";
-				table.setModel(controlador.getTabla1(campo, operador, valor));
+				table.setModel(controlador.getTabla(8));
 			}
 		});
 	}
