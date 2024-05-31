@@ -25,7 +25,7 @@ public class _06_MisFavoritos extends Menus {
 	private JTable table;
 	private JLabel lblTitle;
 	private String codigoDenuncia;
-	
+
 	public _06_MisFavoritos() {
 		setTitle("Mis favoritos");
 		setContentPane(mainPanel);

@@ -36,7 +36,7 @@ public class _00_Login extends JFrame implements Vista {
 	 * @param controlador El controlador que se asignará a esta vista.
 	 */
 	public void setControlador(Controlador controlador) {
-	    this.controlador = controlador;
+		this.controlador = controlador;
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class _00_Login extends JFrame implements Vista {
 	 * @return El nombre de usuario ingresado.
 	 */
 	public String getUsr() {
-	    return txtUsr.getText();
+		return txtUsr.getText();
 	}
 
 	/**
@@ -54,14 +54,15 @@ public class _00_Login extends JFrame implements Vista {
 	 * @return La contraseña ingresada como una cadena de caracteres.
 	 */
 	public String getPwd() {
-	    return String.valueOf(txtPwd.getPassword());
+		return String.valueOf(txtPwd.getPassword());
 	}
 
 	/**
-	 * Muestra un mensaje de advertencia en la etiqueta correspondiente indicando que el usuario o la contraseña son incorrectos.
+	 * Muestra un mensaje de advertencia en la etiqueta correspondiente indicando
+	 * que el usuario o la contraseña son incorrectos.
 	 */
 	public void mostrarWarning() {
-	    lblWarning.setText("Usuario o contraseña incorrectos");
+		lblWarning.setText("Usuario o contraseña incorrectos");
 	}
 
 	public _00_Login() {

@@ -381,7 +381,7 @@ public class _01_Registrar extends JFrame implements Vista {
 	public void setNickname(String nick) {
 		txtNickname.setText(nick);
 	}
-	
+
 	public String getNombre() {
 		return txtNombre.getText();
 	}

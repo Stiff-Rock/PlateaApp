@@ -25,7 +25,7 @@ public class _05_MisPublicaciones extends Menus {
 	private JTable table;
 	private JLabel lblTitle;
 	private String codigoDenuncia;
-	
+
 	public _05_MisPublicaciones() {
 		setTitle("Mis publicaciones");
 		setContentPane(mainPanel);
@@ -90,7 +90,7 @@ public class _05_MisPublicaciones extends Menus {
 		btnPublicar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnPublicar.setBounds(609, 660, 131, 35);
 		contentPanel.add(btnPublicar);
-		
+
 		ImageIcon ojo = new ImageIcon(new ImageIcon(this.getClass().getResource("/img/ojo.png")).getImage()
 				.getScaledInstance(17, 17, Image.SCALE_SMOOTH));
 		JButton btnVer = new JButton("Ver");

@@ -100,7 +100,7 @@ public class _09_Publicacion extends Menus {
 	public void setWarning(String mensaje) {
 		lblWarning.setText(mensaje);
 	}
-	
+
 	public _09_Publicacion() {
 		setTitle("Publicación");
 		setContentPane(mainPanel);
@@ -210,7 +210,7 @@ public class _09_Publicacion extends Menus {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controlador.meterFavoritos();
-				
+
 			}
 
 		});

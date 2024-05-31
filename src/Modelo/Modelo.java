@@ -10,9 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -282,7 +279,7 @@ public class Modelo {
 	 * query anterior.
 	 * 
 	 * @param query  Es el String que indica la sentencia de SQL
-	 * @param pagina Índice de las diferentes ventanas
+	 * @param pagina Indice de las diferentes ventanas
 	 * @return devuelve un número entero de la cantidad de columnas
 	 */
 	private int getNumColumnas(String query, int pagina) {
@@ -306,7 +303,7 @@ public class Modelo {
 	 * query anterior.
 	 * 
 	 * @param query  Es el String que indica la sentencia de SQL.-
-	 * @param pagina Índice de las diferentes ventanas.
+	 * @param pagina Indice de las diferentes ventanas.
 	 * @return devuelve un número entero de la cantidad de filas.
 	 */
 	private int getNumFilas(String query, int pagina) {
@@ -1083,19 +1080,19 @@ public class Modelo {
 	 * @param codDenuncia El código de la denuncia que se está votando.
 	 */
 	public void anadirVotar(String nick, String codDenuncia) {
-        String sql = "{CALL PLATEA.VOTACION(?, ?, ?, ?)}";
-        try {
-            CallableStatement cst = conexion.prepareCall(sql);
+		String sql = "{CALL PLATEA.VOTACION(?, ?, ?, ?)}";
+		try {
+			CallableStatement cst = conexion.prepareCall(sql);
 
-            cst.setString(1, nick.trim());
-            cst.setString(2, codDenuncia.trim());
-            cst.setString(3, "S".trim());
-            cst.setString(4, "N".trim());
-            cst.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+			cst.setString(1, nick.trim());
+			cst.setString(2, codDenuncia.trim());
+			cst.setString(3, "S".trim());
+			cst.setString(4, "N".trim());
+			cst.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Llama a un procedimiento almacenado en la base de datos para marcar una

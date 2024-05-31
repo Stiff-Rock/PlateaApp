@@ -25,7 +25,7 @@ public class _07_Votados extends Menus {
 	private JTable table;
 	private JLabel lblTitle;
 	private String codigoDenuncia;
-	
+
 	public _07_Votados() {
 		setTitle("Mis votados");
 		setContentPane(mainPanel);

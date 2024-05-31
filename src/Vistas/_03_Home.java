@@ -30,7 +30,7 @@ public class _03_Home extends Menus {
 	 * @param tablaInicio El modelo de tabla que se cargará en la tabla de la vista.
 	 */
 	public void cargarTabla(DefaultTableModel tablaInicio) {
-	    table.setModel(tablaInicio);
+		table.setModel(tablaInicio);
 	}
 
 	public _03_Home() {
