@@ -165,8 +165,8 @@ public class Controlador {
 		if (modelo.verificarCambio(nick, modelo.generarCodigo("PRE", preguntaIdex), respuesta, pwd, usrConfirmado)) {
 			cambiarVentana(2, 0);
 		} else {
-			System.out.println("No");
-		}
+			((_02_Reestablecer) vistas[2]).mostrarWarningcambio();
+			}
 
 	}
 

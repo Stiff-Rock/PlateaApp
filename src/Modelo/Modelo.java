@@ -631,7 +631,6 @@ public class Modelo {
 						return true;
 					}
 				} else {
-					System.out.println("FALLOS");
 					return false;
 				}
 			}
